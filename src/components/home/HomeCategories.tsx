@@ -23,11 +23,18 @@ const blurbs = [
   "הקפאה ואחסון לעסקים שעובדים עם מלאי קפוא.",
 ];
 
+function categoryPreview(category: Category | undefined, index: number) {
+  return category?.catalogImage ?? category?.image ?? previews[index] ?? null;
+}
+
+function isDesktopHover() {
+  return window.matchMedia("(hover: hover) and (min-width: 900px)").matches;
+}
+
 export function HomeCategories({ categories = fallbackCategories }: { categories?: Category[] }) {
   const [active, setActive] = useState(0);
   const category = categories[active] ?? fallbackCategories[0];
-  const livePreview = category?.catalogImage ?? category?.image;
-  const preview = livePreview ?? previews[active];
+  const preview = categoryPreview(category, active);
 
   return (
     <section className="home-cats" id="catalog">
@@ -36,20 +43,59 @@ export function HomeCategories({ categories = fallbackCategories }: { categories
           <Reveal>
             <h2>מה אנחנו מספקים</h2>
           </Reveal>
-          {categories.map((item, index) => (
-            <Link
-              key={item.slug}
-              href={`/catalog/${item.slug}`}
-              className={`cat-link${index === categories.length - 1 ? " is-last" : ""}`}
-              onMouseEnter={() => setActive(index)}
-              onFocus={() => setActive(index)}
-            >
-              <div className="cat-link-title" style={{ color: active === index ? "var(--ink)" : "var(--mute-2)" }}>
-                {item.name}
+          {categories.map((item, index) => {
+            const isOn = active === index;
+            const itemPreview = categoryPreview(item, index);
+
+            return (
+              <div
+                key={item.slug}
+                className={`cat-item${isOn ? " is-on" : ""}${index === categories.length - 1 ? " is-last" : ""}`}
+              >
+                <Link
+                  href={`/catalog/${item.slug}`}
+                  className="cat-link"
+                  aria-expanded={isOn}
+                  onMouseEnter={() => setActive(index)}
+                  onFocus={() => setActive(index)}
+                  onClick={(event) => {
+                    if (!isDesktopHover()) {
+                      event.preventDefault();
+                      setActive(index);
+                    }
+                  }}
+                >
+                  <div
+                    className="cat-link-title"
+                    style={{ color: isOn ? "var(--ink)" : "var(--mute-2)" }}
+                  >
+                    {item.name}
+                  </div>
+                  <p>{blurbs[index]}</p>
+                </Link>
+
+                <div className="cat-inline" id={`cat-preview-${item.slug}`}>
+                  <div className="cat-inline-inner">
+                    <div className="cat-inline-frame">
+                      {itemPreview ? (
+                        <SiteImage
+                          src={itemPreview.src}
+                          alt={itemPreview.alt}
+                          fit="contain"
+                          padding="clamp(28px,8vw,56px)"
+                        />
+                      ) : (
+                        <ImageSlot placeholder={`צילום ${item.name} ייכנס כאן`} />
+                      )}
+                    </div>
+                    <Link href={`/catalog/${item.slug}`} className="cat-inline-cta">
+                      לצפייה בדגמים ←
+                    </Link>
+                  </div>
+                </div>
               </div>
-              <p>{blurbs[index]}</p>
-            </Link>
-          ))}
+            );
+          })}
         </div>
         <div className="cat-preview">
           <div className="cat-preview-frame">

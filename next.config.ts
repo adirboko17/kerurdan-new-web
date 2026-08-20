@@ -3,6 +3,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   outputFileTracingRoot: path.join(__dirname),
+  allowedDevOrigins: ["*.devtunnels.ms"],
   async redirects() {
     return [
       {
@@ -13,6 +14,7 @@ const nextConfig: NextConfig = {
     ];
   },
   images: {
+    unoptimized: process.env.NODE_ENV === "development",
     remotePatterns: [
       {
         protocol: "https",

@@ -22,6 +22,7 @@ export function SiteImage({
   padding,
   blend,
 }: SiteImageProps) {
+  const isLocal = src.startsWith("/");
   const isGif = src.endsWith(".gif");
   const useBlend = blend ?? fit === "contain";
 
@@ -32,7 +33,7 @@ export function SiteImage({
       fill
       sizes={sizes}
       priority={priority}
-      unoptimized={isGif}
+      unoptimized={isGif || isLocal}
       className={className}
       style={{
         objectFit: fit,

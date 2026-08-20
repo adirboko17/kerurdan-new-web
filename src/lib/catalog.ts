@@ -542,12 +542,14 @@ export async function getFeaturedProducts() {
 
 export async function getSelectedProducts() {
   const catalog = await getCatalog();
+  const withImages = catalog.products.filter((product) => product.images[0]);
   const picks: Product[] = [];
   for (const slug of ["dairy", "refrigerators", "deli", "freezers"] as CategorySlug[]) {
-    const match = catalog.products.find((product) => product.category === slug);
-    if (match) picks.push(match);
+    for (const product of withImages.filter((item) => item.category === slug).slice(0, 2)) {
+      picks.push(product);
+    }
   }
-  return picks.slice(0, 4);
+  return (picks.length > 0 ? picks : withImages).slice(0, 8);
 }
 
 export function getCategoryName(slug: CategorySlug, list: Category[] = categories) {
