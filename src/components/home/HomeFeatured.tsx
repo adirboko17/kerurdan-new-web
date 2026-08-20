@@ -6,50 +6,58 @@ import { useState } from "react";
 import { Reveal } from "@/components/ui/Reveal";
 import type { Product } from "@/lib/types";
 
-export function HomeFeatured({ product }: { product: Product | null }) {
-  const [shot, setShot] = useState(0);
+function nextIndex(current: number, length: number) {
+  if (length < 2) return 0;
+  let next = current;
+  while (next === current) next = Math.floor(Math.random() * length);
+  return next;
+}
 
-  if (!product || !product.images[0]) return null;
+export function HomeFeatured({ products }: { products: Product[] }) {
+  const usable = products.filter((product) => product.images[0]);
+  const [index, setIndex] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const product = usable[index];
+
+  if (!product) return null;
 
   return (
-    <section className="featured">
+    <section
+      className="featured"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+    >
       <Reveal className="featured-grid">
         <div className="featured-media">
           <div className="featured-shot">
-            {product.images.map((image, index) => (
+            {usable.map((item, itemIndex) => (
               <Image
-                key={image.src}
-                src={image.src}
-                alt={image.alt}
-                  fill
-                  sizes="420px"
-                  style={{
-                    objectFit: "cover",
-                    objectPosition: "center",
-                    opacity: shot === index ? 1 : 0,
-                    transition: "opacity .55s ease",
-                  }}
+                key={item.id}
+                src={item.images[0].src}
+                alt={item.images[0].alt}
+                fill
+                sizes="(max-width: 900px) 100vw, 520px"
+                className={itemIndex === index ? "is-on" : undefined}
+                style={{
+                  objectFit: "contain",
+                  objectPosition: "center",
+                  padding: "6%",
+                }}
               />
             ))}
+            {usable.length > 1 && (
+              <div
+                key={product.id}
+                className={`featured-progress${paused ? " is-paused" : ""}`}
+                onAnimationEnd={() => setIndex((current) => nextIndex(current, usable.length))}
+              >
+                <span />
+              </div>
+            )}
           </div>
-          {product.images.length > 1 && (
-            <div className="thumbs">
-              {product.images.map((image, index) => (
-                <button
-                  key={image.src}
-                  type="button"
-                  className={`thumb${shot === index ? " is-on" : ""}`}
-                  aria-label={`תצלום ${index + 1}`}
-                  onClick={() => setShot(index)}
-                >
-                  <Image src={image.src} alt="" fill sizes="72px" style={{ objectFit: "contain", padding: 4 }} />
-                </button>
-              ))}
-            </div>
-          )}
         </div>
 
-        <div className="featured-copy">
+        <div className="featured-copy" key={product.id}>
           {product.eyebrow && <div className="featured-eyebrow">{product.eyebrow}</div>}
           <h2>{product.name}</h2>
           <p>{product.description}</p>

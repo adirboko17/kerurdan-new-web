@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { ImageSlot } from "@/components/ui/ImageSlot";
+import { SiteImage } from "@/components/ui/SiteImage";
 import { businesses, getCategoryName } from "@/lib/data";
 
 export function SolutionsPicker() {
@@ -55,7 +56,11 @@ export function SolutionsPicker() {
           </Link>
         </div>
         <div className="biz-media" style={{ minHeight: "clamp(300px,60vh,680px)" }}>
-          <ImageSlot placeholder={business.placeholder} />
+          {business.image ? (
+            <SiteImage src={business.image} alt={business.name} fit="cover" sizes="(max-width: 900px) 100vw, 55vw" />
+          ) : (
+            <ImageSlot placeholder={business.placeholder} />
+          )}
           <div
             style={{
               position: "absolute",

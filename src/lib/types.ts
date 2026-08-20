@@ -78,6 +78,7 @@ export type BusinessSolution = {
   solutions: string;
   needs: string;
   links: CategorySlug[];
+  image?: string;
   placeholder: string;
 };
 
@@ -86,6 +87,9 @@ export type Project = {
   text: string;
   equipment: string;
   type?: string;
+  client?: string;
+  location?: string;
+  image?: string;
   placeholder: string;
 };
 

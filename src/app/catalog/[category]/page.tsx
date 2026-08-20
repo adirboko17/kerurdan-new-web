@@ -5,7 +5,7 @@ import { CategoryHeroShots } from "@/components/catalog/CategoryHeroShots";
 import { CategoryModels } from "@/components/catalog/SubcategoryFilter";
 import { PageShell } from "@/components/layout/PageShell";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
-import { DarkCta, QuoteButton, WhatsAppButton } from "@/components/ui/DarkCta";
+import { QuoteButton } from "@/components/ui/DarkCta";
 import { ImageSlot } from "@/components/ui/ImageSlot";
 import { SiteImage } from "@/components/ui/SiteImage";
 import { getCatalog, getCatalogCategory, getProductsByCategory } from "@/lib/catalog";
@@ -104,29 +104,6 @@ export default async function CategoryPage({ params }: PageProps) {
         )
       )}
 
-      <section className="suitable">
-        <div className="suitable-inner">
-          <div>
-            <h2>מתאים במיוחד ל</h2>
-            <p className="context-text" style={{ margin: "16px 0 0", maxWidth: "40ch" }}>
-              אותה משפחת ציוד עובדת אחרת בכל סוג עסק. אפשר להתחיל מהעסק ולהגיע לדגם.
-            </p>
-          </div>
-          <div>
-            {category.suitable.map((name, index) => (
-              <Link
-                key={name}
-                href="/solutions"
-                className={`row-link${index === category.suitable.length - 1 ? " is-last" : ""}`}
-              >
-                <span>{name}</span>
-                <span style={{ opacity: 0.4 }}>←</span>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
       <section className="context">
         <h2 className="section-head" style={{ border: "none", paddingBottom: 0, marginBottom: "clamp(22px,2.6vw,38px)", fontSize: "clamp(20px,2.2vw,30px)" }}>
           קטגוריות נוספות
@@ -147,18 +124,6 @@ export default async function CategoryPage({ params }: PageProps) {
         </div>
       </section>
 
-      <DarkCta
-        title={category.ctaTitle}
-        text={category.ctaText}
-        actions={
-          <>
-            <Link href="/contact" className="btn btn-blue">
-              קבלו הצעת מחיר
-            </Link>
-            <WhatsAppButton />
-          </>
-        }
-      />
     </PageShell>
   );
 }

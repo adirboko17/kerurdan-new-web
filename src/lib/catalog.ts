@@ -489,11 +489,31 @@ export async function getProductsByCategory(slug: CategorySlug) {
   return catalog.products.filter((product) => product.category === slug);
 }
 
-export async function getRelatedProducts(product: Product) {
+export async function getComplementaryProducts(product: Product) {
   const catalog = await getCatalog();
-  return product.related
-    .map((slug) => catalog.products.find((item) => item.slug === slug))
-    .filter((item): item is Product => Boolean(item));
+  const available = catalog.products.filter((item) => item.id !== product.id && item.images[0]);
+  const order: CategorySlug[] = ["dairy", "deli", "refrigerators", "freezers"];
+  const picks: Product[] = [];
+
+  for (const slug of order.filter((item) => item !== product.category)) {
+    const match = available.find((item) => item.category === slug);
+    if (match) picks.push(match);
+  }
+
+  for (const slug of [product.category, ...order]) {
+    if (picks.length >= 4) break;
+    const match = available.find(
+      (item) => item.category === slug && !picks.some((picked) => picked.id === item.id),
+    );
+    if (match) picks.push(match);
+  }
+
+  for (const item of available) {
+    if (picks.length >= 4) break;
+    if (!picks.some((picked) => picked.id === item.id)) picks.push(item);
+  }
+
+  return picks.slice(0, 4);
 }
 
 export async function getFeaturedProduct() {
@@ -504,6 +524,20 @@ export async function getFeaturedProduct() {
     catalog.products[0] ??
     null
   );
+}
+
+export async function getFeaturedProducts() {
+  const catalog = await getCatalog();
+  const withImages = catalog.products.filter((product) => product.images[0]);
+  const picks: Product[] = [];
+
+  for (const slug of ["refrigerators", "dairy", "deli", "freezers"] as CategorySlug[]) {
+    for (const product of withImages.filter((item) => item.category === slug).slice(0, 2)) {
+      picks.push(product);
+    }
+  }
+
+  return picks.length > 0 ? picks : withImages.slice(0, 6);
 }
 
 export async function getSelectedProducts() {

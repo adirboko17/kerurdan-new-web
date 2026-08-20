@@ -6,20 +6,29 @@ import { Logo } from "@/components/ui/Logo";
 import { SiteImage } from "@/components/ui/SiteImage";
 import { categories } from "@/lib/data";
 import { NAV, SITE } from "@/lib/site";
-import type { NavKey, Product } from "@/lib/types";
+import type { CategorySlug, NavKey, Product } from "@/lib/types";
 
 type HeaderProps = {
   active?: NavKey;
   overlay?: boolean;
-  featured?: Product | null;
+  featured?: Product[];
 };
 
-export function Header({ active, overlay = false, featured = null }: HeaderProps) {
+export function Header({ active, overlay = false, featured = [] }: HeaderProps) {
   const [solid, setSolid] = useState(!overlay);
   const [atTop, setAtTop] = useState(true);
   const [megaOpen, setMegaOpen] = useState(false);
   const [navOpen, setNavOpen] = useState(false);
   const [subOpen, setSubOpen] = useState(false);
+  const [featureIndex, setFeatureIndex] = useState(0);
+  const [hoverCategory, setHoverCategory] = useState<CategorySlug | null>(null);
+
+  const featurePool = featured.filter((product) => product.images[0]);
+  const hoverIndex = hoverCategory
+    ? featurePool.findIndex((product) => product.category === hoverCategory)
+    : -1;
+  const activeIndex = hoverIndex >= 0 ? hoverIndex : featureIndex;
+  const activeFeature = featurePool[activeIndex] ?? featurePool[0] ?? null;
 
   useEffect(() => {
     const tick = () => {
@@ -45,12 +54,16 @@ export function Header({ active, overlay = false, featured = null }: HeaderProps
     };
   }, [navOpen]);
 
+  useEffect(() => {
+    if (!megaOpen) setHoverCategory(null);
+  }, [megaOpen]);
+
   const filled = solid || megaOpen;
 
   return (
     <>
       <header
-        className={`site-header${filled ? " is-solid" : ""}${filled && atTop ? " is-top" : ""}${megaOpen ? " is-mega" : ""}`}
+        className={`site-header${filled ? " is-solid" : ""}${filled && atTop ? " is-top" : ""}${megaOpen ? " is-mega" : ""}${overlay ? "" : " is-page"}`}
         onMouseLeave={() => setMegaOpen(false)}
       >
         <div className="header-bar">
@@ -104,7 +117,17 @@ export function Header({ active, overlay = false, featured = null }: HeaderProps
             <div className="mega-inner">
               <div className="mega-list">
                 {categories.map((category) => (
-                  <Link key={category.slug} href={`/catalog/${category.slug}`}>
+                  <Link
+                    key={category.slug}
+                    href={`/catalog/${category.slug}`}
+                    className={activeFeature?.category === category.slug ? "is-live" : undefined}
+                    onMouseEnter={() => {
+                      setHoverCategory(category.slug);
+                      const next = featurePool.findIndex((product) => product.category === category.slug);
+                      if (next >= 0) setFeatureIndex(next);
+                    }}
+                    onMouseLeave={() => setHoverCategory(null)}
+                  >
                     {category.name}
                   </Link>
                 ))}
@@ -112,19 +135,35 @@ export function Header({ active, overlay = false, featured = null }: HeaderProps
                   לכל הקטלוג ←
                 </Link>
               </div>
-              {featured?.images[0] && (
-                <Link href={`/product/${featured.slug}`} className="mega-feature">
+              {activeFeature?.images[0] && (
+                <Link href={`/product/${activeFeature.slug}`} className="mega-feature">
                   <div className="mega-feature-media">
-                    <SiteImage
-                      src={featured.images[0].src}
-                      alt={featured.images[0].alt}
-                      fit="contain"
-                      padding="8%"
-                    />
+                    {featurePool.map((product, itemIndex) => (
+                      <SiteImage
+                        key={product.id}
+                        src={product.images[0].src}
+                        alt={product.images[0].alt}
+                        fit="contain"
+                        padding="8%"
+                        className={itemIndex === activeIndex ? "is-on" : undefined}
+                      />
+                    ))}
+                    {featurePool.length > 1 && (
+                      <div
+                        key={`${activeFeature.id}-${hoverCategory ?? "auto"}`}
+                        className={`mega-feature-bar${hoverCategory ? " is-paused" : ""}`}
+                        onAnimationEnd={() => {
+                          if (hoverCategory) return;
+                          setFeatureIndex((current) => (current + 1) % featurePool.length);
+                        }}
+                      >
+                        <span />
+                      </div>
+                    )}
                   </div>
-                  <div className="mega-feature-cap">
-                    <span style={{ fontSize: 16, fontWeight: 600 }}>{featured.name}</span>
-                    <span style={{ fontSize: 13, color: "var(--mute)" }}>דגם נבחר</span>
+                  <div className="mega-feature-cap" key={activeFeature.id}>
+                    <span className="mega-feature-name">{activeFeature.name}</span>
+                    <span className="mega-feature-tag">{activeFeature.categoryName}</span>
                   </div>
                 </Link>
               )}
@@ -170,12 +209,6 @@ export function Header({ active, overlay = false, featured = null }: HeaderProps
                 </Link>
               </div>
             )}
-            <Link href="/solutions" onClick={() => setNavOpen(false)}>
-              פתרונות לעסקים
-            </Link>
-            <Link href="/projects" onClick={() => setNavOpen(false)}>
-              פרויקטים
-            </Link>
             <Link href="/about" onClick={() => setNavOpen(false)}>
               אודות
             </Link>

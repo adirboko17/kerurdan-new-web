@@ -9,6 +9,7 @@ type SiteImageProps = {
   priority?: boolean;
   className?: string;
   padding?: string;
+  blend?: boolean;
 };
 
 export function SiteImage({
@@ -19,9 +20,10 @@ export function SiteImage({
   priority,
   className,
   padding,
+  blend,
 }: SiteImageProps) {
   const isGif = src.endsWith(".gif");
-  const blend = fit === "contain";
+  const useBlend = blend ?? fit === "contain";
 
   return (
     <Image
@@ -35,7 +37,7 @@ export function SiteImage({
       style={{
         objectFit: fit,
         padding: fit === "contain" ? padding ?? "11%" : undefined,
-        mixBlendMode: blend ? "multiply" : "normal",
+        mixBlendMode: useBlend ? "multiply" : "normal",
       }}
     />
   );

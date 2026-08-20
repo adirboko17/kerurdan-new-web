@@ -6,9 +6,10 @@ import { SITE } from "@/lib/site";
 
 type QuoteFormProps = {
   compact?: boolean;
+  light?: boolean;
 };
 
-export function QuoteForm({ compact = false }: QuoteFormProps) {
+export function QuoteForm({ compact = false, light = false }: QuoteFormProps) {
   const [sent, setSent] = useState(false);
 
   function onSubmit(event: FormEvent<HTMLFormElement>) {
@@ -17,88 +18,97 @@ export function QuoteForm({ compact = false }: QuoteFormProps) {
   }
 
   if (sent) {
+    if (light) {
+      return (
+        <div className="lead-form">
+          <div className="lead-form-title">קיבלנו את הפרטים.</div>
+          <p className="lead-form-note">נחזור אליכם בהקדם. אם זה דחוף - {SITE.phoneUrgent}.</p>
+        </div>
+      );
+    }
+
     if (compact) {
       return (
-        <div style={{ borderTop: "1px solid rgba(255,255,255,.24)", paddingTop: 26 }}>
-          <div style={{ fontSize: "clamp(20px,2.2vw,30px)", fontWeight: 600, letterSpacing: "-.02em" }}>
-            קיבלנו את הפרטים.
-          </div>
-          <div
-            style={{
-              color: "rgba(255,255,255,.65)",
-              fontSize: 16,
-              lineHeight: 1.7,
-              marginTop: 12,
-              fontWeight: 300,
-            }}
-          >
-            נחזור אליכם בהקדם. אם זה דחוף - {SITE.phoneUrgent}.
-          </div>
+        <div className="contact-form">
+          <div className="contact-form-title">קיבלנו את הפרטים.</div>
+          <p className="contact-form-note">נחזור אליכם בהקדם. אם זה דחוף - {SITE.phoneUrgent}.</p>
         </div>
       );
     }
 
     return (
-      <div
-        style={{
-          border: "1px solid rgba(255,255,255,.2)",
-          borderRadius: 16,
-          padding: "clamp(28px,3.4vw,48px)",
-        }}
-      >
-        <div style={{ fontSize: "clamp(22px,2.4vw,32px)", fontWeight: 600, letterSpacing: "-.02em" }}>
-          קיבלנו את הפרטים.
+      <div className="quote-form">
+        <div>
+          <div className="quote-form-title">קיבלנו את הפרטים.</div>
+          <p className="quote-form-note">נחזור אליכם בהקדם. אם זה דחוף - {SITE.phoneUrgent}.</p>
         </div>
-        <div
-          style={{
-            color: "rgba(255,255,255,.65)",
-            fontSize: 16,
-            lineHeight: 1.7,
-            marginTop: 14,
-            fontWeight: 300,
-          }}
-        >
-          נחזור אליכם בהקדם. אם זה דחוף - {SITE.phoneUrgent}.
-        </div>
-        <Link
-          href="/catalog"
-          style={{
-            display: "inline-block",
-            marginTop: 22,
-            fontSize: 15,
-            fontWeight: 600,
-            borderBottom: "1.5px solid rgba(255,255,255,.5)",
-            paddingBottom: 3,
-          }}
-        >
+        <Link href="/catalog" className="quote-form-link">
           בינתיים, לקטלוג ←
         </Link>
       </div>
     );
   }
 
-  if (compact) {
+  if (light) {
     return (
-      <form onSubmit={onSubmit} style={{ display: "flex", flexDirection: "column", gap: "clamp(18px,2.2vw,26px)" }}>
+      <form className="lead-form" onSubmit={onSubmit}>
+        <div>
+          <div className="lead-form-title">השאירו פרטים</div>
+          <p className="lead-form-note">נחזור אליכם עם כיוון לציוד שמתאים לעסק.</p>
+        </div>
         <label className="field">
-          <span>שם</span>
+          <span>שם מלא</span>
           <input name="name" type="text" placeholder="שם מלא" required />
         </label>
+        <div className="lead-form-row">
+          <label className="field">
+            <span>טלפון</span>
+            <input name="phone" type="tel" placeholder="050-0000000" required style={{ direction: "ltr", textAlign: "right" }} />
+          </label>
+          <label className="field">
+            <span>עיר</span>
+            <input name="city" type="text" placeholder="עיר" required />
+          </label>
+        </div>
         <label className="field">
-          <span>טלפון</span>
-          <input name="phone" type="tel" placeholder="050-0000000" required style={{ direction: "ltr", textAlign: "right" }} />
+          <span>הודעה</span>
+          <textarea name="message" rows={3} placeholder="ספרו לנו על העסק, החלל או הציוד שאתם מחפשים" />
         </label>
-        <label className="field field-wrap">
-          <span>סוג הציוד</span>
-          <select name="topic" defaultValue="חלביות">
-            <option>חלביות</option>
-            <option>מעדניות</option>
-            <option>מקררים</option>
-            <option>מקפיאים תעשייתיים</option>
-          </select>
-          <span className="field-caret">▾</span>
+        <button type="submit" className="btn btn-ink">
+          שליחה
+        </button>
+      </form>
+    );
+  }
+
+  if (compact) {
+    return (
+      <form className="contact-form" onSubmit={onSubmit}>
+        <div>
+          <div className="contact-form-title">השאירו פרטים</div>
+          <p className="contact-form-note">נחזור אליכם בהקדם עם כיוון מתאים.</p>
+        </div>
+        <label className="field">
+          <span>שם מלא</span>
+          <input name="name" type="text" placeholder="שם מלא" required />
         </label>
-        <button type="submit" className="btn btn-blue" style={{ alignSelf: "flex-start", marginTop: 4, padding: "17px 32px" }}>
+        <div className="lead-form-row">
+          <label className="field">
+            <span>טלפון</span>
+            <input name="phone" type="tel" placeholder="050-0000000" required style={{ direction: "ltr", textAlign: "right" }} />
+          </label>
+          <label className="field field-wrap">
+            <span>סוג הציוד</span>
+            <select name="topic" defaultValue="חלביות">
+              <option>חלביות</option>
+              <option>מעדניות</option>
+              <option>מקררים</option>
+              <option>מקפיאים תעשייתיים</option>
+            </select>
+            <span className="field-caret">▾</span>
+          </label>
+        </div>
+        <button type="submit" className="btn btn-white">
           שליחה
         </button>
       </form>
@@ -106,62 +116,57 @@ export function QuoteForm({ compact = false }: QuoteFormProps) {
   }
 
   return (
-    <form
-      onSubmit={onSubmit}
-      style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 220px), 1fr))",
-        gap: "clamp(16px,2vw,22px)",
-      }}
-    >
-      <label className="field">
-        <span>שם מלא</span>
-        <input name="name" type="text" placeholder="שם מלא" required />
-      </label>
-      <label className="field">
-        <span>שם העסק</span>
-        <input name="business" type="text" placeholder="שם העסק" />
-      </label>
-      <label className="field">
-        <span>טלפון</span>
-        <input name="phone" type="tel" placeholder="050-0000000" required style={{ direction: "ltr", textAlign: "right" }} />
-      </label>
-      <label className="field">
-        <span>אימייל</span>
-        <input name="email" type="email" placeholder="name@business.co.il" style={{ direction: "ltr", textAlign: "right" }} />
-      </label>
-      <label className="field field-wrap">
-        <span>סוג העסק</span>
-        <select name="biz" defaultValue="סופרמרקט או מינימרקט">
-          <option>סופרמרקט או מינימרקט</option>
-          <option>קצבייה</option>
-          <option>מעדנייה</option>
-          <option>חנות מזון או מכולת</option>
-          <option>בית קפה</option>
-          <option>אחר</option>
-        </select>
-        <span className="field-caret">▾</span>
-      </label>
-      <label className="field field-wrap">
-        <span>באיזה פתרון אתם מתעניינים?</span>
-        <select name="solution" defaultValue="חלביות">
-          <option>חלביות</option>
-          <option>מעדניות</option>
-          <option>מקררים</option>
-          <option>מקפיאים תעשייתיים</option>
-          <option>לא בטוחים / צריכים ייעוץ</option>
-        </select>
-        <span className="field-caret">▾</span>
-      </label>
-      <label className="field" style={{ gridColumn: "1 / -1" }}>
-        <span>הודעה</span>
-        <textarea name="message" rows={4} placeholder="מידות החלל, מה מוצג, מתי צריך" />
-      </label>
-      <button
-        type="submit"
-        className="btn btn-blue"
-        style={{ gridColumn: "1 / -1", justifySelf: "start", padding: "17px 34px", fontSize: 15.5 }}
-      >
+    <form className="quote-form" onSubmit={onSubmit}>
+      <div>
+        <div className="quote-form-title">השאירו פרטים</div>
+        <p className="quote-form-note">נחזור אליכם עם תצורה שמתאימה לעסק ולחלל.</p>
+      </div>
+      <div className="quote-form-grid">
+        <label className="field">
+          <span>שם מלא</span>
+          <input name="name" type="text" placeholder="שם מלא" required />
+        </label>
+        <label className="field">
+          <span>שם העסק</span>
+          <input name="business" type="text" placeholder="שם העסק" />
+        </label>
+        <label className="field">
+          <span>טלפון</span>
+          <input name="phone" type="tel" placeholder="050-0000000" required style={{ direction: "ltr", textAlign: "right" }} />
+        </label>
+        <label className="field">
+          <span>אימייל</span>
+          <input name="email" type="email" placeholder="name@business.co.il" style={{ direction: "ltr", textAlign: "right" }} />
+        </label>
+        <label className="field field-wrap">
+          <span>סוג העסק</span>
+          <select name="biz" defaultValue="סופרמרקט או מינימרקט">
+            <option>סופרמרקט או מינימרקט</option>
+            <option>קצבייה</option>
+            <option>מעדנייה</option>
+            <option>חנות מזון או מכולת</option>
+            <option>בית קפה</option>
+            <option>אחר</option>
+          </select>
+          <span className="field-caret">▾</span>
+        </label>
+        <label className="field field-wrap">
+          <span>באיזה פתרון אתם מתעניינים?</span>
+          <select name="solution" defaultValue="חלביות">
+            <option>חלביות</option>
+            <option>מעדניות</option>
+            <option>מקררים</option>
+            <option>מקפיאים תעשייתיים</option>
+            <option>לא בטוחים / צריכים ייעוץ</option>
+          </select>
+          <span className="field-caret">▾</span>
+        </label>
+        <label className="field quote-form-message">
+          <span>הודעה</span>
+          <textarea name="message" rows={4} placeholder="מידות החלל, מה מוצג, מתי צריך" />
+        </label>
+      </div>
+      <button type="submit" className="btn btn-ink">
         שליחה
       </button>
     </form>

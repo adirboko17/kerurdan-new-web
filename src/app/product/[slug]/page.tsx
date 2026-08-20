@@ -3,15 +3,14 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PageShell } from "@/components/layout/PageShell";
 import { ProductGallery } from "@/components/product/ProductGallery";
+import { ProductQuoteButton } from "@/components/product/ProductQuoteButton";
 import { SizeTable } from "@/components/product/SizeTable";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
-import { DarkCta } from "@/components/ui/DarkCta";
 import { ProductCard } from "@/components/ui/ProductCard";
 import {
   getCatalog,
-  getCatalogCategory,
   getCatalogProduct,
-  getRelatedProducts,
+  getComplementaryProducts,
 } from "@/lib/catalog";
 import { SITE } from "@/lib/site";
 
@@ -42,8 +41,7 @@ export default async function ProductPage({ params }: PageProps) {
   const product = await getCatalogProduct(slug);
   if (!product) notFound();
 
-  const category = await getCatalogCategory(product.category);
-  const related = await getRelatedProducts(product);
+  const complementary = await getComplementaryProducts(product);
   const eyebrowRest = product.subcategoryName;
 
   return (
@@ -59,7 +57,7 @@ export default async function ProductPage({ params }: PageProps) {
         />
         <div className="product-hero-grid">
           <ProductGallery product={product} />
-          <div style={{ maxWidth: "min(100%, 540px)" }}>
+          <div className="product-copy">
             <div style={{ fontSize: 13.5, color: "var(--mute)" }}>
               <Link href={`/catalog/${product.category}`}>{product.categoryName}</Link>
               {eyebrowRest ? ` · ${eyebrowRest}` : null}
@@ -91,12 +89,20 @@ export default async function ProductPage({ params }: PageProps) {
                 ))}
               </div>
             )}
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 10, marginTop: "clamp(26px,3vw,38px)" }}>
-              <Link href="/contact" className="btn btn-ink">
-                קבלו הצעת מחיר
-              </Link>
-              <a href={SITE.whatsapp} className="btn btn-ghost-dark">
-                דברו איתנו
+            <div className="product-actions">
+              <ProductQuoteButton
+                productName={product.name}
+                productSlug={product.slug}
+                productId={product.id}
+              />
+              <a
+                href={SITE.whatsappMessage(`היי אני מתעניין ב ${product.name}`)}
+                className="btn-wa"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="שלחו הודעת וואטסאפ"
+              >
+                <img src="/whatsapp.svg" alt="" />
               </a>
             </div>
           </div>
@@ -143,9 +149,6 @@ export default async function ProductPage({ params }: PageProps) {
             </div>
             <div>
               <SizeTable variants={product.sizeVariants} />
-              <Link href="/contact" className="link-underline link-underline-sm" style={{ marginTop: 22 }}>
-                לבירור תצורה מדויקת ←
-              </Link>
             </div>
           </div>
         </section>
@@ -168,37 +171,22 @@ export default async function ProductPage({ params }: PageProps) {
         </section>
       )}
 
-      {related.length > 0 && (
+      {complementary.length > 0 && (
         <section className="section-pad">
           <div className="section-head">
-            <h2 style={{ fontSize: "clamp(20px,2.2vw,32px)" }}>דגמים קרובים</h2>
-            <Link href={`/catalog/${product.category}`} className="link-underline link-underline-sm">
-              לכל {category?.name ?? product.categoryName} ←
+            <h2 style={{ fontSize: "clamp(20px,2.2vw,32px)" }}>מוצרים משלימים</h2>
+            <Link href="/catalog" className="link-underline link-underline-sm">
+              לכל הקטלוג ←
             </Link>
           </div>
           <div className="product-grid" style={{ padding: "clamp(24px,3vw,42px) 0 0" }}>
-            {related.map((item) => (
+            {complementary.map((item) => (
               <ProductCard key={item.slug} product={item} />
             ))}
           </div>
         </section>
       )}
 
-      <DarkCta
-        title="רוצים לבדוק אם הדגם הזה מתאים לעסק שלכם?"
-        text="השאירו פרטים ונחזור אליכם עם התאמה והצעת מחיר."
-        titleWidth="19ch"
-        actions={
-          <>
-            <Link href="/contact" className="btn btn-blue">
-              קבלו הצעת מחיר
-            </Link>
-            <a href={SITE.phoneHref} className="btn btn-ghost-light ltr">
-              {SITE.phoneDisplay}
-            </a>
-          </>
-        }
-      />
     </PageShell>
   );
 }

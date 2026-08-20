@@ -3,7 +3,6 @@ import Link from "next/link";
 import { CatalogGrid } from "@/components/catalog/CatalogGrid";
 import { PageShell } from "@/components/layout/PageShell";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
-import { DarkCta } from "@/components/ui/DarkCta";
 import { ImageSlot } from "@/components/ui/ImageSlot";
 import { SiteImage } from "@/components/ui/SiteImage";
 import { getCatalog } from "@/lib/catalog";
@@ -58,21 +57,6 @@ export default async function CatalogPage() {
       </section>
 
       <CatalogGrid products={products} categories={categories} />
-
-      <DarkCta
-        title="לא בטוחים איזה דגם מתאים לעסק?"
-        text="נגיע לעסק, נמדוד את החלל ונתאים תצורה - לפי מה שנכנס למקרר ובאיזה קצב."
-        actions={
-          <>
-            <Link href="/contact" className="btn btn-blue">
-              קבלו הצעת מחיר
-            </Link>
-            <Link href="/solutions" className="btn btn-ghost-light">
-              פתרונות לפי סוג העסק
-            </Link>
-          </>
-        }
-      />
     </PageShell>
   );
 }

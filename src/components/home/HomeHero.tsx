@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { HeroVideo } from "@/components/home/HeroVideo";
 import { Reveal } from "@/components/ui/Reveal";
 
@@ -17,14 +16,6 @@ export function HomeHero() {
         <Reveal delay="0.35s">
           <div className="hero-row">
             <p>פתרונות קירור מסחריים ותעשייתיים - מהתכנון ועד ההתקנה.</p>
-            <div className="hero-actions">
-              <Link href="/catalog" className="btn btn-white">
-                לפתרונות שלנו
-              </Link>
-              <Link href="/contact" className="btn btn-ghost-light">
-                קבלו הצעת מחיר
-              </Link>
-            </div>
           </div>
         </Reveal>
       </div>

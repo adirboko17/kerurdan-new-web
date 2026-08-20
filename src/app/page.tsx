@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 import { HomeBusiness } from "@/components/home/HomeBusiness";
 import { HomeCategories } from "@/components/home/HomeCategories";
-import { HomeCompany } from "@/components/home/HomeCompany";
+import { HomeClosing, HomeCompany } from "@/components/home/HomeCompany";
 import { HomeFeatured } from "@/components/home/HomeFeatured";
 import { HomeHero } from "@/components/home/HomeHero";
 import { HomeProjects } from "@/components/home/HomeProjects";
 import { HomeSelected } from "@/components/home/HomeSelected";
 import { HomeStatement } from "@/components/home/HomeStatement";
 import { PageShell } from "@/components/layout/PageShell";
-import { getFeaturedProduct, getCatalogCategories, getSelectedProducts } from "@/lib/catalog";
+import { getFeaturedProducts, getCatalogCategories, getSelectedProducts } from "@/lib/catalog";
 import { SITE } from "@/lib/site";
 
 export const revalidate = 120;
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
 export default async function HomePage() {
   const [categories, featured, selected] = await Promise.all([
     getCatalogCategories(),
-    getFeaturedProduct(),
+    getFeaturedProducts(),
     getSelectedProducts(),
   ]);
 
@@ -30,11 +30,12 @@ export default async function HomePage() {
       <HomeHero />
       <HomeStatement />
       <HomeCategories categories={categories} />
-      <HomeFeatured product={featured} />
+      <HomeFeatured products={featured} />
       <HomeProjects />
+      <HomeCompany />
       <HomeBusiness />
       <HomeSelected products={selected} />
-      <HomeCompany />
+      <HomeClosing />
     </PageShell>
   );
 }

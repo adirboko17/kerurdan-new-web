@@ -1,116 +1,133 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { PageShell } from "@/components/layout/PageShell";
 import { BrandWall } from "@/components/ui/BrandWall";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
-import { ImageSlot } from "@/components/ui/ImageSlot";
-import { SITE } from "@/lib/site";
+import { SiteImage } from "@/components/ui/SiteImage";
+import { MEDIA } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "אודות",
-  description: "קירור דן מספקת את הציוד שמחזיק את התצוגה, את המלאי ואת יום העבודה בעסק.",
+  description: "קירור דן מתמחה בייבוא, שיווק ואספקת ציוד קירור מסחרי ותעשייתי לעסקים ברחבי הארץ.",
 };
 
-const capabilities = [
-  {
-    title: "בחירת ציוד",
-    text: "ארבע משפחות ציוד - חלביות, מעדניות, מקררים ומקפיאים תעשייתיים - בכמה תצורות, נפחים ומידות.",
-  },
-  {
-    title: "אפיון והתאמה",
-    text: "מדידה בשטח, בדיקת מעברים וחשמל, ובחירת תצורה שמתאימה לחלל ולשימוש.",
-  },
-  {
-    title: "אספקה והתקנה",
-    text: "הובלה, הצבה, חיבור והפעלה - בתיאום עם לוח הזמנים של העסק.",
-  },
-  {
-    title: "שירות וליווי",
-    text: "מענה לאורך חיי המוצר, תחזוקה והרחבות של המערך.",
-  },
+const audiences = [
+  "סופרמרקטים ומינימרקטים",
+  "מעדניות וקצביות",
+  "מסעדות",
+  "בתי קפה",
+  "מאפיות",
+  "חנויות מזון",
 ];
 
 export default function AboutPage() {
   return (
     <PageShell active="about">
-      <section className="about-hero">
+      <section className="page-hero about-open">
         <Breadcrumbs items={[{ href: "/", label: "דף הבית" }, { label: "אודות" }]} />
-        <h1>קירור דן מספקת את הציוד שמחזיק את התצוגה, את המלאי ואת יום העבודה בעסק.</h1>
-      </section>
-
-      <section className="about-image">
-        <div className="about-image-frame">
-          <ImageSlot placeholder="צילום סביבה - מעבר מקוררים או התקנה בשטח" />
-        </div>
-      </section>
-
-      <section className="context">
-        <div className="context-grid">
-          <p className="context-quote">אנחנו מייבאים ומשווקים מקררים תעשייתיים לעסקים.</p>
-          <div className="context-text">
-            העבודה שלנו מתחילה לפני הקנייה: מגיעים לעסק, מודדים את החלל, שואלים מה נכנס למקרר ובאיזה קצב, ומתאימים תצורה - לא קטלוג. מה שעובד בסופרמרקט לא בהכרח עובד בקצבייה.
-          </div>
-          <div className="context-text">
-            אחרי האספקה אנחנו נשארים בתמונה: התקנה בשטח, התאמות, תחזוקה והרחבה של המערך כשהעסק גדל.
-          </div>
-        </div>
-      </section>
-
-      <section className="suitable">
-        <div style={{ padding: "clamp(50px,7vw,110px) var(--pad-x)" }}>
-          <h2 style={{ margin: "0 0 clamp(28px,3.6vw,50px)", fontSize: "clamp(24px,3vw,44px)", fontWeight: 700, letterSpacing: "-.03em", lineHeight: 1.06, maxWidth: "18ch" }}>
-            מה אנחנו עושים בפועל
-          </h2>
-          <div className="cap-grid">
-            {capabilities.map((item) => (
-              <div className="cap-item" key={item.title}>
-                <div style={{ fontSize: 17.5, fontWeight: 600 }}>{item.title}</div>
-                <div className="context-text" style={{ fontSize: 14.5, lineHeight: 1.72, marginTop: 9 }}>
-                  {item.text}
-                </div>
-              </div>
+        <div className="about-open-copy">
+          <h1>קירור שעובד בשביל העסק</h1>
+          <p>
+            <strong>קירור דן</strong> מתמחה בייבוא, שיווק ואספקת ציוד קירור מסחרי ותעשייתי לעסקים ברחבי הארץ.
+          </p>
+          <p>
+            אנחנו מספקים חלביות, מעדניות, מקררים ומקפיאים תעשייתיים, ומתאימים את הציוד לצרכים של כל עסק
+            ולשימוש היומיומי שלו.
+          </p>
+          <div className="about-tags">
+            {audiences.map((item) => (
+              <span key={item}>{item}</span>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="context">
+      <section className="about-block is-paper">
+        <div className="about-split">
+          <div>
+            <h2>יודעים מה אתם צריכים. וגם כשעוד לא.</h2>
+            <div className="about-cards is-stack">
+              <article className="about-card">
+                <span className="about-card-num">01</span>
+                <h3>כבר יודעים מה מחפשים</h3>
+                <p>יש לקוחות שמגיעים אלינו כשהם כבר יודעים בדיוק איזה מוצר הם צריכים. במקרה כזה אנחנו מכוונים ישר לדגם ולתצורה.</p>
+              </article>
+              <article className="about-card">
+                <span className="about-card-num">02</span>
+                <h3>עסק חדש, החלפה או התלבטות</h3>
+                <p>ויש כאלה שפותחים עסק, מחליפים ציוד קיים או מתלבטים בין כמה פתרונות. אנחנו מקשיבים, מבינים את הצורך ועוזרים לבחור.</p>
+              </article>
+            </div>
+            <p className="about-goal">
+              המטרה שלנו פשוטה: לספק ללקוח פתרון שמתאים לו באמת - בלי לסבך את התהליך ובלי לדחוף ציוד שהוא לא צריך.
+            </p>
+          </div>
+          <div className="about-photo about-photo-tall is-product" data-slot="about-need">
+            <SiteImage
+              src="https://pinyrmmysvagystjfonv.supabase.co/storage/v1/object/public/product-images/photospro/6e386f8d-9032-4d02-b0a5-b6e816782fc6/1781022305825-__________3___________.png"
+              alt="מקרר עומד 3 דלתות"
+              fit="contain"
+              padding="8%"
+              blend={false}
+              sizes="(max-width: 860px) 100vw, 560px"
+            />
+          </div>
+        </div>
+      </section>
+
+      <section className="about-block">
+        <div className="about-split is-rev">
+          <div className="about-photo about-photo-mid is-product" data-slot="about-dan">
+            <SiteImage
+              src={`${MEDIA}/2025/02/${encodeURIComponent("מנוע-פנימי-הזזה")}-1.png`}
+              alt="חלבייה מנוע פנימי דלתות הזזה"
+              fit="contain"
+              padding="10%"
+              blend={false}
+              sizes="(max-width: 860px) 100vw, 560px"
+            />
+          </div>
+          <div className="about-person">
+            <span className="about-kicker">החברה</span>
+            <h2>ניסיון, מקצועיות ושירות ישיר</h2>
+            <p>
+              החברה מנוהלת על ידי <strong>דן בוקובזה</strong>, שמביא ניסיון רב בתחום הקירור המסחרי ועובד באופן
+              ישיר מול לקוחות, ספקים ואנשי המקצוע שמלווים את פעילות החברה.
+            </p>
+            <p>
+              אנחנו מאמינים ששירות טוב מתחיל בזמינות, תקשורת ברורה והיכרות אמיתית עם המוצרים שאנחנו מספקים.
+              גם לפני הרכישה וגם אחריה, אנחנו זמינים לתת מענה מקצועי על ציוד, התאמה, אספקה והתקנה.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section className="about-block is-paper">
+        <div className="about-block-head">
+          <h2>ציוד שמתאים לעבודה אמיתית</h2>
+        </div>
+        <div className="about-cards">
+          <article className="about-card">
+            <h3>איכות ושימוש</h3>
+            <p>בוחרים ציוד שמשלב איכות, אמינות, פונקציונליות ועיצוב שמתאים לסביבה מסחרית.</p>
+          </article>
+          <article className="about-card">
+            <h3>מגוון תצורות</h3>
+            <p>הקטלוג כולל מידות, תצורות ומאפיינים טכניים שונים, לפי סוג העסק, החלל והשימוש.</p>
+          </article>
+          <article className="about-card">
+            <h3>מתעדכנים</h3>
+            <p>תחום הקירור ממשיך להתפתח, ואנחנו ממשיכים להתעדכן במוצרים ובפתרונות חדשים.</p>
+          </article>
+        </div>
+      </section>
+
+      <section className="about-block">
         <div className="brands-head">
           <h2>המותגים שאנחנו עובדים איתם</h2>
         </div>
         <BrandWall />
       </section>
 
-      <section className="dark-cta">
-        <div className="dark-cta-inner">
-          <h2 style={{ maxWidth: "16ch" }}>נעים להכיר. נדבר על העסק שלכם?</h2>
-          <div>
-            <div
-              style={{
-                display: "flex",
-                flexWrap: "wrap",
-                gap: 22,
-                alignItems: "center",
-                paddingBottom: 22,
-                borderBottom: "1px solid rgba(255,255,255,.2)",
-              }}
-            >
-              <a href={SITE.phoneHref} className="ltr" style={{ fontSize: "clamp(19px,1.9vw,28px)", fontWeight: 500, color: "#fff" }}>
-                {SITE.phoneDisplay}
-              </a>
-              <span style={{ fontSize: 14.5, color: "rgba(255,255,255,.6)" }}>{SITE.address}</span>
-            </div>
-            <div className="dark-cta-actions">
-              <Link href="/contact" className="btn btn-blue">
-                קבלו הצעת מחיר
-              </Link>
-              <Link href="/projects" className="btn btn-ghost-light">
-                לפרויקטים
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
     </PageShell>
   );
 }

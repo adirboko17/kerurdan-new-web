@@ -11,15 +11,15 @@ export function ProductGallery({ product }: { product: Product }) {
   const current = product.images[shot] ?? product.images[0];
 
   return (
-    <div>
+    <div className="product-gallery">
       <div className="product-gallery-main">
         {current ? (
           <SiteImage
             src={current.src}
             alt={current.alt}
             fit={current.fit}
-            padding={current.fit === "cover" ? "0" : "11%"}
-            sizes="(max-width: 900px) 100vw, 55vw"
+            padding={current.fit === "cover" ? "0" : "6%"}
+            sizes="(max-width: 900px) 100vw, 560px"
             priority
           />
         ) : (

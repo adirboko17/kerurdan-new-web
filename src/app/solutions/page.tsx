@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { PageShell } from "@/components/layout/PageShell";
 import { SolutionsPicker } from "@/components/solutions/SolutionsPicker";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
-import { DarkCta } from "@/components/ui/DarkCta";
 
 export const metadata: Metadata = {
   title: "פתרונות לעסקים",
@@ -48,21 +46,6 @@ export default function SolutionsPage() {
         </div>
       </section>
 
-      <DarkCta
-        title="ספרו לנו איזה עסק אתם פותחים"
-        text="נחזור עם רשימת ציוד מותאמת והצעת מחיר."
-        titleWidth="17ch"
-        actions={
-          <>
-            <Link href="/contact" className="btn btn-blue">
-              קבלו הצעת מחיר
-            </Link>
-            <Link href="/catalog" className="btn btn-ghost-light">
-              לקטלוג המלא
-            </Link>
-          </>
-        }
-      />
     </PageShell>
   );
 }
