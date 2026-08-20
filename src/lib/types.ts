@@ -45,6 +45,7 @@ export type Product = {
   eyebrow: string;
   description: string;
   images: SiteImageData[];
+  drawingUrl?: string | null;
   highlights: SpecRow[];
   specs: SpecRow[];
   sizeVariants: SizeVariant[];
@@ -83,6 +84,7 @@ export type BusinessSolution = {
 };
 
 export type Project = {
+  id?: string;
   title: string;
   text: string;
   equipment: string;
@@ -90,6 +92,7 @@ export type Project = {
   client?: string;
   location?: string;
   image?: string;
+  images?: string[];
   placeholder: string;
 };
 

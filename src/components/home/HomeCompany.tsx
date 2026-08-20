@@ -2,6 +2,7 @@ import Link from "next/link";
 import { BrandWall } from "@/components/ui/BrandWall";
 import { QuoteForm } from "@/components/ui/QuoteForm";
 import { Reveal } from "@/components/ui/Reveal";
+import { getPartnerLogos } from "@/lib/site-content";
 
 export function HomeCompany() {
   return (
@@ -52,14 +53,16 @@ export function HomeCompany() {
   );
 }
 
-export function HomeClosing() {
+export async function HomeClosing() {
+  const brands = await getPartnerLogos();
+
   return (
     <section className="brands">
       <Reveal>
         <div className="brands-head">
           <h2>המותגים שאנחנו עובדים איתם</h2>
         </div>
-        <BrandWall />
+        <BrandWall brands={brands} />
       </Reveal>
     </section>
   );

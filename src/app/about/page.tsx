@@ -3,7 +3,10 @@ import { PageShell } from "@/components/layout/PageShell";
 import { BrandWall } from "@/components/ui/BrandWall";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { SiteImage } from "@/components/ui/SiteImage";
+import { getPartnerLogos } from "@/lib/site-content";
 import { MEDIA } from "@/lib/site";
+
+export const revalidate = 120;
 
 export const metadata: Metadata = {
   title: "אודות",
@@ -19,7 +22,9 @@ const audiences = [
   "חנויות מזון",
 ];
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const brands = await getPartnerLogos();
+
   return (
     <PageShell active="about">
       <section className="page-hero about-open">
@@ -125,7 +130,7 @@ export default function AboutPage() {
         <div className="brands-head">
           <h2>המותגים שאנחנו עובדים איתם</h2>
         </div>
-        <BrandWall />
+        <BrandWall brands={brands} />
       </section>
 
     </PageShell>

@@ -9,6 +9,7 @@ import { HomeSelected } from "@/components/home/HomeSelected";
 import { HomeStatement } from "@/components/home/HomeStatement";
 import { PageShell } from "@/components/layout/PageShell";
 import { getFeaturedProducts, getCatalogCategories, getSelectedProducts } from "@/lib/catalog";
+import { getSiteProjects } from "@/lib/site-content";
 import { SITE } from "@/lib/site";
 
 export const revalidate = 120;
@@ -19,10 +20,11 @@ export const metadata: Metadata = {
 };
 
 export default async function HomePage() {
-  const [categories, featured, selected] = await Promise.all([
+  const [categories, featured, selected, projects] = await Promise.all([
     getCatalogCategories(),
     getFeaturedProducts(),
     getSelectedProducts(),
+    getSiteProjects(),
   ]);
 
   return (
@@ -31,7 +33,7 @@ export default async function HomePage() {
       <HomeStatement />
       <HomeCategories categories={categories} />
       <HomeFeatured products={featured} />
-      <HomeProjects />
+      <HomeProjects projects={projects} />
       <HomeCompany />
       <HomeBusiness />
       <HomeSelected products={selected} />

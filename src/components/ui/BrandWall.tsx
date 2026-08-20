@@ -1,11 +1,11 @@
 import Image from "next/image";
-import { brands } from "@/lib/data";
+import type { Brand } from "@/lib/types";
 
-export function BrandWall() {
+export function BrandWall({ brands }: { brands: Brand[] }) {
   return (
     <div className="brand-wall">
       {brands.map((brand) => (
-        <div className="brand-cell" key={brand.src}>
+        <div className="brand-cell" key={`${brand.name}-${brand.src}`}>
           <div className="brand-inner">
             <Image
               src={brand.src}

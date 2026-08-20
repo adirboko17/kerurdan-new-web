@@ -27,38 +27,64 @@ type CategoryRow = {
   description: string | null;
 };
 
-type ProductRow = {
-  id: string;
-  name: string;
-  sku: string | null;
-  description: string | null;
+type SpecSource = {
+  volume: number | string | null;
   brand: string | null;
   model: string | null;
-  image_url: string | null;
-  volume: number | string | null;
-  sort_order: number | null;
+  sku: string | null;
   specifications: Record<string, unknown> | null;
-  category_id: string | null;
-  subcategory_id: string | null;
 };
 
-type ImageRow = {
-  product_id: string | null;
+type LinkedProduct = SpecSource & {
+  id: string;
+  description: string | null;
+  subcategory_id: string | null;
+  image_url: string | null;
+  updated_at: string | null;
+};
+
+type ListingImageRow = {
+  id: string;
   image_url: string;
   alt_text: string | null;
-  is_primary: boolean | null;
   sort_order: number | null;
+  kind: string | null;
   status: string | null;
 };
 
-type VariantRow = {
-  product_id: string;
+type VariantSource = {
+  id?: string;
   code: string | null;
   width: number | string | null;
   depth: number | string | null;
   height: number | string | null;
   volume: number | string | null;
-  supplier_model_name: string | null;
+  supplier_model_name?: string | null;
+};
+
+type ListingVariantRow = {
+  sort_order: number | null;
+  product_variants: VariantSource | VariantSource[] | null;
+};
+
+type ListingProductRow = {
+  sort_order: number | null;
+  products: LinkedProduct | LinkedProduct[] | null;
+};
+
+type ListingRow = {
+  id: string;
+  title: string;
+  description: string | null;
+  primary_image_url: string | null;
+  drawing_url: string | null;
+  sort_order: number | null;
+  created_at: string | null;
+  updated_at: string | null;
+  category_id: string | null;
+  catalog_listing_images: ListingImageRow[] | null;
+  catalog_listing_variants: ListingVariantRow[] | null;
+  catalog_listing_products: ListingProductRow[] | null;
 };
 
 export type CatalogData = {
@@ -123,8 +149,26 @@ function hasFeature(features: string[], pattern: RegExp) {
   return features.some((feature) => pattern.test(feature));
 }
 
+function one<T>(value: T | T[] | null | undefined): T | null {
+  if (!value) return null;
+  return Array.isArray(value) ? (value[0] ?? null) : value;
+}
+
+function resolveParent(categoryById: Map<string, CategoryRow>, categoryId: string | null) {
+  if (!categoryId) return undefined;
+  const current = categoryById.get(categoryId);
+  if (!current || EXCLUDED_PARENTS.has(current.name)) return undefined;
+  if (current.parent_id) {
+    const parent = categoryById.get(current.parent_id);
+    if (!parent || EXCLUDED_PARENTS.has(parent.name)) return undefined;
+    if (PARENT_SLUGS[parent.name]) return parent;
+  }
+  if (PARENT_SLUGS[current.name]) return current;
+  return undefined;
+}
+
 function buildSpecs(
-  product: ProductRow,
+  product: SpecSource,
   features: string[],
   variants: SizeVariant[],
 ): SpecRow[] {
@@ -234,7 +278,7 @@ function buildHighlights(specs: SpecRow[], variants: SizeVariant[], features: st
   return highlights.slice(0, 4);
 }
 
-function mapVariant(row: VariantRow): SizeVariant {
+function mapVariant(row: VariantSource): SizeVariant {
   const width = formatNumber(row.width);
   const depth = formatNumber(row.depth);
   const height = formatNumber(row.height);
@@ -246,7 +290,7 @@ function mapVariant(row: VariantRow): SizeVariant {
     depth,
     height,
     volume: formatNumber(row.volume),
-    modelName: row.supplier_model_name,
+    modelName: row.supplier_model_name ?? null,
     dims,
   };
 }
@@ -259,29 +303,63 @@ function productNote(subcategoryName: string | null, variants: SizeVariant[]) {
   return parts.join(" · ");
 }
 
-function mapImages(
-  product: ProductRow,
-  extra: ImageRow[],
+function laterTimestamp(a: string | null | undefined, b: string | null | undefined) {
+  const aTime = a ? Date.parse(a) : 0;
+  const bTime = b ? Date.parse(b) : 0;
+  if (!aTime && !bTime) return null;
+  return (aTime >= bTime ? a : b) ?? null;
+}
+
+function bustImageUrl(src: string | null | undefined, version: string | null | undefined) {
+  if (!src) return null;
+  if (!version) return src;
+  const stamp = Date.parse(version);
+  const token = Number.isNaN(stamp) ? encodeURIComponent(version) : String(stamp);
+  return `${src}${src.includes("?") ? "&" : "?"}v=${token}`;
+}
+
+function mapListingImages(
+  title: string,
+  primary: string | null,
+  extra: ListingImageRow[],
+  version: string | null,
 ): Product["images"] {
   const seen = new Set<string>();
   const images: Product["images"] = [];
 
-  const add = (src: string | null, alt: string, fit: Product["images"][number]["fit"] = "contain") => {
-    if (!src || seen.has(src)) return;
-    seen.add(src);
-    images.push({ src, alt, fit });
+  const add = (src: string | null, alt: string) => {
+    const next = bustImageUrl(src, version);
+    if (!next || seen.has(next)) return;
+    seen.add(next);
+    images.push({ src: next, alt, fit: "contain" });
   };
 
-  add(product.image_url, product.name);
+  add(primary, title);
   extra
-    .filter((image) => !image.status || image.status === "active")
-    .sort((a, b) => {
-      if (a.is_primary === b.is_primary) return (a.sort_order ?? 0) - (b.sort_order ?? 0);
-      return a.is_primary ? -1 : 1;
-    })
-    .forEach((image) => add(image.image_url, image.alt_text || product.name));
+    .filter((image) => image.kind === "gallery" && image.status === "active")
+    .sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0))
+    .forEach((image) => add(image.image_url, image.alt_text || title));
 
   return images;
+}
+
+function mapListingVariants(rows: ListingVariantRow[]): SizeVariant[] {
+  return rows
+    .slice()
+    .sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0))
+    .map((row) => one(row.product_variants))
+    .filter((variant): variant is VariantSource => Boolean(variant))
+    .map(mapVariant);
+}
+
+function firstLinkedProduct(rows: ListingProductRow[]): LinkedProduct | null {
+  return (
+    rows
+      .slice()
+      .sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0))
+      .map((row) => one(row.products))
+      .find((product): product is LinkedProduct => Boolean(product)) ?? null
+  );
 }
 
 export const getCatalog = cache(async (): Promise<CatalogData> => {
@@ -299,69 +377,51 @@ export const getCatalog = cache(async (): Promise<CatalogData> => {
   try {
     const supabase = createSupabaseServerClient();
 
-    const [categoryRes, productRes, imageRes, variantRes] = await Promise.all([
+    const [categoryRes, listingRes] = await Promise.all([
       supabase.from("categories").select("id, name, parent_id, image_url, description"),
       supabase
-        .from("products")
+        .from("catalog_listings")
         .select(
-          "id, name, sku, description, brand, model, image_url, volume, sort_order, specifications, category_id, subcategory_id, show_in_catalog, status",
+          `
+          id, title, description, primary_image_url, drawing_url, sort_order, created_at, updated_at, category_id,
+          catalog_listing_images ( id, image_url, alt_text, sort_order, kind, status ),
+          catalog_listing_variants (
+            sort_order,
+            product_variants ( id, code, width, depth, height, volume, supplier_model_name )
+          ),
+          catalog_listing_products (
+            sort_order,
+            products ( id, description, brand, model, sku, volume, specifications, subcategory_id, image_url, updated_at )
+          )
+        `,
         )
-        .eq("show_in_catalog", true),
-      supabase
-        .from("product_images")
-        .select("product_id, image_url, alt_text, is_primary, sort_order, status"),
-      supabase
-        .from("product_variants")
-        .select("product_id, code, width, depth, height, volume, supplier_model_name"),
+        .eq("show_on_website", true)
+        .eq("status", "active")
+        .order("sort_order", { ascending: true })
+        .order("created_at", { ascending: true }),
     ]);
 
     if (categoryRes.error) throw categoryRes.error;
-    if (productRes.error) throw productRes.error;
-    if (imageRes.error) throw imageRes.error;
-    if (variantRes.error) throw variantRes.error;
+    if (listingRes.error) throw listingRes.error;
 
     const categoryRows = (categoryRes.data ?? []) as CategoryRow[];
     const categoryById = new Map(categoryRows.map((row) => [row.id, row]));
-    const excludedIds = new Set(
-      categoryRows.filter((row) => EXCLUDED_PARENTS.has(row.name)).map((row) => row.id),
-    );
-    categoryRows.forEach((row) => {
-      if (row.parent_id && excludedIds.has(row.parent_id)) excludedIds.add(row.id);
-    });
-
-    const imagesByProduct = new Map<string, ImageRow[]>();
-    for (const image of (imageRes.data ?? []) as ImageRow[]) {
-      if (!image.product_id) continue;
-      const list = imagesByProduct.get(image.product_id) ?? [];
-      list.push(image);
-      imagesByProduct.set(image.product_id, list);
-    }
-
-    const variantsByProduct = new Map<string, SizeVariant[]>();
-    for (const variant of (variantRes.data ?? []) as VariantRow[]) {
-      const list = variantsByProduct.get(variant.product_id) ?? [];
-      list.push(mapVariant(variant));
-      variantsByProduct.set(variant.product_id, list);
-    }
 
     const subSlugUsed = new Map<string, Set<string>>();
     const subSlugById = new Map<string, string>();
     const products: Product[] = [];
 
-    const productRows = ((productRes.data ?? []) as ProductRow[]).slice().sort((a, b) => {
-      const order = (a.sort_order ?? 999) - (b.sort_order ?? 999);
-      return order !== 0 ? order : a.name.localeCompare(b.name, "he");
-    });
-
-    for (const row of productRows) {
-      const parent = row.category_id ? categoryById.get(row.category_id) : undefined;
-      if (!parent || excludedIds.has(parent.id)) continue;
+    for (const row of (listingRes.data ?? []) as ListingRow[]) {
+      const parent = resolveParent(categoryById, row.category_id);
+      if (!parent) continue;
 
       const categorySlug = PARENT_SLUGS[parent.name];
       if (!categorySlug) continue;
 
       const siteCategory = getCategory(categorySlug);
-      const subcategory = row.subcategory_id ? categoryById.get(row.subcategory_id) : undefined;
+      const linked = firstLinkedProduct(row.catalog_listing_products ?? []);
+      const description = row.description?.trim() || linked?.description?.trim() || null;
+      const subcategory = linked?.subcategory_id ? categoryById.get(linked.subcategory_id) : undefined;
       let subcategorySlug: string | null = null;
       if (subcategory) {
         const existing = subSlugById.get(subcategory.id);
@@ -375,25 +435,42 @@ export const getCatalog = cache(async (): Promise<CatalogData> => {
         }
       }
 
-      const variants = variantsByProduct.get(row.id) ?? [];
-      const features = parseFeatures(row.description);
-      const specs = buildSpecs(row, features, variants);
-      const images = mapImages(row, imagesByProduct.get(row.id) ?? []);
+      const variants = mapListingVariants(row.catalog_listing_variants ?? []);
+      const features = parseFeatures(description);
+      const specs = buildSpecs(
+        {
+          volume: linked?.volume ?? null,
+          brand: linked?.brand ?? null,
+          model: linked?.model ?? null,
+          sku: linked?.sku ?? null,
+          specifications: linked?.specifications ?? null,
+        },
+        features,
+        variants,
+      );
+      const imageVersion = laterTimestamp(row.updated_at, linked?.updated_at);
+      const images = mapListingImages(
+        row.title,
+        linked?.image_url || row.primary_image_url || null,
+        row.catalog_listing_images ?? [],
+        imageVersion,
+      );
 
       products.push({
         id: row.id,
         slug: row.id,
-        name: row.name,
+        name: row.title,
         category: categorySlug,
         categoryName: siteCategory?.name ?? parent.name,
         subcategorySlug,
         subcategoryName: subcategory?.name ?? null,
         note: productNote(subcategory?.name ?? null, variants),
         eyebrow: [siteCategory?.name ?? parent.name, subcategory?.name].filter(Boolean).join(" · "),
-        description: isChecklist(row.description)
-          ? `${row.name}${subcategory ? ` - ${subcategory.name}` : ""}.`
-          : row.description?.trim() || `${row.name}.`,
+        description: isChecklist(description)
+          ? `${row.title}${subcategory ? ` - ${subcategory.name}` : ""}.`
+          : description || `${row.title}.`,
         images,
+        drawingUrl: row.drawing_url,
         highlights: buildHighlights(specs, variants, features),
         specs,
         sizeVariants: variants,

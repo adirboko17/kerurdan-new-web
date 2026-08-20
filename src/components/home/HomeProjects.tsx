@@ -4,9 +4,10 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { ImageSlot } from "@/components/ui/ImageSlot";
 import { Reveal } from "@/components/ui/Reveal";
 import { SiteImage } from "@/components/ui/SiteImage";
-import { projects } from "@/lib/data";
+import type { Project } from "@/lib/types";
 
-export function HomeProjects() {
+export function HomeProjects({ projects }: { projects: Project[] }) {
+  if (projects.length === 0) return null;
   const scrollerRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
 
@@ -75,7 +76,7 @@ export function HomeProjects() {
       </Reveal>
       <div className="proj-cards" ref={scrollerRef}>
         {projects.map((project, index) => (
-          <article key={project.title} className="proj-card">
+          <article key={project.id ?? project.title} className="proj-card">
             <div className="proj-card-media">
               {project.image ? (
                 <SiteImage
@@ -104,7 +105,7 @@ export function HomeProjects() {
       <div className="proj-dots" role="tablist" aria-label="פרויקטים">
         {projects.map((project, index) => (
           <button
-            key={project.title}
+            key={project.id ?? project.title}
             type="button"
             role="tab"
             aria-label={project.title}
