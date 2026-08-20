@@ -2,11 +2,13 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PageShell } from "@/components/layout/PageShell";
+import { ProductBlueprint } from "@/components/product/ProductBlueprint";
 import { ProductGallery } from "@/components/product/ProductGallery";
 import { ProductQuoteButton } from "@/components/product/ProductQuoteButton";
 import { SizeTable } from "@/components/product/SizeTable";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { ProductCarousel } from "@/components/ui/ProductCarousel";
+import { getProductBlueprint } from "@/lib/blueprints";
 import {
   getCatalog,
   getCatalogProduct,
@@ -42,6 +44,7 @@ export default async function ProductPage({ params }: PageProps) {
   if (!product) notFound();
 
   const complementary = await getComplementaryProducts(product);
+  const blueprint = getProductBlueprint(product);
   const eyebrowRest = product.subcategoryName;
 
   return (
@@ -72,7 +75,6 @@ export default async function ProductPage({ params }: PageProps) {
                       className="stat-value"
                       style={{
                         color: item.accent ? "var(--ac)" : undefined,
-                        fontFamily: item.mono ? "'IBM Plex Mono', monospace" : undefined,
                       }}
                     >
                       {item.value}
@@ -124,7 +126,7 @@ export default async function ProductPage({ params }: PageProps) {
               {product.specs.map((row) => (
                 <div className="spec-row" key={row.label}>
                   <span style={{ color: "var(--mute)", fontWeight: 300 }}>{row.label}</span>
-                  <span className={row.mono ? "mono ltr" : undefined} style={{ fontWeight: row.mono ? undefined : 500 }}>
+                  <span style={{ fontWeight: 500 }}>
                     {row.value}
                   </span>
                 </div>
@@ -134,22 +136,25 @@ export default async function ProductPage({ params }: PageProps) {
         </section>
       )}
 
-      {product.sizeVariants.length > 0 && (
+      {(product.sizeVariants.length > 0 || blueprint) && (
         <section className="context">
-          <div className="specs-grid">
-            <div>
-              <h2 style={{ margin: 0, fontSize: "clamp(22px,2.6vw,38px)", fontWeight: 700, letterSpacing: "-.03em", lineHeight: 1.06, maxWidth: "15ch" }}>
-                תצורות ומידות
-              </h2>
-              <p className="context-text" style={{ margin: "14px 0 0", maxWidth: "38ch" }}>
-                {product.sizeVariants.length === 1
-                  ? "המידות של הדגם כפי שמופיעות בקטלוג."
-                  : `הדגם מסופק ב־${product.sizeVariants.length} תצורות. בחרו את המידה שמתאימה לחלל.`}
-              </p>
+          <div className={blueprint ? "size-section" : "specs-grid"}>
+            <div className={blueprint ? "size-section-copy" : undefined}>
+              <div>
+                <h2 style={{ margin: 0, fontSize: "clamp(22px,2.6vw,38px)", fontWeight: 700, letterSpacing: "-.03em", lineHeight: 1.06, maxWidth: "15ch" }}>
+                  תצורות ומידות
+                </h2>
+                <p className="context-text" style={{ margin: "14px 0 0", maxWidth: "38ch" }}>
+                  {product.sizeVariants.length === 1
+                    ? "המידות של הדגם כפי שמופיעות בקטלוג."
+                    : product.sizeVariants.length > 1
+                      ? `הדגם מסופק ב־${product.sizeVariants.length} תצורות. בחרו את המידה שמתאימה לחלל.`
+                      : "שרטוט המידות של הדגם, כעזר לבחירת התצורה שמתאימה לחלל."}
+                </p>
+              </div>
+              {product.sizeVariants.length > 0 ? <SizeTable variants={product.sizeVariants} /> : null}
             </div>
-            <div>
-              <SizeTable variants={product.sizeVariants} />
-            </div>
+            {blueprint ? <ProductBlueprint blueprint={blueprint} /> : null}
           </div>
         </section>
       )}

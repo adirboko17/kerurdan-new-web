@@ -15,7 +15,7 @@ export async function PageShell({ children, active, overlay = false, dark = fals
   const featured = await getFeaturedProducts();
 
   return (
-    <div className={dark ? "page page-dark" : "page"}>
+    <div className={`page${dark ? " page-dark" : ""}${overlay ? "" : " is-inner"}`}>
       <Header active={active} overlay={overlay} featured={featured} />
       {!overlay && <div className="header-spacer" />}
       {children}

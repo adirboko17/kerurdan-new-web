@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 export default function ContactPage() {
   return (
-    <PageShell active="contact" dark>
+    <PageShell active="contact">
       <section className="contact-page">
         <div className="contact-wrap">
           <Breadcrumbs items={[{ href: "/", label: "דף הבית" }, { label: "צור קשר" }]} />
