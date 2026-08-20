@@ -390,15 +390,21 @@
 }
 
 .catalog-note {
-  grid-column: 1;
-  grid-row: 2;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-self: stretch;
-  width: 100%;
-  padding: 18px 16px 22px 8px;
-  box-sizing: border-box;
+  display: none;
+}
+
+@media (min-width: 900px) {
+  .catalog-note {
+    grid-column: 1;
+    grid-row: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-self: stretch;
+    width: 100%;
+    padding: 18px 16px 22px 8px;
+    box-sizing: border-box;
+  }
 }
 
 .catalog-note.is-first {

@@ -33,8 +33,10 @@ export function Header({ active, overlay = false, featured = [] }: HeaderProps) 
   useEffect(() => {
     const tick = () => {
       const y = window.scrollY || document.documentElement.scrollTop || 0;
+      const mobile = window.matchMedia("(max-width: 999px)").matches;
       setAtTop(y <= 8);
-      if (overlay) setSolid(y > 8);
+      if (mobile) setSolid(true);
+      else if (overlay) setSolid(y > 8);
       else setSolid(true);
     };
 
@@ -67,6 +69,16 @@ export function Header({ active, overlay = false, featured = [] }: HeaderProps) 
         onMouseLeave={() => setMegaOpen(false)}
       >
         <div className="header-bar">
+          <a className="header-call" href={SITE.phoneHref} aria-label={`חייגו ${SITE.phoneDisplay}`}>
+            <span className="header-call-icon">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  fill="currentColor"
+                  d="M7.1 3.7c.4-.5 1.1-.7 1.7-.5l1.9.6c.6.2 1 .8 1.1 1.4l.3 1.8c.1.5-.1 1-.5 1.3l-1.3 1c.9 1.7 2.3 3.1 4 4l1-1.3c.3-.4.8-.6 1.3-.5l1.8.3c.6.1 1.2.5 1.4 1.1l.6 1.9c.2.6 0 1.3-.5 1.7l-.9.9c-.6.6-1.4.9-2.2.8-3.8-.5-7.3-3.2-9.6-7.2C4.8 8.1 4.7 5.8 5.8 4.6l1.3-.9Z"
+                />
+              </svg>
+            </span>
+          </a>
           <Link href="/" className="logo" aria-label={SITE.name}>
             <Logo inverted={!filled} />
           </Link>
@@ -106,6 +118,7 @@ export function Header({ active, overlay = false, featured = [] }: HeaderProps) 
               aria-label="תפריט"
               onClick={() => setNavOpen(true)}
             >
+              <span />
               <span />
               <span />
             </button>
@@ -175,7 +188,19 @@ export function Header({ active, overlay = false, featured = [] }: HeaderProps) 
       {navOpen && (
         <div className="mobile-nav">
           <div className="mobile-nav-top">
-            <Logo />
+            <a className="header-call" href={SITE.phoneHref} aria-label={`חייגו ${SITE.phoneDisplay}`}>
+              <span className="header-call-icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path
+                    fill="currentColor"
+                    d="M7.1 3.7c.4-.5 1.1-.7 1.7-.5l1.9.6c.6.2 1 .8 1.1 1.4l.3 1.8c.1.5-.1 1-.5 1.3l-1.3 1c.9 1.7 2.3 3.1 4 4l1-1.3c.3-.4.8-.6 1.3-.5l1.8.3c.6.1 1.2.5 1.4 1.1l.6 1.9c.2.6 0 1.3-.5 1.7l-.9.9c-.6.6-1.4.9-2.2.8-3.8-.5-7.3-3.2-9.6-7.2C4.8 8.1 4.7 5.8 5.8 4.6l1.3-.9Z"
+                  />
+                </svg>
+              </span>
+            </a>
+            <Link href="/" className="logo" aria-label={SITE.name} onClick={() => setNavOpen(false)}>
+              <Logo />
+            </Link>
             <button
               className="mobile-close"
               type="button"
@@ -186,12 +211,16 @@ export function Header({ active, overlay = false, featured = [] }: HeaderProps) 
             </button>
           </div>
           <nav className="mobile-links">
-            <Link href="/" onClick={() => setNavOpen(false)}>
+            <Link href="/" className={active === "home" ? "is-active" : undefined} onClick={() => setNavOpen(false)}>
               דף הבית
             </Link>
-            <button className="mobile-sub-btn" type="button" onClick={() => setSubOpen((v) => !v)}>
+            <button
+              className={`mobile-sub-btn${subOpen || active === "catalog" ? " is-open" : ""}`}
+              type="button"
+              onClick={() => setSubOpen((v) => !v)}
+            >
               <span>קטלוג</span>
-              <span style={{ fontSize: 16, opacity: 0.6 }}>{subOpen ? "−" : "+"}</span>
+              <span className="mobile-sub-icon">{subOpen ? "−" : "+"}</span>
             </button>
             {subOpen && (
               <div className="mobile-sub">
@@ -209,20 +238,25 @@ export function Header({ active, overlay = false, featured = [] }: HeaderProps) 
                 </Link>
               </div>
             )}
-            <Link href="/about" onClick={() => setNavOpen(false)}>
+            <Link href="/about" className={active === "about" ? "is-active" : undefined} onClick={() => setNavOpen(false)}>
               אודות
             </Link>
-            <Link href="/contact" onClick={() => setNavOpen(false)} style={{ borderBottom: "none" }}>
+            <Link href="/contact" className={active === "contact" ? "is-active" : undefined} onClick={() => setNavOpen(false)}>
               צור קשר
             </Link>
           </nav>
           <div className="mobile-cta">
-            <Link href="/contact" className="btn btn-blue" onClick={() => setNavOpen(false)}>
+            <Link href="/contact" className="btn btn-ink" onClick={() => setNavOpen(false)}>
               קבלו הצעת מחיר
             </Link>
-            <a className="mobile-phone" href={SITE.phoneHref}>
-              {SITE.phoneDisplay}
-            </a>
+            <div className="mobile-cta-links">
+              <a className="mobile-phone" href={SITE.phoneHref}>
+                {SITE.phoneDisplay}
+              </a>
+              <a href={SITE.whatsapp} className="mobile-wa">
+                וואטסאפ
+              </a>
+            </div>
           </div>
         </div>
       )}
