@@ -2,12 +2,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CategoryHeroShots } from "@/components/catalog/CategoryHeroShots";
+import { RelatedCategories } from "@/components/catalog/RelatedCategories";
 import { CategoryModels } from "@/components/catalog/SubcategoryFilter";
 import { PageShell } from "@/components/layout/PageShell";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { QuoteButton } from "@/components/ui/DarkCta";
-import { ImageSlot } from "@/components/ui/ImageSlot";
-import { SiteImage } from "@/components/ui/SiteImage";
 import { getCatalog, getCatalogCategory, getProductsByCategory } from "@/lib/catalog";
 import { categories } from "@/lib/data";
 import { SITE } from "@/lib/site";
@@ -108,20 +107,7 @@ export default async function CategoryPage({ params }: PageProps) {
         <h2 className="section-head" style={{ border: "none", paddingBottom: 0, marginBottom: "clamp(22px,2.6vw,38px)", fontSize: "clamp(20px,2.2vw,30px)" }}>
           קטגוריות נוספות
         </h2>
-        <div className="rel-grid">
-          {related.map((item) => (
-            <Link href={`/catalog/${item.slug}`} key={item.slug}>
-              <div className="rel-media" style={{ background: item.image ? "var(--paper)" : "#0A0B0C" }}>
-                {item.image ? (
-                  <SiteImage src={item.image.src} alt={item.name} fit="contain" padding="9%" />
-                ) : (
-                  <ImageSlot placeholder={item.placeholder} />
-                )}
-              </div>
-              <div style={{ paddingTop: 12, fontSize: 17, fontWeight: 600 }}>{item.name}</div>
-            </Link>
-          ))}
-        </div>
+        <RelatedCategories categories={related} />
       </section>
 
     </PageShell>

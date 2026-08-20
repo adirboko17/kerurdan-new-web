@@ -40,7 +40,7 @@ export default async function CatalogPage() {
                       alt={category.name}
                       fit="contain"
                       padding="12%"
-                      sizes="(max-width: 640px) 100vw, (max-width: 1100px) 50vw, 25vw"
+                      sizes="(max-width: 1100px) 50vw, 25vw"
                     />
                   ) : (
                     <ImageSlot placeholder={category.placeholder} />

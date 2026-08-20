@@ -151,7 +151,7 @@ export function QuoteForm({ compact = false, light = false }: QuoteFormProps) {
           <span className="field-caret">▾</span>
         </label>
         <label className="field field-wrap">
-          <span>באיזה פתרון אתם מתעניינים?</span>
+          <span>סוג הציוד</span>
           <select name="solution" defaultValue="חלביות">
             <option>חלביות</option>
             <option>מעדניות</option>

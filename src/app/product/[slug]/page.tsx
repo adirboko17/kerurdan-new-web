@@ -6,7 +6,7 @@ import { ProductGallery } from "@/components/product/ProductGallery";
 import { ProductQuoteButton } from "@/components/product/ProductQuoteButton";
 import { SizeTable } from "@/components/product/SizeTable";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
-import { ProductCard } from "@/components/ui/ProductCard";
+import { ProductCarousel } from "@/components/ui/ProductCarousel";
 import {
   getCatalog,
   getCatalogProduct,
@@ -179,11 +179,7 @@ export default async function ProductPage({ params }: PageProps) {
               לכל הקטלוג ←
             </Link>
           </div>
-          <div className="product-grid" style={{ padding: "clamp(24px,3vw,42px) 0 0" }}>
-            {complementary.map((item) => (
-              <ProductCard key={item.slug} product={item} />
-            ))}
-          </div>
+          <ProductCarousel products={complementary} className="related-carousel" />
         </section>
       )}
 

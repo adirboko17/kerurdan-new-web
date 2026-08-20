@@ -287,7 +287,7 @@
   .lead-form .field input,
   .lead-form .field textarea {
     padding: 11px 12px;
-    font-size: 15px;
+    font-size: 16px;
   }
 
   .lead-form .field textarea {
@@ -301,6 +301,75 @@
 
   .company-point {
     padding: 16px 0;
+  }
+
+  .home-contact {
+    padding: 20px var(--pad-x);
+  }
+
+  .home-contact-copy {
+    padding: 22px 18px 16px;
+  }
+
+  .home-contact h2 {
+    font-size: 22px;
+    max-width: none;
+  }
+
+  .home-contact p {
+    margin-top: 8px;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .home-contact-links {
+    gap: 14px;
+    margin-top: 14px;
+    padding-top: 12px;
+  }
+
+  .home-contact-phone {
+    font-size: 18px;
+  }
+
+  .contact-form {
+    gap: 10px;
+    padding: 16px 18px 18px;
+  }
+
+  .contact-form-title {
+    font-size: 18px;
+  }
+
+  .contact-form-note {
+    margin-top: 4px;
+    font-size: 13.5px;
+    line-height: 1.45;
+  }
+
+  .contact-form .lead-form-row {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .contact-form .field span {
+    margin-bottom: 5px;
+    font-size: 12px;
+  }
+
+  .contact-form .field input,
+  .contact-form .field select {
+    padding: 11px 12px;
+    font-size: 16px;
+  }
+
+  .contact-form .field-caret {
+    top: calc(50% + 12px);
+  }
+
+  .contact-form .btn {
+    margin-top: 2px;
+    padding: 13px 18px;
   }
 }
 
@@ -1297,7 +1366,7 @@
   border-radius: 10px;
   color: var(--ink);
   padding: 13px 14px;
-  font-size: 15.5px;
+  font-size: 16px;
 }
 
 .lead-form .field input:focus,
@@ -1484,7 +1553,7 @@
   border-radius: 10px;
   color: #fff;
   padding: 13px 14px;
-  font-size: 15.5px;
+  font-size: 16px;
 }
 
 .contact-form .field input:focus,

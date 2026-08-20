@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { Category, Product } from "@/lib/types";
-import { ProductCard } from "@/components/ui/ProductCard";
+import { ProductCarousel } from "@/components/ui/ProductCarousel";
 
 type CatalogGridProps = {
   products: Product[];
@@ -69,17 +69,7 @@ export function CatalogGrid({ products, categories }: CatalogGridProps) {
             </Link>
           </header>
 
-          <div className="catalog-family-grid">
-            {items.map((product) => (
-              <ProductCard
-                key={product.slug}
-                product={product}
-                showCategory={false}
-                note={product.note}
-                imageFit="contain"
-              />
-            ))}
-          </div>
+          <ProductCarousel products={items} showCategory={false} imageFit="contain" />
         </article>
       ))}
     </section>
