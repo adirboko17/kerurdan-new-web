@@ -1,0 +1,2 @@
+[functions.photospro-api]
+verify_jwt = false
