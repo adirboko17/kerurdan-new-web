@@ -25,6 +25,8 @@ export function HeroVideo() {
       playsInline
       preload="auto"
       aria-hidden="true"
+      onCanPlayThrough={() => window.dispatchEvent(new Event("hero-video-ready"))}
+      onError={() => window.dispatchEvent(new Event("hero-video-ready"))}
     >
       <source src={mobile ? "/hero-mobile.mp4" : "/hero.mp4"} type="video/mp4" />
     </video>

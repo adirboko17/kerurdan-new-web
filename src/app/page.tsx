@@ -1,7 +1,7 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { HomeBusiness } from "@/components/home/HomeBusiness";
 import { HomeCategories } from "@/components/home/HomeCategories";
-import { HomeClosing, HomeCompany } from "@/components/home/HomeCompany";
+import { HomeClosing } from "@/components/home/HomeCompany";
 import { HomeFeatured } from "@/components/home/HomeFeatured";
 import { HomeHero } from "@/components/home/HomeHero";
 import { HomeProjects } from "@/components/home/HomeProjects";
@@ -13,6 +13,13 @@ import { getSiteProjects } from "@/lib/site-content";
 import { SITE } from "@/lib/site";
 
 export const revalidate = 120;
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: "#e4ecf0",
+};
 
 export const metadata: Metadata = {
   title: `${SITE.name} | הקור שמחזיק את העסק שלך`,
@@ -31,12 +38,15 @@ export default async function HomePage() {
     <PageShell active="home" overlay>
       <HomeHero />
       <HomeStatement />
-      <HomeCategories categories={categories} />
-      <HomeFeatured products={featured} />
-      <HomeProjects projects={projects} />
-      <HomeCompany />
-      <HomeBusiness />
-      <HomeSelected products={selected} />
+      <div className="home-catalog-stack">
+        <HomeCategories categories={categories} />
+        <HomeFeatured products={featured} />
+      </div>
+      <HomeProjects projects={projects.slice(0, 4)} />
+      <div className="home-bottom-stack">
+        <HomeBusiness />
+        <HomeSelected products={selected} />
+      </div>
       <HomeClosing />
     </PageShell>
   );

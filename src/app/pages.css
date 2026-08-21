@@ -754,6 +754,15 @@
   padding: clamp(50px, 7vw, 110px) var(--pad-x);
 }
 
+@media (max-width: 899px) {
+  .product-hero,
+  .specs,
+  .context,
+  .section-pad {
+    padding-inline: max(24px, env(safe-area-inset-left, 0px), env(safe-area-inset-right, 0px));
+  }
+}
+
 .specs-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
@@ -791,6 +800,7 @@
   border: 1px solid rgba(10, 11, 12, 0.2);
   border-radius: 9px;
   font-size: 14.5px;
+  cursor: default;
   transition:
     border-color 0.3s,
     background 0.3s;

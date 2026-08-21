@@ -1,12 +1,74 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { type PointerEvent, type ReactNode, useEffect, useRef, useState } from "react";
 import { Logo } from "@/components/ui/Logo";
 import { SiteImage } from "@/components/ui/SiteImage";
 import { categories } from "@/lib/data";
 import { NAV, SITE } from "@/lib/site";
 import type { CategorySlug, NavKey, Product } from "@/lib/types";
+
+function MobileNavSheet({ onClose, children }: { onClose: () => void; children: ReactNode }) {
+  const sheetRef = useRef<HTMLDivElement>(null);
+  const startY = useRef(0);
+  const dragY = useRef(0);
+  const dragging = useRef(false);
+  const pending = useRef(false);
+
+  const endDrag = () => {
+    pending.current = false;
+    const sheet = sheetRef.current;
+    if (!dragging.current || !sheet) return;
+    dragging.current = false;
+    sheet.classList.remove("is-dragging");
+    if (dragY.current > 90) {
+      onClose();
+      return;
+    }
+    sheet.style.transition = "transform 0.28s cubic-bezier(0.16, 1, 0.3, 1)";
+    sheet.style.transform = "";
+  };
+
+  const onPointerDown = (event: PointerEvent<HTMLDivElement>) => {
+    const sheet = sheetRef.current;
+    if (!sheet || sheet.scrollTop > 4) return;
+    pending.current = true;
+    dragging.current = false;
+    startY.current = event.clientY;
+    dragY.current = 0;
+  };
+
+  const onPointerMove = (event: PointerEvent<HTMLDivElement>) => {
+    const sheet = sheetRef.current;
+    if (!sheet || (!pending.current && !dragging.current)) return;
+    const next = Math.max(0, event.clientY - startY.current);
+    if (!dragging.current) {
+      if (next < 14) return;
+      dragging.current = true;
+      pending.current = false;
+      sheet.classList.add("is-dragging");
+      sheet.style.transition = "none";
+    }
+    dragY.current = next;
+    sheet.style.transform = `translateY(${next}px)`;
+  };
+
+  return (
+    <div className="mobile-nav" onClick={onClose}>
+      <div
+        ref={sheetRef}
+        className="mobile-nav-sheet"
+        onClick={(event) => event.stopPropagation()}
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={endDrag}
+        onPointerCancel={endDrag}
+      >
+        {children}
+      </div>
+    </div>
+  );
+}
 
 type HeaderProps = {
   active?: NavKey;
@@ -31,13 +93,30 @@ export function Header({ active, overlay = false, featured = [] }: HeaderProps) 
   const activeFeature = featurePool[activeIndex] ?? featurePool[0] ?? null;
 
   useEffect(() => {
+    const wash = getComputedStyle(document.documentElement).getPropertyValue("--header-wash").trim() || "#e4ecf0";
+    let wasTop = true;
+
+    const paintChrome = (color: string, force = false) => {
+      document.documentElement.style.background = color;
+      document.body.style.background = color;
+      document.querySelectorAll('meta[name="theme-color"]').forEach((meta) => {
+        if (!force && meta.getAttribute("content") === color) return;
+        meta.setAttribute("content", color);
+      });
+    };
+
     const tick = () => {
       const y = window.scrollY || document.documentElement.scrollTop || 0;
-      const mobile = window.matchMedia("(max-width: 999px)").matches;
-      setAtTop(y <= 8);
-      if (mobile) setSolid(true);
-      else if (overlay) setSolid(y > 8);
-      else setSolid(true);
+      const top = y <= 24;
+      setAtTop(top);
+      if (overlay) {
+        setSolid(!top);
+        paintChrome(wash, top && !wasTop);
+      } else {
+        setSolid(true);
+        paintChrome(wash);
+      }
+      wasTop = top;
     };
 
     tick();
@@ -46,6 +125,8 @@ export function Header({ active, overlay = false, featured = [] }: HeaderProps) 
     return () => {
       window.removeEventListener("scroll", tick);
       window.removeEventListener("resize", tick);
+      document.documentElement.style.background = "";
+      document.body.style.background = "";
     };
   }, [overlay]);
 
@@ -69,16 +150,6 @@ export function Header({ active, overlay = false, featured = [] }: HeaderProps) 
         onMouseLeave={() => setMegaOpen(false)}
       >
         <div className="header-bar">
-          <a className="header-call" href={SITE.phoneHref} aria-label={`חייגו ${SITE.phoneDisplay}`}>
-            <span className="header-call-icon">
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path
-                  fill="currentColor"
-                  d="M7.1 3.7c.4-.5 1.1-.7 1.7-.5l1.9.6c.6.2 1 .8 1.1 1.4l.3 1.8c.1.5-.1 1-.5 1.3l-1.3 1c.9 1.7 2.3 3.1 4 4l1-1.3c.3-.4.8-.6 1.3-.5l1.8.3c.6.1 1.2.5 1.4 1.1l.6 1.9c.2.6 0 1.3-.5 1.7l-.9.9c-.6.6-1.4.9-2.2.8-3.8-.5-7.3-3.2-9.6-7.2C4.8 8.1 4.7 5.8 5.8 4.6l1.3-.9Z"
-                />
-              </svg>
-            </span>
-          </a>
           <Link href="/" className="logo" aria-label={SITE.name}>
             <Logo inverted={!filled} />
           </Link>
@@ -111,6 +182,16 @@ export function Header({ active, overlay = false, featured = [] }: HeaderProps) 
           <div className="header-actions">
             <a className="header-quote" href={SITE.phoneHref}>
               {SITE.phoneDisplay}
+            </a>
+            <a className="header-call" href={SITE.phoneHref} aria-label={`חייגו ${SITE.phoneDisplay}`}>
+              <span className="header-call-icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path
+                    fill="currentColor"
+                    d="M7.1 3.7c.4-.5 1.1-.7 1.7-.5l1.9.6c.6.2 1 .8 1.1 1.4l.3 1.8c.1.5-.1 1-.5 1.3l-1.3 1c.9 1.7 2.3 3.1 4 4l1-1.3c.3-.4.8-.6 1.3-.5l1.8.3c.6.1 1.2.5 1.4 1.1l.6 1.9c.2.6 0 1.3-.5 1.7l-.9.9c-.6.6-1.4.9-2.2.8-3.8-.5-7.3-3.2-9.6-7.2C4.8 8.1 4.7 5.8 5.8 4.6l1.3-.9Z"
+                  />
+                </svg>
+              </span>
             </a>
             <button
               className="menu-btn"
@@ -186,58 +267,63 @@ export function Header({ active, overlay = false, featured = [] }: HeaderProps) 
       </header>
 
       {navOpen && (
-        <div className="mobile-nav">
+        <MobileNavSheet onClose={() => setNavOpen(false)}>
           <div className="mobile-nav-top">
-            <a className="header-call" href={SITE.phoneHref} aria-label={`חייגו ${SITE.phoneDisplay}`}>
-              <span className="header-call-icon">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path
-                    fill="currentColor"
-                    d="M7.1 3.7c.4-.5 1.1-.7 1.7-.5l1.9.6c.6.2 1 .8 1.1 1.4l.3 1.8c.1.5-.1 1-.5 1.3l-1.3 1c.9 1.7 2.3 3.1 4 4l1-1.3c.3-.4.8-.6 1.3-.5l1.8.3c.6.1 1.2.5 1.4 1.1l.6 1.9c.2.6 0 1.3-.5 1.7l-.9.9c-.6.6-1.4.9-2.2.8-3.8-.5-7.3-3.2-9.6-7.2C4.8 8.1 4.7 5.8 5.8 4.6l1.3-.9Z"
-                  />
-                </svg>
-              </span>
-            </a>
             <Link href="/" className="logo" aria-label={SITE.name} onClick={() => setNavOpen(false)}>
               <Logo />
             </Link>
-            <button
-              className="mobile-close"
-              type="button"
-              aria-label="סגירה"
-              onClick={() => setNavOpen(false)}
-            >
-              ×
-            </button>
+            <div className="mobile-nav-actions">
+              <a className="header-call" href={SITE.phoneHref} aria-label={`חייגו ${SITE.phoneDisplay}`}>
+                <span className="header-call-icon">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path
+                      fill="currentColor"
+                      d="M7.1 3.7c.4-.5 1.1-.7 1.7-.5l1.9.6c.6.2 1 .8 1.1 1.4l.3 1.8c.1.5-.1 1-.5 1.3l-1.3 1c.9 1.7 2.3 3.1 4 4l1-1.3c.3-.4.8-.6 1.3-.5l1.8.3c.6.1 1.2.5 1.4 1.1l.6 1.9c.2.6 0 1.3-.5 1.7l-.9.9c-.6.6-1.4.9-2.2.8-3.8-.5-7.3-3.2-9.6-7.2C4.8 8.1 4.7 5.8 5.8 4.6l1.3-.9Z"
+                    />
+                  </svg>
+                </span>
+              </a>
+              <button
+                className="mobile-close"
+                type="button"
+                aria-label="סגירה"
+                onClick={() => setNavOpen(false)}
+              >
+                ×
+              </button>
+            </div>
           </div>
           <nav className="mobile-links">
             <Link href="/" className={active === "home" ? "is-active" : undefined} onClick={() => setNavOpen(false)}>
               דף הבית
             </Link>
             <button
-              className={`mobile-sub-btn${subOpen || active === "catalog" ? " is-open" : ""}`}
+              className={`mobile-sub-btn${subOpen ? " is-open" : ""}`}
               type="button"
+              aria-expanded={subOpen}
               onClick={() => setSubOpen((v) => !v)}
             >
               <span>קטלוג</span>
-              <span className="mobile-sub-icon">{subOpen ? "−" : "+"}</span>
+              <span className="mobile-sub-icon">+</span>
             </button>
-            {subOpen && (
-              <div className="mobile-sub">
-                {categories.map((category) => (
-                  <Link
-                    key={category.slug}
-                    href={`/catalog/${category.slug}`}
-                    onClick={() => setNavOpen(false)}
-                  >
-                    {category.name}
+            <div className={`mobile-sub-wrap${subOpen ? " is-open" : ""}`}>
+              <div className="mobile-sub-clip">
+                <div className="mobile-sub">
+                  {categories.map((category) => (
+                    <Link
+                      key={category.slug}
+                      href={`/catalog/${category.slug}`}
+                      onClick={() => setNavOpen(false)}
+                    >
+                      {category.name}
+                    </Link>
+                  ))}
+                  <Link href="/catalog" className="all" onClick={() => setNavOpen(false)}>
+                    לכל הקטלוג ←
                   </Link>
-                ))}
-                <Link href="/catalog" className="all" onClick={() => setNavOpen(false)}>
-                  לכל הקטלוג ←
-                </Link>
+                </div>
               </div>
-            )}
+            </div>
             <Link href="/about" className={active === "about" ? "is-active" : undefined} onClick={() => setNavOpen(false)}>
               אודות
             </Link>
@@ -249,16 +335,8 @@ export function Header({ active, overlay = false, featured = [] }: HeaderProps) 
             <Link href="/contact" className="btn btn-ink" onClick={() => setNavOpen(false)}>
               קבלו הצעת מחיר
             </Link>
-            <div className="mobile-cta-links">
-              <a className="mobile-phone" href={SITE.phoneHref}>
-                {SITE.phoneDisplay}
-              </a>
-              <a href={SITE.whatsapp} className="mobile-wa">
-                וואטסאפ
-              </a>
-            </div>
           </div>
-        </div>
+        </MobileNavSheet>
       )}
     </>
   );

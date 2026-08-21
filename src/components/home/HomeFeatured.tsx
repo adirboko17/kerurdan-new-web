@@ -9,9 +9,7 @@ import type { Product } from "@/lib/types";
 
 function nextIndex(current: number, length: number) {
   if (length < 2) return 0;
-  let next = current;
-  while (next === current) next = Math.floor(Math.random() * length);
-  return next;
+  return (current + 1) % length;
 }
 
 export function HomeFeatured({ products }: { products: Product[] }) {

@@ -6,15 +6,7 @@ import { ImageSlot } from "@/components/ui/ImageSlot";
 import { Reveal } from "@/components/ui/Reveal";
 import { SiteImage } from "@/components/ui/SiteImage";
 import { categories as fallbackCategories } from "@/lib/data";
-import { MEDIA } from "@/lib/site";
 import type { Category } from "@/lib/types";
-
-const previews = [
-  { src: `${MEDIA}/2025/02/SD-2.png`, alt: "חלביות" },
-  null,
-  { src: `${MEDIA}/2025/01/pool-1.png`, alt: "מקררים" },
-  null,
-] as const;
 
 const blurbs = [
   "חלב, שתייה, פירות וירקות. מנוע פנימי או חיצוני, דלתות הזזה או פתיחה, וגם תצורה פתוחה.",
@@ -23,8 +15,8 @@ const blurbs = [
   "הקפאה ואחסון לעסקים שעובדים עם מלאי קפוא.",
 ];
 
-function categoryPreview(category: Category | undefined, index: number) {
-  return category?.catalogImage ?? category?.image ?? previews[index] ?? null;
+function categoryPreview(category: Category | undefined) {
+  return category?.catalogImage ?? category?.image ?? null;
 }
 
 function isDesktopHover() {
@@ -34,10 +26,35 @@ function isDesktopHover() {
 export function HomeCategories({ categories = fallbackCategories }: { categories?: Category[] }) {
   const [active, setActive] = useState(0);
   const category = categories[active] ?? fallbackCategories[0];
-  const preview = categoryPreview(category, active);
+  const preview = categoryPreview(category);
 
   return (
     <section className="home-cats" id="catalog">
+      <div className="home-cats-mobile">
+        <h2>מה אנחנו מספקים</h2>
+        <p>ארבע משפחות ציוד. בחרו איפה להתחיל.</p>
+        <div className="home-cats-cards">
+          {categories.map((item) => {
+            const image = categoryPreview(item);
+            return (
+              <Link key={item.slug} href={`/catalog/${item.slug}`} className="home-cat-card">
+                <div className="home-cat-card-media">
+                  {image ? (
+                    <SiteImage src={image.src} alt={image.alt} fit="contain" padding="10%" />
+                  ) : (
+                    <ImageSlot placeholder={`צילום ${item.name}`} />
+                  )}
+                </div>
+                <div className="home-cat-card-cap">
+                  <span className="home-cat-card-name">{item.name}</span>
+                  <span className="home-cat-card-short">{item.short}</span>
+                </div>
+              </Link>
+            );
+          })}
+        </div>
+      </div>
+
       <div className="home-cats-grid">
         <div className="home-cats-copy">
           <Reveal>
@@ -45,7 +62,7 @@ export function HomeCategories({ categories = fallbackCategories }: { categories
           </Reveal>
           {categories.map((item, index) => {
             const isOn = active === index;
-            const itemPreview = categoryPreview(item, index);
+            const itemPreview = categoryPreview(item);
 
             return (
               <div

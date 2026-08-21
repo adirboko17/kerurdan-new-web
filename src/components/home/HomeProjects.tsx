@@ -83,7 +83,7 @@ export function HomeProjects({ projects }: { projects: Project[] }) {
                   src={project.image}
                   alt={project.title}
                   fit="cover"
-                  sizes="(max-width: 900px) 85vw, 33vw"
+                  sizes="(max-width: 900px) 85vw, 25vw"
                   priority={index === 0}
                 />
               ) : (

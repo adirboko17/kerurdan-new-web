@@ -167,9 +167,9 @@ export default async function ProductPage({ params }: PageProps) {
             </h2>
             <div className="biz-chips">
               {product.suitable.map((name) => (
-                <Link href="/solutions" className="biz-chip" key={name}>
+                <span className="biz-chip" key={name}>
                   {name}
-                </Link>
+                </span>
               ))}
             </div>
           </div>

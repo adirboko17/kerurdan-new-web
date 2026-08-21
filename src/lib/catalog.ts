@@ -19,6 +19,36 @@ const PARENT_SLUGS: Record<string, CategorySlug> = {
   מקפיאים: "freezers",
 };
 
+const SUBCATEGORY_PRIORITY = [
+  "עומד",
+  "שוכב",
+  "משולב",
+  "עוגות",
+  "דלתות הזזה מנוע פנימי",
+  "דלתות הזזה מנוע חיצוני",
+  "דלתות פתיחה מנוע פנימי",
+  "דלתות פתיחה מנוע חיצוני",
+  "פתוח מנוע פנימי",
+  "פתוח מנוע חיצוני",
+  "מנוע פנימי",
+  "מנוע חיצוני",
+];
+
+function compareSubcategoryNames(aName: string | null | undefined, bName: string | null | undefined) {
+  const a = aName?.trim() ?? "";
+  const b = bName?.trim() ?? "";
+  if (!a && !b) return 0;
+  if (!a) return 1;
+  if (!b) return -1;
+
+  const aRank = SUBCATEGORY_PRIORITY.indexOf(a);
+  const bRank = SUBCATEGORY_PRIORITY.indexOf(b);
+  const aOrder = aRank === -1 ? SUBCATEGORY_PRIORITY.length : aRank;
+  const bOrder = bRank === -1 ? SUBCATEGORY_PRIORITY.length : bRank;
+  if (aOrder !== bOrder) return aOrder - bOrder;
+  return a.localeCompare(b, "he");
+}
+
 type CategoryRow = {
   id: string;
   name: string;
@@ -493,6 +523,15 @@ export const getCatalog = cache(async (): Promise<CatalogData> => {
     }
 
     const liveCategories = categories.map((category) => {
+      const productImage = products
+        .filter((item) => item.category === category.slug && item.images[0])
+        .sort((a, b) => compareSubcategoryNames(a.subcategoryName, b.subcategoryName))[0]?.images[0];
+
+      if (productImage) {
+        const image = { src: productImage.src, alt: category.name, fit: "contain" as const };
+        return { ...category, image, catalogImage: image };
+      }
+
       const parent = categoryRows.find((row) => PARENT_SLUGS[row.name] === category.slug && !row.parent_id);
       if (!parent?.image_url) return category;
       const image = { src: parent.image_url, alt: category.name, fit: "contain" as const };
@@ -515,7 +554,7 @@ export const getCatalog = cache(async (): Promise<CatalogData> => {
           current.count += 1;
           counts.set(product.subcategorySlug!, current);
         }
-        return [slug, [...counts.values()]];
+        return [slug, [...counts.values()].sort((a, b) => compareSubcategoryNames(a.name, b.name))];
       }),
     ) as CatalogData["subcategories"];
 
@@ -563,7 +602,9 @@ export async function getCatalogProduct(slug: string) {
 
 export async function getProductsByCategory(slug: CategorySlug) {
   const catalog = await getCatalog();
-  return catalog.products.filter((product) => product.category === slug);
+  return catalog.products
+    .filter((product) => product.category === slug)
+    .sort((a, b) => compareSubcategoryNames(a.subcategoryName, b.subcategoryName));
 }
 
 export async function getComplementaryProducts(product: Product) {
@@ -603,29 +644,46 @@ export async function getFeaturedProduct() {
   );
 }
 
+const FEATURED_TITLES = [
+  "חלבייה דלתות הזזה - BFG",
+  "חלבייה פתוחה דופן זכוכית - ELF",
+  "מעדנייה זכוכית ישרה מנוע פנימי - ARAMA",
+  "מקרר עומד - 3 דלתות (שחור)",
+  "מקרר עומד - 4 דלתות (לבן)",
+  "מקפיא משולב (קומבי) - ARV",
+  "מקפיא שוכב - ECH",
+];
+
 export async function getFeaturedProducts() {
   const catalog = await getCatalog();
+  const byName = new Map(catalog.products.map((product) => [product.name, product]));
+  const picks = FEATURED_TITLES.map((name) => byName.get(name)).filter(
+    (product): product is Product => Boolean(product?.images[0]),
+  );
+  if (picks.length) return picks;
+
   const withImages = catalog.products.filter((product) => product.images[0]);
-  const picks: Product[] = [];
-
-  for (const slug of ["refrigerators", "dairy", "deli", "freezers"] as CategorySlug[]) {
-    for (const product of withImages.filter((item) => item.category === slug).slice(0, 2)) {
-      picks.push(product);
-    }
-  }
-
-  return picks.length > 0 ? picks : withImages.slice(0, 6);
+  return withImages.slice(0, 7);
 }
 
 export async function getSelectedProducts() {
   const catalog = await getCatalog();
   const withImages = catalog.products.filter((product) => product.images[0]);
+  const order: CategorySlug[] = ["dairy", "refrigerators", "deli", "freezers"];
   const picks: Product[] = [];
-  for (const slug of ["dairy", "refrigerators", "deli", "freezers"] as CategorySlug[]) {
-    for (const product of withImages.filter((item) => item.category === slug).slice(0, 2)) {
-      picks.push(product);
-    }
+
+  for (const slug of order) {
+    const match = withImages.find((item) => item.category === slug);
+    if (match) picks.push(match);
   }
+
+  for (const slug of order) {
+    const match = withImages.find(
+      (item) => item.category === slug && !picks.some((picked) => picked.id === item.id),
+    );
+    if (match) picks.push(match);
+  }
+
   return (picks.length > 0 ? picks : withImages).slice(0, 8);
 }
 
