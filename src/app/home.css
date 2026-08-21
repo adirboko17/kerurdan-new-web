@@ -232,6 +232,11 @@
   .cat-inline {
     display: none;
   }
+
+  .home-feature-proj {
+    display: flex;
+    flex-direction: column-reverse;
+  }
 }
 
 @media (max-width: 899px) {
@@ -871,10 +876,9 @@
 
 .proj-head {
   display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 12px 24px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
   margin-bottom: clamp(22px, 3vw, 36px);
 }
 
@@ -1795,6 +1799,11 @@
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
     align-items: stretch;
+  }
+
+  .biz-copy {
+    border-top: 1px solid rgba(10, 11, 12, 0.14);
+    border-bottom: 1px solid rgba(10, 11, 12, 0.14);
   }
 }
 

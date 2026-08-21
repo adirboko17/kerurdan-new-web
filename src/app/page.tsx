@@ -40,9 +40,11 @@ export default async function HomePage() {
       <HomeStatement />
       <div className="home-catalog-stack">
         <HomeCategories categories={categories} />
-        <HomeFeatured products={featured} />
+        <div className="home-feature-proj">
+          <HomeFeatured products={featured} />
+          <HomeProjects projects={projects.slice(0, 4)} />
+        </div>
       </div>
-      <HomeProjects projects={projects.slice(0, 4)} />
       <div className="home-bottom-stack">
         <HomeBusiness />
         <HomeSelected products={selected} />

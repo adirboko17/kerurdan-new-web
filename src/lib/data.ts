@@ -105,7 +105,7 @@ export const businesses: BusinessSolution[] = [
     needs:
       "תצוגה רציפה לאורך המעבר, מקררי שתייה בגישה מהירה, ואחסון קפוא לעבודה יומית. הציוד עובד שעות ארוכות ומול פתיחות דלת תכופות.",
     links: ["dairy", "refrigerators", "freezers"],
-    image: "/business/supermarket.png",
+    image: "/business/supermarket.jpeg",
     placeholder: "סופרמרקט - מעבר מקוררים",
   },
   {
@@ -114,7 +114,7 @@ export const businesses: BusinessSolution[] = [
     needs:
       "ויטרינת תצוגה מעל דלפק לבשר טרי, לצד הקפאה ואחסון בנפח לעבודה יומית. חשוב שהתצוגה תישאר יציבה גם כשהדלפק פתוח.",
     links: ["deli", "freezers"],
-    image: "/business/butcher.png",
+    image: "/business/butcher.jpeg",
     placeholder: "קצבייה - ויטרינת בשר",
   },
   {
@@ -123,7 +123,7 @@ export const businesses: BusinessSolution[] = [
     needs:
       "תצוגה מעל דלפק לגבינות ומעדנים בגובה ובעומק שנוחים לעבודה משני צדי הדלפק, לצד מקרר עבודה לאחסון קרוב.",
     links: ["deli", "dairy", "refrigerators"],
-    image: "/business/deli.png",
+    image: "/business/deli.jpeg",
     placeholder: "מעדנייה - דלפק גבינות",
   },
   {
@@ -173,6 +173,15 @@ export const projects: Project[] = [
     location: "מרכז",
     image: "/projects/butcher-freezers.jpg",
     placeholder: "פרויקט - קצבייה, לרוחב מלא",
+  },
+  {
+    title: "קיר קירור מוצרי חלב",
+    text: "חלבייה פתוחה לאורך המעבר, עם תצוגה רציפה למוצרי חלב בסופר שכונתי.",
+    equipment: "חלביות",
+    client: "סופר נוח",
+    location: "צפון",
+    image: "/projects/dairy-wall.jpeg",
+    placeholder: "פרויקט - קיר קירור חלב, לרוחב מלא",
   },
 ];
 
