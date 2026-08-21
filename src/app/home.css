@@ -228,15 +228,37 @@
   font-size: 13.5px;
 }
 
+.home-flow {
+  display: flex;
+  flex-direction: column;
+}
+
+.home-catalog-stack,
+.home-feature-proj,
+.home-bottom-stack {
+  display: contents;
+}
+
+.featured { order: 1; }
+.statement { order: 2; }
+.home-cats { order: 3; }
+.proj-spot { order: 4; }
+.selected { order: 5; }
+.biz { order: 6; }
+.brands { order: 7; }
+
 @media (min-width: 900px) {
   .cat-inline {
     display: none;
   }
 
-  .home-feature-proj {
-    display: flex;
-    flex-direction: column-reverse;
-  }
+  .statement { order: 1; }
+  .home-cats { order: 2; }
+  .proj-spot { order: 3; }
+  .featured { order: 4; }
+  .biz { order: 5; }
+  .selected { order: 6; }
+  .brands { order: 7; }
 }
 
 @media (max-width: 899px) {
@@ -252,11 +274,6 @@
       rgba(10, 11, 12, 0.52) 74%,
       rgba(10, 11, 12, 0.92) 100%
     );
-  }
-
-  .home-bottom-stack {
-    display: flex;
-    flex-direction: column-reverse;
   }
 
   .home-cats-grid {

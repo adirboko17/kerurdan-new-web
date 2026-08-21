@@ -2,9 +2,11 @@
 
 import Link from "next/link";
 import { type PointerEvent, type ReactNode, useEffect, useRef, useState } from "react";
+import { SiteSearch } from "@/components/layout/SiteSearch";
 import { Logo } from "@/components/ui/Logo";
 import { SiteImage } from "@/components/ui/SiteImage";
 import { categories } from "@/lib/data";
+import type { SearchItem } from "@/lib/search";
 import { NAV, SITE } from "@/lib/site";
 import type { CategorySlug, NavKey, Product } from "@/lib/types";
 
@@ -74,9 +76,10 @@ type HeaderProps = {
   active?: NavKey;
   overlay?: boolean;
   featured?: Product[];
+  searchItems?: SearchItem[];
 };
 
-export function Header({ active, overlay = false, featured = [] }: HeaderProps) {
+export function Header({ active, overlay = false, featured = [], searchItems = [] }: HeaderProps) {
   const [solid, setSolid] = useState(!overlay);
   const [atTop, setAtTop] = useState(true);
   const [megaOpen, setMegaOpen] = useState(false);
@@ -180,6 +183,7 @@ export function Header({ active, overlay = false, featured = [] }: HeaderProps) 
           </nav>
 
           <div className="header-actions">
+            <SiteSearch items={searchItems} variant="header" solid={filled} />
             <a className="header-quote" href={SITE.phoneHref}>
               {SITE.phoneDisplay}
             </a>
@@ -294,6 +298,7 @@ export function Header({ active, overlay = false, featured = [] }: HeaderProps) 
             </div>
           </div>
           <nav className="mobile-links">
+            <SiteSearch items={searchItems} variant="menu" onNavigate={() => setNavOpen(false)} />
             <Link href="/" className={active === "home" ? "is-active" : undefined} onClick={() => setNavOpen(false)}>
               דף הבית
             </Link>

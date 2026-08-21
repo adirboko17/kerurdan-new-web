@@ -317,7 +317,7 @@ function mapVariant(row: VariantSource): SizeVariant {
   const width = formatNumber(row.width);
   const depth = formatNumber(row.depth);
   const height = formatNumber(row.height);
-  const dims = [width, depth, height].filter(Boolean).join("×") || "-";
+  const dims = [height, depth, width].filter(Boolean).join("×") || "-";
 
   return {
     code: row.code,

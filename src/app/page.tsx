@@ -37,19 +37,21 @@ export default async function HomePage() {
   return (
     <PageShell active="home" overlay>
       <HomeHero />
-      <HomeStatement />
-      <div className="home-catalog-stack">
-        <HomeCategories categories={categories} />
-        <div className="home-feature-proj">
-          <HomeFeatured products={featured} />
-          <HomeProjects projects={projects.slice(0, 4)} />
+      <div className="home-flow">
+        <HomeStatement />
+        <div className="home-catalog-stack">
+          <HomeCategories categories={categories} />
+          <div className="home-feature-proj">
+            <HomeFeatured products={featured} />
+            <HomeProjects projects={projects.slice(0, 4)} />
+          </div>
         </div>
+        <div className="home-bottom-stack">
+          <HomeBusiness />
+          <HomeSelected products={selected} />
+        </div>
+        <HomeClosing />
       </div>
-      <div className="home-bottom-stack">
-        <HomeBusiness />
-        <HomeSelected products={selected} />
-      </div>
-      <HomeClosing />
     </PageShell>
   );
 }

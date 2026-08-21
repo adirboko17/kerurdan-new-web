@@ -372,12 +372,15 @@
 
 .product-blueprint-frame {
   position: relative;
-  aspect-ratio: 8 / 7;
+  width: 100%;
   background: transparent;
   overflow: hidden;
 }
 
 .product-blueprint-img {
+  display: block;
+  width: 100%;
+  height: auto;
   object-fit: contain;
   object-position: center;
   padding: 0;
@@ -1611,7 +1614,7 @@ a.contact-card:hover {
 
   .product-blueprint,
   .product-blueprint-frame {
-    height: 100%;
+    height: auto;
     aspect-ratio: auto;
   }
 

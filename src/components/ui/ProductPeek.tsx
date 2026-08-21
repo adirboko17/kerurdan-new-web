@@ -131,7 +131,6 @@ export function ProductPeek({ product }: ProductPeekProps) {
                               className="stat-value"
                               style={{
                                 color: item.accent ? "var(--ac)" : undefined,
-                                fontFamily: item.mono ? "'IBM Plex Mono', monospace" : undefined,
                               }}
                             >
                               {item.value}
@@ -156,7 +155,6 @@ export function ProductPeek({ product }: ProductPeekProps) {
                             <dd
                               style={{
                                 color: row.accent ? "var(--ac)" : undefined,
-                                fontFamily: row.mono ? "'IBM Plex Mono', monospace" : undefined,
                               }}
                             >
                               {row.value}
