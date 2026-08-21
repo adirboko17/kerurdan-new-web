@@ -19,6 +19,11 @@ const PARENT_SLUGS: Record<string, CategorySlug> = {
   מקפיאים: "freezers",
 };
 
+const CATEGORY_PREVIEW_TITLES: Partial<Record<CategorySlug, string>> = {
+  refrigerators: "מקרר עומד - 2 דלתות (שחור)",
+  freezers: "מקפיא משולב (קומבי) - ARV",
+};
+
 const SUBCATEGORY_PRIORITY = [
   "עומד",
   "שוכב",
@@ -523,9 +528,12 @@ export const getCatalog = cache(async (): Promise<CatalogData> => {
     }
 
     const liveCategories = categories.map((category) => {
-      const productImage = products
-        .filter((item) => item.category === category.slug && item.images[0])
-        .sort((a, b) => compareSubcategoryNames(a.subcategoryName, b.subcategoryName))[0]?.images[0];
+      const preferredTitle = CATEGORY_PREVIEW_TITLES[category.slug];
+      const categoryProducts = products.filter((item) => item.category === category.slug && item.images[0]);
+      const productImage =
+        (preferredTitle ? categoryProducts.find((item) => item.name === preferredTitle)?.images[0] : undefined) ??
+        categoryProducts.sort((a, b) => compareSubcategoryNames(a.subcategoryName, b.subcategoryName))[0]
+          ?.images[0];
 
       if (productImage) {
         const image = { src: productImage.src, alt: category.name, fit: "contain" as const };

@@ -65,8 +65,8 @@ export const categories: Category[] = [
       fit: "cover",
     },
     catalogImage: {
-      src: `${MEDIA}/2025/01/pool-1.png`,
-      alt: "מקררים",
+      src: "https://wunisbfgiyyarlamvfhu.supabase.co/storage/v1/object/public/product-images/photospro/d2b89525-1a20-40d6-9b4f-df7dd88286da/1787263820870-__________2____________.png",
+      alt: "מקרר עומד - 2 דלתות (שחור)",
       fit: "contain",
     },
     heroFit: "cover",
