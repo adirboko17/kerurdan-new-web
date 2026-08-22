@@ -7,7 +7,6 @@ import { SiteImage } from "@/components/ui/SiteImage";
 import type { Project } from "@/lib/types";
 
 export function HomeProjects({ projects }: { projects: Project[] }) {
-  if (projects.length === 0) return null;
   const scrollerRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
 
@@ -67,6 +66,8 @@ export function HomeProjects({ projects }: { projects: Project[] }) {
     const card = scrollerRef.current?.querySelectorAll<HTMLElement>(".proj-card")[index];
     if (card) alignCard(card);
   }
+
+  if (projects.length === 0) return null;
 
   return (
     <section className="proj-spot" id="projects">

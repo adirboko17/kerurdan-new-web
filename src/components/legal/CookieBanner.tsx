@@ -37,7 +37,6 @@ export function CookieBanner() {
               d="M38 12A28 28 0 1 0 68 43a12 12 0 0 1-15-7 11 11 0 0 1-3-13 12 12 0 0 1-12-11Z"
             />
             <path
-              fill="#d4923a"
               d="M68 43a12 12 0 0 1-15-7 11 11 0 0 1-3-13 12 12 0 0 1-12-11"
               stroke="#c47e2e"
               strokeWidth="2.4"
