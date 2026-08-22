@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { IBM_Plex_Mono, Noto_Sans_Hebrew } from "next/font/google";
 import { SiteLoader } from "@/components/layout/SiteLoader";
+import { WhatsAppFloat } from "@/components/layout/WhatsAppFloat";
 import { CookieBanner } from "@/components/legal/CookieBanner";
 import { TrackingScripts } from "@/components/legal/TrackingScripts";
 import { SITE } from "@/lib/site";
@@ -63,6 +64,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <SiteLoader />
         {children}
         <TrackingScripts />
+        <WhatsAppFloat />
         <CookieBanner />
       </body>
     </html>

@@ -2036,3 +2036,127 @@ html.intro-done .site-intro {
     animation: none;
   }
 }
+
+.wa-float {
+  position: fixed;
+  z-index: 60;
+  right: max(10px, env(safe-area-inset-right, 0px));
+  bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+  display: block;
+  width: 58px;
+  height: 58px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.wa-float-label {
+  position: absolute;
+  right: calc(100% + 10px);
+  top: 50%;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: #fff;
+  color: var(--ink);
+  font-size: 13.5px;
+  font-weight: 600;
+  white-space: nowrap;
+  box-shadow: 0 10px 28px rgba(10, 11, 12, 0.12);
+  opacity: 0;
+  transform: translateY(-50%) translateX(8px);
+  pointer-events: none;
+  transition:
+    opacity 0.22s,
+    transform 0.22s;
+}
+
+.wa-float:hover .wa-float-label,
+.wa-float:focus-visible .wa-float-label {
+  opacity: 1;
+  transform: translateY(-50%);
+}
+
+.wa-float-icon {
+  position: relative;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: #25d366;
+  box-shadow: 0 12px 28px rgba(22, 160, 80, 0.38);
+  display: grid;
+  place-items: center;
+  transition: transform 0.22s, filter 0.22s;
+}
+
+.wa-float-icon::after {
+  content: "";
+  position: absolute;
+  inset: -5px;
+  border-radius: 50%;
+  border: 2px solid rgba(37, 211, 102, 0.45);
+  animation: wa-float-pulse 2.4s ease-out infinite;
+  pointer-events: none;
+}
+
+.wa-float:hover .wa-float-icon,
+.wa-float:focus-visible .wa-float-icon {
+  transform: translateY(-2px) scale(1.04);
+  filter: brightness(1.04);
+}
+
+.wa-float-icon img {
+  width: 30px;
+  height: 30px;
+  display: block;
+}
+
+@keyframes wa-float-pulse {
+  0% {
+    opacity: 0.7;
+    transform: scale(0.92);
+  }
+  70%,
+  100% {
+    opacity: 0;
+    transform: scale(1.18);
+  }
+}
+
+html:has(.site-intro:not(.is-leaving)) .wa-float {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  .wa-float {
+    width: 54px;
+    height: 54px;
+    right: max(8px, env(safe-area-inset-right, 0px));
+    bottom: calc(8px + env(safe-area-inset-bottom, 0px));
+  }
+
+  html:has(.cookie-bar) .wa-float {
+    bottom: calc(158px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .wa-float-label {
+    display: none;
+  }
+
+  .wa-float-icon {
+    width: 54px;
+    height: 54px;
+    box-shadow: none;
+  }
+
+  .wa-float-icon::after {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wa-float-icon::after,
+  .wa-float-label,
+  .wa-float-icon {
+    animation: none;
+    transition: none;
+  }
+}
