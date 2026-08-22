@@ -1416,6 +1416,10 @@ a.contact-card:hover {
   overflow: hidden;
 }
 
+.about-split.is-rev .about-photo {
+  background: var(--paper);
+}
+
 .about-photo-lg,
 .about-photo-tall,
 .about-photo-mid {
@@ -1460,6 +1464,160 @@ a.contact-card:hover {
 .about-person strong {
   color: var(--ink);
   font-weight: 600;
+}
+
+@media (max-width: 859px) {
+  .about-open {
+    padding-bottom: 22px;
+  }
+
+  .about-open .crumbs {
+    justify-content: flex-start;
+  }
+
+  .about-open-copy {
+    align-items: flex-start;
+    text-align: start;
+    max-width: none;
+  }
+
+  .about-open-copy h1 {
+    margin-bottom: 12px;
+    font-size: 30px;
+    line-height: 1.08;
+    max-width: 14ch;
+  }
+
+  .about-open-copy p {
+    margin-bottom: 10px;
+    font-size: 14.5px;
+    line-height: 1.6;
+  }
+
+  .about-open-copy .about-tags {
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    width: calc(100% + (2 * var(--pad-x)));
+    margin: 6px calc(-1 * var(--pad-x)) 0;
+    padding-inline: var(--pad-x);
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .about-open-copy .about-tags::-webkit-scrollbar {
+    display: none;
+  }
+
+  .about-tags span {
+    flex: none;
+    padding: 6px 12px;
+    font-size: 13px;
+  }
+
+  .about-block {
+    padding: 28px var(--pad-x);
+  }
+
+  .about-block-head {
+    margin-bottom: 14px;
+  }
+
+  .about-block-head h2,
+  .about-person h2,
+  .about-split > div:first-child h2,
+  .about-block > .brands-head h2 {
+    font-size: 24px;
+    line-height: 1.15;
+    max-width: 16ch;
+  }
+
+  .about-split {
+    gap: 16px;
+  }
+
+  .about-split.is-rev {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .about-split.is-rev .about-person {
+    order: 1;
+  }
+
+  .about-split.is-rev .about-photo {
+    order: 2;
+  }
+
+  .about-split > div:first-child h2 {
+    margin-bottom: 14px;
+  }
+
+  .about-photo {
+    min-height: 0;
+    border-radius: 14px;
+  }
+
+  .about-photo-lg,
+  .about-photo-tall,
+  .about-photo-mid {
+    aspect-ratio: 16 / 11;
+  }
+
+  .about-cards {
+    gap: 10px;
+  }
+
+  .about-card {
+    padding: 14px 14px 16px;
+    border: 1px solid rgba(10, 11, 12, 0.08);
+    border-radius: 14px;
+    background: #fff;
+  }
+
+  .about-card-num {
+    margin-bottom: 8px;
+  }
+
+  .about-card h3 {
+    font-size: 16.5px;
+  }
+
+  .about-card p {
+    margin-top: 8px;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .about-goal {
+    margin-top: 14px;
+    padding-top: 14px;
+    font-size: 16px;
+    line-height: 1.45;
+  }
+
+  .about-kicker {
+    margin-bottom: 8px;
+  }
+
+  .about-person p {
+    margin-top: 12px;
+    font-size: 14.5px;
+    line-height: 1.65;
+  }
+
+  .about-block > .brands-head {
+    margin-bottom: 16px;
+  }
+
+  .about-block > .brand-wall {
+    border-radius: 14px;
+  }
+
+  .about-block .brand-cell {
+    aspect-ratio: 2 / 1;
+    padding: 12px;
+  }
 }
 
 .about-image {
