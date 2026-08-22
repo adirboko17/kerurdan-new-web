@@ -727,6 +727,18 @@
   overflow: hidden;
 }
 
+.product-gallery-shot {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.18s ease;
+  pointer-events: none;
+}
+
+.product-gallery-shot.is-active {
+  opacity: 1;
+}
+
 .product-thumbs {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));

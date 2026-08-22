@@ -7,9 +7,11 @@ type SiteImageProps = {
   fit?: ImageFit;
   sizes?: string;
   priority?: boolean;
+  eager?: boolean;
   className?: string;
   padding?: string;
   blend?: boolean;
+  onLoad?: () => void;
 };
 
 export function SiteImage({
@@ -18,9 +20,11 @@ export function SiteImage({
   fit = "contain",
   sizes = "(max-width: 900px) 100vw, 50vw",
   priority,
+  eager,
   className,
   padding,
   blend,
+  onLoad,
 }: SiteImageProps) {
   const isLocal = src.startsWith("/");
   const isGif = src.endsWith(".gif");
@@ -33,8 +37,10 @@ export function SiteImage({
       fill
       sizes={sizes}
       priority={priority}
+      loading={priority ? undefined : eager ? "eager" : undefined}
       unoptimized={isGif || isLocal}
       className={className}
+      onLoad={onLoad}
       style={{
         objectFit: fit,
         padding: fit === "contain" ? padding ?? "11%" : undefined,
