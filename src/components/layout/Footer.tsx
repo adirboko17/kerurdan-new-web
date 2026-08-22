@@ -72,6 +72,8 @@ export function Footer({ showContact = true }: { showContact?: boolean }) {
               <div className="footer-col-title">מידע</div>
               <div className="footer-links">
                 <Link href="/contact">קבלת הצעת מחיר</Link>
+                <Link href="/accessibility">הצהרת נגישות</Link>
+                <Link href="/privacy">מדיניות פרטיות</Link>
                 <a href={SITE.whatsapp}>וואטסאפ</a>
                 <a href={SITE.facebook}>Facebook</a>
                 <a href={SITE.instagram}>Instagram</a>
@@ -81,7 +83,10 @@ export function Footer({ showContact = true }: { showContact?: boolean }) {
 
           <div className="footer-bottom">
             <span>© {SITE.name}</span>
-            <span>קירור מסחרי ותעשייתי · תכנון, אספקה והתקנה</span>
+            <span className="footer-legal">
+              <Link href="/accessibility">הצהרת נגישות</Link>
+              <Link href="/privacy">פרטיות ועוגיות</Link>
+            </span>
           </div>
         </div>
       </footer>

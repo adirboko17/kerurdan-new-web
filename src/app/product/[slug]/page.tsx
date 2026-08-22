@@ -3,7 +3,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PageShell } from "@/components/layout/PageShell";
 import { ProductBlueprint } from "@/components/product/ProductBlueprint";
+import { ProductColors } from "@/components/product/ProductColors";
 import { ProductGallery } from "@/components/product/ProductGallery";
+import { ProductMediaProvider } from "@/components/product/ProductMediaContext";
 import { ProductQuoteButton } from "@/components/product/ProductQuoteButton";
 import { SizeTable } from "@/components/product/SizeTable";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
@@ -58,6 +60,7 @@ export default async function ProductPage({ params }: PageProps) {
             { label: product.name },
           ]}
         />
+        <ProductMediaProvider>
         <div className="product-hero-grid">
           <ProductGallery product={product} />
           <div className="product-copy">
@@ -66,7 +69,7 @@ export default async function ProductPage({ params }: PageProps) {
               {eyebrowRest ? ` · ${eyebrowRest}` : null}
             </div>
             <h1 className="product-title">{product.name}</h1>
-            <p className="lede">{product.description}</p>
+            <ProductColors colors={product.colors} />
             {product.highlights.length > 0 && (
               <div className="stat-grid">
                 {product.highlights.map((item) => (
@@ -109,6 +112,7 @@ export default async function ProductPage({ params }: PageProps) {
             </div>
           </div>
         </div>
+        </ProductMediaProvider>
       </section>
 
       {product.specs.length > 0 && (

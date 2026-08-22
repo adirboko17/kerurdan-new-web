@@ -17,6 +17,12 @@ export type SpecRow = {
   accent?: boolean;
 };
 
+export type ProductColor = {
+  name: string;
+  hex: string;
+  imageUrl?: string | null;
+};
+
 export type SizeVariant = {
   code: string | null;
   width: string | null;
@@ -52,6 +58,7 @@ export type Product = {
   suitable: string[];
   related: string[];
   features: string[];
+  colors: ProductColor[];
 };
 
 export type Category = {

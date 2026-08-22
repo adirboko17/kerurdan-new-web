@@ -5,6 +5,7 @@ import type {
   Category,
   CategorySlug,
   Product,
+  ProductColor,
   SizeVariant,
   SpecRow,
   SubcategoryFilter,
@@ -113,6 +114,7 @@ type ListingRow = {
   description: string | null;
   primary_image_url: string | null;
   drawing_url: string | null;
+  colors: unknown;
   sort_order: number | null;
   created_at: string | null;
   updated_at: string | null;
@@ -170,6 +172,71 @@ function parseFeatures(description: string | null) {
 
 function isChecklist(description: string | null) {
   return Boolean(description && /^\s*[✅✓]/.test(description));
+}
+
+const NAMED_COLOR_HEX: Record<string, string> = {
+  שחור: "#1c1c1c",
+  לבן: "#f4f4f4",
+  אפור: "#8b9096",
+  אפורכהה: "#4b4f55",
+  נירוסטה: "#c5c8cc",
+  כסף: "#c5c8cc",
+  אדום: "#b42318",
+  כחול: "#1d4e89",
+  ירוק: "#2f6b4f",
+  חום: "#6b4423",
+  בז: "#d8c7a3",
+  שמנת: "#f3ead8",
+};
+
+function normalizeHex(value: string) {
+  const hex = value.trim();
+  if (/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(hex)) return hex;
+  if (/^([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(hex)) return `#${hex}`;
+  return null;
+}
+
+function namedHex(name: string) {
+  const key = name.replace(/[\s-]/g, "").toLowerCase();
+  const match = Object.entries(NAMED_COLOR_HEX).find(([label]) => label.replace(/[\s-]/g, "") === key);
+  return match?.[1] ?? null;
+}
+
+function toProductColor(
+  name: string,
+  hexValue?: string | null,
+  imageUrl?: string | null,
+): ProductColor | null {
+  const label = name.trim();
+  const hex = (hexValue && normalizeHex(hexValue)) || namedHex(label);
+  if (!label && !hex) return null;
+  return {
+    name: label || hex || "צבע",
+    hex: hex ?? "#8b9096",
+    imageUrl: imageUrl?.trim() || null,
+  };
+}
+
+function parseColors(value: unknown, version?: string | null): ProductColor[] {
+  if (!Array.isArray(value)) return [];
+
+  const colors: ProductColor[] = [];
+  for (const item of value) {
+    if (typeof item === "string") {
+      const color = toProductColor(item, item);
+      if (color) colors.push(color);
+      continue;
+    }
+    if (item && typeof item === "object") {
+      const record = item as Record<string, unknown>;
+      const name = String(record.name ?? record.label ?? "").trim();
+      const hex = String(record.hex ?? record.color ?? "").trim();
+      const image = String(record.image_url ?? record.imageUrl ?? record.image ?? "").trim();
+      const color = toProductColor(name || hex, hex, bustImageUrl(image, version));
+      if (color) colors.push(color);
+    }
+  }
+  return colors;
 }
 
 function takeFeature(features: string[], pattern: RegExp) {
@@ -418,7 +485,7 @@ export const getCatalog = cache(async (): Promise<CatalogData> => {
         .from("catalog_listings")
         .select(
           `
-          id, title, description, primary_image_url, drawing_url, sort_order, created_at, updated_at, category_id,
+          id, title, description, primary_image_url, drawing_url, colors, sort_order, created_at, updated_at, category_id,
           catalog_listing_images ( id, image_url, alt_text, sort_order, kind, status ),
           catalog_listing_variants (
             sort_order,
@@ -472,6 +539,8 @@ export const getCatalog = cache(async (): Promise<CatalogData> => {
 
       const variants = mapListingVariants(row.catalog_listing_variants ?? []);
       const features = parseFeatures(description);
+      const imageVersion = laterTimestamp(row.updated_at, linked?.updated_at);
+      const colors = parseColors(row.colors, imageVersion);
       const specs = buildSpecs(
         {
           volume: linked?.volume ?? null,
@@ -483,7 +552,6 @@ export const getCatalog = cache(async (): Promise<CatalogData> => {
         features,
         variants,
       );
-      const imageVersion = laterTimestamp(row.updated_at, linked?.updated_at);
       const images = mapListingImages(
         row.title,
         linked?.image_url || row.primary_image_url || null,
@@ -512,6 +580,7 @@ export const getCatalog = cache(async (): Promise<CatalogData> => {
         suitable: siteCategory?.suitable ?? [],
         related: [],
         features,
+        colors,
       });
     }
 

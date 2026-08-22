@@ -10,9 +10,8 @@ export function ProductBlueprint({ blueprint }: { blueprint: Blueprint }) {
         <Image
           src={blueprint.src}
           alt={blueprint.alt}
-          width={900}
-          height={620}
-          sizes="(max-width: 900px) 92vw, 380px"
+          fill
+          sizes="(max-width: 900px) 92vw, 360px"
           quality={72}
           loading="eager"
           unoptimized={isLocal}

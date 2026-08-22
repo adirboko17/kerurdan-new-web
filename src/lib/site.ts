@@ -14,6 +14,8 @@ export const SITE = {
   address: "תוצרת הארץ 38, באר שבע",
   facebook: "https://www.facebook.com/kerurdan",
   instagram: "https://www.instagram.com/kerur_dan/",
+  accessibilityContact: "קירור דן",
+  accessibilityUpdated: "21 באוגוסט 2026",
   accent: "#1e5f87",
 } as const;
 

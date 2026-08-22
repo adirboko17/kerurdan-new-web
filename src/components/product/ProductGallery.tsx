@@ -1,14 +1,25 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useProductMedia } from "@/components/product/ProductMediaContext";
 import { ImageSlot } from "@/components/ui/ImageSlot";
 import { SiteImage } from "@/components/ui/SiteImage";
 import type { Product } from "@/lib/types";
 
 export function ProductGallery({ product }: { product: Product }) {
+  const media = useProductMedia();
   const [shot, setShot] = useState(0);
-  const current = product.images[shot] ?? product.images[0];
+  const [fromThumb, setFromThumb] = useState(false);
+
+  useEffect(() => {
+    setFromThumb(false);
+  }, [media?.selectedKey]);
+
+  const colorImage = !fromThumb && media?.activeImageSrc
+    ? { src: media.activeImageSrc, alt: product.name, fit: "contain" as const }
+    : null;
+  const current = colorImage ?? product.images[shot] ?? product.images[0];
 
   return (
     <div className="product-gallery">
@@ -37,7 +48,10 @@ export function ProductGallery({ product }: { product: Product }) {
               type="button"
               className="product-thumb"
               aria-label={index === 0 ? "תצלום ראשי" : "תצלום נוסף"}
-              onClick={() => setShot(index)}
+              onClick={() => {
+                setShot(index);
+                setFromThumb(true);
+              }}
               style={{
                 opacity: shot === index ? 1 : 0.45,
                 outline: shot === index ? "1.5px solid var(--ac)" : "none",

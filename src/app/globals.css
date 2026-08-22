@@ -1683,6 +1683,16 @@ img {
   color: rgba(255, 255, 255, 0.5);
 }
 
+.footer-legal {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+}
+
+.footer-legal a:hover {
+  color: #fff;
+}
+
 @media (min-width: 900px) {
   .footer-brand {
     grid-column: span 2;

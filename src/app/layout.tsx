@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { IBM_Plex_Mono, Noto_Sans_Hebrew } from "next/font/google";
 import { SiteLoader } from "@/components/layout/SiteLoader";
+import { CookieBanner } from "@/components/legal/CookieBanner";
+import { TrackingScripts } from "@/components/legal/TrackingScripts";
 import { SITE } from "@/lib/site";
 import "./globals.css";
 import "./home.css";
@@ -60,6 +62,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         />
         <SiteLoader />
         {children}
+        <TrackingScripts />
+        <CookieBanner />
       </body>
     </html>
   );
