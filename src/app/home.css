@@ -432,13 +432,20 @@
   }
 
   .home-contact-links {
-    gap: 14px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
     margin-top: 14px;
     padding-top: 12px;
   }
 
-  .home-contact-phone {
-    font-size: 18px;
+  .home-contact-btn {
+    min-height: 46px;
+    padding: 10px 10px;
+    font-size: 13.5px;
+    border-radius: 10px;
+    box-shadow: none;
+    white-space: nowrap;
   }
 
   .contact-form {
@@ -1603,24 +1610,60 @@
 .home-contact-links {
   display: flex;
   flex-wrap: wrap;
-  gap: 18px;
-  align-items: center;
+  gap: 10px;
+  align-items: stretch;
   margin-top: 24px;
   padding-top: 20px;
   border-top: 1px solid rgba(255, 255, 255, 0.14);
 }
 
-.home-contact-phone {
-  font-size: clamp(19px, 1.8vw, 26px);
-  font-weight: 500;
+.home-contact-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 11px 16px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+  text-decoration: none;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.06);
+  transition:
+    background 0.2s,
+    border-color 0.2s;
+}
+
+.home-contact-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.28);
+}
+
+.home-contact-btn.is-wa {
+  background: #25d366;
+  border-color: transparent;
   color: #fff;
 }
 
-.home-contact-wa {
-  font-size: 14.5px;
-  color: rgba(255, 255, 255, 0.7);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-  padding-bottom: 2px;
+.home-contact-btn.is-wa:hover {
+  background: #1ebe5d;
+  border-color: transparent;
+}
+
+.home-contact-btn-icon {
+  display: grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  flex: none;
+}
+
+.home-contact-btn-icon svg {
+  width: 18px;
+  height: 18px;
+  display: block;
 }
 
 .contact-form {
