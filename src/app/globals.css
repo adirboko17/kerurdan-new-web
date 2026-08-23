@@ -691,6 +691,23 @@ img {
   position: relative;
 }
 
+.field.is-invalid input,
+.quote-form .field.is-invalid input,
+.contact-form .field.is-invalid input,
+.lead-form .field.is-invalid input,
+.quote-pop-field.is-invalid input {
+  border-color: #c2463a;
+}
+
+.field-error {
+  display: block;
+  margin: 8px 0 0;
+  color: #c2463a;
+  font-size: 12.5px;
+  font-style: normal;
+  font-weight: 500;
+}
+
 .field-caret {
   position: absolute;
   left: 16px;

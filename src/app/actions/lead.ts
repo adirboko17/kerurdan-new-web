@@ -1,6 +1,7 @@
 "use server";
 
 import { sendLeadEmail } from "@/lib/email";
+import { parseIsraeliPhone } from "@/lib/phone";
 
 export type LeadInput = {
   source: "contact" | "footer" | "home";
@@ -25,10 +26,14 @@ export async function submitLead(input: LeadInput) {
   }
 
   const name = trim(input.name, 80);
-  const phone = trim(input.phone, 30);
+  const phone = parseIsraeliPhone(input.phone);
 
-  if (!name || !phone) {
+  if (!name) {
     return { ok: false as const, error: "missing" };
+  }
+
+  if (!phone) {
+    return { ok: false as const, error: "phone" };
   }
 
   const result = await sendLeadEmail({

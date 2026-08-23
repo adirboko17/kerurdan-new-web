@@ -1,6 +1,7 @@
 "use server";
 
 import { sendLeadEmail } from "@/lib/email";
+import { parseIsraeliPhone } from "@/lib/phone";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export type QuoteRequestInput = {
@@ -14,16 +15,20 @@ export type QuoteRequestInput = {
 
 export async function submitProductQuote(input: QuoteRequestInput) {
   const name = input.name.trim();
-  const phone = input.phone.trim();
+  const phone = parseIsraeliPhone(input.phone);
   const city = input.city.trim();
   const productName = input.productName.trim();
   const productSlug = input.productSlug.trim();
 
-  if (!name || !phone || !city || !productName) {
+  if (!name || !city || !productName) {
     return { ok: false as const, error: "missing" };
   }
 
-  if (name.length > 80 || phone.length > 30 || city.length > 60) {
+  if (!phone) {
+    return { ok: false as const, error: "phone" };
+  }
+
+  if (name.length > 80 || city.length > 60) {
     return { ok: false as const, error: "invalid" };
   }
 

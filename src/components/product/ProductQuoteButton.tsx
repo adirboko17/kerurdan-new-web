@@ -3,6 +3,8 @@
 import { FormEvent, useEffect, useId, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { submitProductQuote } from "@/app/actions/quote-request";
+import { PhoneField } from "@/components/ui/PhoneField";
+import { parseIsraeliPhone } from "@/lib/phone";
 
 type Origin = { top: number; left: number; width: number; height: number };
 type Phase = "closed" | "opening" | "open" | "closing";
@@ -194,13 +196,20 @@ export function ProductQuoteButton({
     event.preventDefault();
     if (sending) return;
 
-    const data = new FormData(event.currentTarget);
+    const form = event.currentTarget;
+    const data = new FormData(form);
+    const phone = parseIsraeliPhone(String(data.get("phone") ?? ""));
+    if (!phone) {
+      form.reportValidity();
+      return;
+    }
+
     setSending(true);
     setError(false);
 
     const result = await submitProductQuote({
       name: String(data.get("name") ?? ""),
-      phone: String(data.get("phone") ?? ""),
+      phone,
       city: String(data.get("city") ?? ""),
       productName,
       productSlug,
@@ -280,18 +289,7 @@ export function ProductQuoteButton({
                         <span>שם מלא</span>
                         <input ref={nameRef} name="name" type="text" placeholder="שם מלא" autoComplete="name" required />
                       </label>
-                      <label className="field quote-pop-field">
-                        <span>מספר טלפון</span>
-                        <input
-                          name="phone"
-                          type="tel"
-                          inputMode="tel"
-                          placeholder="050-0000000"
-                          autoComplete="tel"
-                          required
-                          style={{ direction: "ltr", textAlign: "right" }}
-                        />
-                      </label>
+                      <PhoneField className="field quote-pop-field" label="מספר טלפון" />
                       <label className="field quote-pop-field">
                         <span>עיר</span>
                         <input name="city" type="text" placeholder="עיר" autoComplete="address-level2" required />

@@ -3,6 +3,8 @@
 import { FormEvent, useState } from "react";
 import Link from "next/link";
 import { submitLead } from "@/app/actions/lead";
+import { PhoneField } from "@/components/ui/PhoneField";
+import { parseIsraeliPhone } from "@/lib/phone";
 import { SITE } from "@/lib/site";
 
 type QuoteFormProps = {
@@ -28,14 +30,21 @@ export function QuoteForm({ compact = false, light = false }: QuoteFormProps) {
     event.preventDefault();
     if (sending) return;
 
-    const data = new FormData(event.currentTarget);
+    const form = event.currentTarget;
+    const data = new FormData(form);
+    const phone = parseIsraeliPhone(String(data.get("phone") ?? ""));
+    if (!phone) {
+      form.reportValidity();
+      return;
+    }
+
     setSending(true);
     setError(false);
 
     const result = await submitLead({
       source: compact ? "footer" : light ? "home" : "contact",
       name: String(data.get("name") ?? ""),
-      phone: String(data.get("phone") ?? ""),
+      phone,
       email: String(data.get("email") ?? ""),
       city: String(data.get("city") ?? ""),
       business: String(data.get("business") ?? ""),
@@ -101,10 +110,7 @@ export function QuoteForm({ compact = false, light = false }: QuoteFormProps) {
           <input name="name" type="text" placeholder="שם מלא" required />
         </label>
         <div className="lead-form-row">
-          <label className="field">
-            <span>טלפון</span>
-            <input name="phone" type="tel" placeholder="050-0000000" required style={{ direction: "ltr", textAlign: "right" }} />
-          </label>
+          <PhoneField />
           <label className="field">
             <span>עיר</span>
             <input name="city" type="text" placeholder="עיר" required />
@@ -135,10 +141,7 @@ export function QuoteForm({ compact = false, light = false }: QuoteFormProps) {
           <input name="name" type="text" placeholder="שם מלא" required />
         </label>
         <div className="lead-form-row">
-          <label className="field">
-            <span>טלפון</span>
-            <input name="phone" type="tel" placeholder="050-0000000" required style={{ direction: "ltr", textAlign: "right" }} />
-          </label>
+          <PhoneField />
           <label className="field field-wrap">
             <span>סוג הציוד</span>
             <select name="topic" defaultValue="חלביות">
@@ -174,10 +177,7 @@ export function QuoteForm({ compact = false, light = false }: QuoteFormProps) {
           <span>שם העסק</span>
           <input name="business" type="text" placeholder="שם העסק" />
         </label>
-        <label className="field">
-          <span>טלפון</span>
-          <input name="phone" type="tel" placeholder="050-0000000" required style={{ direction: "ltr", textAlign: "right" }} />
-        </label>
+        <PhoneField />
         <label className="field">
           <span>אימייל</span>
           <input name="email" type="email" placeholder="name@business.co.il" style={{ direction: "ltr", textAlign: "right" }} />
