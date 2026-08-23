@@ -2,6 +2,7 @@
 
 import { sendLeadEmail } from "@/lib/email";
 import { parseIsraeliPhone } from "@/lib/phone";
+import { insertWebsiteLead } from "@/lib/website-leads";
 
 export type LeadInput = {
   source: "contact" | "footer" | "home";
@@ -36,22 +37,51 @@ export async function submitLead(input: LeadInput) {
     return { ok: false as const, error: "phone" };
   }
 
-  const result = await sendLeadEmail({
+  const email = trim(input.email, 120) || undefined;
+  const city = trim(input.city, 60) || undefined;
+  const business = trim(input.business, 80) || undefined;
+  const businessType = trim(input.businessType, 60) || undefined;
+  const topic = trim(input.topic, 60) || undefined;
+  const message = trim(input.message, 2000) || undefined;
+
+  if (input.source === "footer" || input.source === "contact") {
+    const saved = await insertWebsiteLead(
+      input.source === "footer"
+        ? {
+            source_area: "footer",
+            name,
+            phone,
+            equipment_type: topic,
+          }
+        : {
+            source_area: "contact",
+            name,
+            business_name: business,
+            phone,
+            email,
+            business_type: businessType,
+            equipment_type: topic,
+            message,
+          },
+    );
+
+    if (!saved.ok) {
+      return { ok: false as const, error: saved.error };
+    }
+  }
+
+  await sendLeadEmail({
     source:
       input.source === "footer" ? "פוטר" : input.source === "home" ? "דף הבית" : "צור קשר",
     name,
     phone,
-    email: trim(input.email, 120) || undefined,
-    city: trim(input.city, 60) || undefined,
-    business: trim(input.business, 80) || undefined,
-    businessType: trim(input.businessType, 60) || undefined,
-    topic: trim(input.topic, 60) || undefined,
-    message: trim(input.message, 2000) || undefined,
+    email,
+    city,
+    business,
+    businessType,
+    topic,
+    message,
   });
-
-  if (!result.ok) {
-    return { ok: false as const, error: result.error };
-  }
 
   return { ok: true as const };
 }

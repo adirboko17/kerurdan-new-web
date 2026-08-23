@@ -2,7 +2,7 @@
 
 import { sendLeadEmail } from "@/lib/email";
 import { parseIsraeliPhone } from "@/lib/phone";
-import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { insertWebsiteLead } from "@/lib/website-leads";
 
 export type QuoteRequestInput = {
   name: string;
@@ -18,7 +18,6 @@ export async function submitProductQuote(input: QuoteRequestInput) {
   const phone = parseIsraeliPhone(input.phone);
   const city = input.city.trim();
   const productName = input.productName.trim();
-  const productSlug = input.productSlug.trim();
 
   if (!name || !city || !productName) {
     return { ok: false as const, error: "missing" };
@@ -32,25 +31,16 @@ export async function submitProductQuote(input: QuoteRequestInput) {
     return { ok: false as const, error: "invalid" };
   }
 
-  const supabase = createSupabaseServerClient();
-  const { error } = await supabase.from("catalog_quote_requests").insert({
-    customer_name: name,
-    customer_phone: phone,
-    customer_city: city,
-    notes: `בקשה מעמוד מוצר: ${productName}`,
-    items: [
-      {
-        type: "product",
-        name: productName,
-        slug: productSlug,
-        id: input.productId ?? null,
-      },
-    ],
-    status: "new",
+  const saved = await insertWebsiteLead({
+    source_area: "product",
+    name,
+    phone,
+    city,
+    product_context: productName,
   });
 
-  if (error) {
-    return { ok: false as const, error: "save" };
+  if (!saved.ok) {
+    return { ok: false as const, error: saved.error };
   }
 
   await sendLeadEmail({
