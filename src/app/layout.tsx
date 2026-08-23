@@ -41,6 +41,10 @@ export const metadata: Metadata = {
     template: `%s | ${SITE.name}`,
   },
   description: SITE.description,
+  icons: {
+    icon: [{ url: "/favicon.png", type: "image/png", sizes: "512x512" }],
+    apple: [{ url: "/favicon.png", sizes: "512x512" }],
+  },
   other: {
     "apple-mobile-web-app-status-bar-style": "black-translucent",
   },
