@@ -2,6 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import Link from "next/link";
+import { submitLead } from "@/app/actions/lead";
 import { SITE } from "@/lib/site";
 
 type QuoteFormProps = {
@@ -9,11 +10,46 @@ type QuoteFormProps = {
   light?: boolean;
 };
 
+function Honeypot() {
+  return (
+    <label className="hp" aria-hidden="true">
+      <span>אתר</span>
+      <input name="website" type="text" tabIndex={-1} autoComplete="off" />
+    </label>
+  );
+}
+
 export function QuoteForm({ compact = false, light = false }: QuoteFormProps) {
   const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState(false);
 
-  function onSubmit(event: FormEvent<HTMLFormElement>) {
+  async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (sending) return;
+
+    const data = new FormData(event.currentTarget);
+    setSending(true);
+    setError(false);
+
+    const result = await submitLead({
+      source: compact ? "footer" : light ? "home" : "contact",
+      name: String(data.get("name") ?? ""),
+      phone: String(data.get("phone") ?? ""),
+      email: String(data.get("email") ?? ""),
+      city: String(data.get("city") ?? ""),
+      business: String(data.get("business") ?? ""),
+      businessType: String(data.get("biz") ?? ""),
+      topic: String(data.get("topic") ?? data.get("solution") ?? ""),
+      message: String(data.get("message") ?? ""),
+      website: String(data.get("website") ?? ""),
+    });
+
+    setSending(false);
+    if (!result.ok) {
+      setError(true);
+      return;
+    }
     setSent(true);
   }
 
@@ -49,6 +85,9 @@ export function QuoteForm({ compact = false, light = false }: QuoteFormProps) {
     );
   }
 
+  const errorNote = error ? <p className="form-submit-error">לא הצלחנו לשלוח. נסו שוב או התקשרו.</p> : null;
+  const submitLabel = sending ? "שולחים..." : "שליחה";
+
   if (light) {
     return (
       <form className="lead-form" onSubmit={onSubmit}>
@@ -56,6 +95,7 @@ export function QuoteForm({ compact = false, light = false }: QuoteFormProps) {
           <div className="lead-form-title">השאירו פרטים</div>
           <p className="lead-form-note">נחזור אליכם עם כיוון לציוד שמתאים לעסק.</p>
         </div>
+        <Honeypot />
         <label className="field">
           <span>שם מלא</span>
           <input name="name" type="text" placeholder="שם מלא" required />
@@ -74,8 +114,9 @@ export function QuoteForm({ compact = false, light = false }: QuoteFormProps) {
           <span>הודעה</span>
           <textarea name="message" rows={3} placeholder="ספרו לנו על העסק, החלל או הציוד שאתם מחפשים" />
         </label>
-        <button type="submit" className="btn btn-ink">
-          שליחה
+        {errorNote}
+        <button type="submit" className="btn btn-ink" disabled={sending}>
+          {submitLabel}
         </button>
       </form>
     );
@@ -88,6 +129,7 @@ export function QuoteForm({ compact = false, light = false }: QuoteFormProps) {
           <div className="contact-form-title">השאירו פרטים</div>
           <p className="contact-form-note">נחזור אליכם בהקדם עם כיוון מתאים.</p>
         </div>
+        <Honeypot />
         <label className="field">
           <span>שם מלא</span>
           <input name="name" type="text" placeholder="שם מלא" required />
@@ -108,8 +150,9 @@ export function QuoteForm({ compact = false, light = false }: QuoteFormProps) {
             <span className="field-caret">▾</span>
           </label>
         </div>
-        <button type="submit" className="btn btn-white">
-          שליחה
+        {errorNote}
+        <button type="submit" className="btn btn-white" disabled={sending}>
+          {submitLabel}
         </button>
       </form>
     );
@@ -121,6 +164,7 @@ export function QuoteForm({ compact = false, light = false }: QuoteFormProps) {
         <div className="quote-form-title">השאירו פרטים</div>
         <p className="quote-form-note">נחזור אליכם עם תצורה שמתאימה לעסק ולחלל.</p>
       </div>
+      <Honeypot />
       <div className="quote-form-grid">
         <label className="field">
           <span>שם מלא</span>
@@ -166,8 +210,9 @@ export function QuoteForm({ compact = false, light = false }: QuoteFormProps) {
           <textarea name="message" rows={4} placeholder="מידות החלל, מה מוצג, מתי צריך" />
         </label>
       </div>
-      <button type="submit" className="btn btn-ink">
-        שליחה
+      {errorNote}
+      <button type="submit" className="btn btn-ink" disabled={sending}>
+        {submitLabel}
       </button>
     </form>
   );

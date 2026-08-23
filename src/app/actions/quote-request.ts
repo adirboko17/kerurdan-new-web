@@ -1,5 +1,6 @@
 "use server";
 
+import { sendLeadEmail } from "@/lib/email";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export type QuoteRequestInput = {
@@ -46,6 +47,14 @@ export async function submitProductQuote(input: QuoteRequestInput) {
   if (error) {
     return { ok: false as const, error: "save" };
   }
+
+  await sendLeadEmail({
+    source: "עמוד מוצר",
+    name,
+    phone,
+    city,
+    productName,
+  });
 
   return { ok: true as const };
 }
