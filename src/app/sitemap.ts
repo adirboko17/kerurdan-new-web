@@ -6,7 +6,18 @@ export const revalidate = 120;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const { categories, products } = await getCatalog();
-  const staticRoutes = ["", "/catalog", "/solutions", "/projects", "/about", "/contact", "/accessibility", "/privacy"];
+  const staticRoutes = [
+    "",
+    "/catalog",
+    "/solutions",
+    "/projects",
+    "/about",
+    "/contact",
+    "/accessibility",
+    "/privacy",
+    "/llms.txt",
+    "/llms-full.txt",
+  ];
 
   return [
     ...staticRoutes.map((path) => ({
