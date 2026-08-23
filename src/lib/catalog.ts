@@ -750,7 +750,11 @@ export async function getSelectedProducts() {
   const picks: Product[] = [];
 
   for (const slug of order) {
-    const match = withImages.find((item) => item.category === slug);
+    const preferredTitle = CATEGORY_PREVIEW_TITLES[slug];
+    const preferred = preferredTitle
+      ? withImages.find((item) => item.category === slug && item.name === preferredTitle)
+      : undefined;
+    const match = preferred ?? withImages.find((item) => item.category === slug);
     if (match) picks.push(match);
   }
 
