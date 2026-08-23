@@ -21,8 +21,8 @@ const PARENT_SLUGS: Record<string, CategorySlug> = {
 };
 
 const CATEGORY_PREVIEW_TITLES: Partial<Record<CategorySlug, string>> = {
-  refrigerators: "מקרר עומד - 2 דלתות (שחור)",
-  freezers: "מקפיא משולב (קומבי) - ARV",
+  refrigerators: "Brooklyn - מקרר עומד 2 דלתות",
+  freezers: "Madrid - מקפיא שוכב",
 };
 
 const SUBCATEGORY_PRIORITY = [

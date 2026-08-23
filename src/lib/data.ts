@@ -65,8 +65,8 @@ export const categories: Category[] = [
       fit: "cover",
     },
     catalogImage: {
-      src: "https://wunisbfgiyyarlamvfhu.supabase.co/storage/v1/object/public/product-images/photospro/d2b89525-1a20-40d6-9b4f-df7dd88286da/1787263820870-__________2____________.png",
-      alt: "מקרר עומד - 2 דלתות (שחור)",
+      src: "https://wunisbfgiyyarlamvfhu.supabase.co/storage/v1/object/public/product-images/photospro/d2b89525-1a20-40d6-9b4f-df7dd88286da/1787476785597-__________2____________.png",
+      alt: "Brooklyn - מקרר עומד 2 דלתות",
       fit: "contain",
     },
     heroFit: "cover",
@@ -86,6 +86,11 @@ export const categories: Category[] = [
       "הקפאה יציבה תלויה באיטום, בבידוד ובכמות פתיחות הדלת ביום. ככל שהמלאי הקפוא גדול יותר, כדאי להפריד בין אחסון לבין תצוגה - כך לא מפשירים את כל הנפח בכל פתיחה.",
       "הבחירה נקבעת לפי כמות המלאי, תדירות ההזמנות והמקום שיש בעורף החנות. כדאי לקחת בחשבון גם חשמל ומעברי הובלה לפני שמזמינים.",
     ],
+    catalogImage: {
+      src: "https://wunisbfgiyyarlamvfhu.supabase.co/storage/v1/object/public/product-images/photospro/e8caeffd-c8bd-4adf-a5fe-0eaef7f6a1d1/1787265642274-___________ECH.png",
+      alt: "Madrid - מקפיא שוכב",
+      fit: "contain",
+    },
     placeholder: "צילום מקפיא תעשייתי",
     suitable: ["קצביות", "חנויות מזון ומכולות", "בתי קפה"],
     ctaTitle: "צריכים יותר נפח הקפאה?",
