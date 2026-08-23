@@ -3,6 +3,7 @@ import { IBM_Plex_Mono, Noto_Sans_Hebrew } from "next/font/google";
 import { SiteLoader } from "@/components/layout/SiteLoader";
 import { WhatsAppFloat } from "@/components/layout/WhatsAppFloat";
 import { CookieBanner } from "@/components/legal/CookieBanner";
+import { GoogleTagManagerNoscript, GoogleTagManagerScript } from "@/components/legal/GoogleTagManager";
 import { TrackingScripts } from "@/components/legal/TrackingScripts";
 import { SITE } from "@/lib/site";
 import "./globals.css";
@@ -56,6 +57,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="he" dir="rtl" className={`${hebrew.variable} ${mono.variable}`} suppressHydrationWarning>
       <body className={hebrew.className} suppressHydrationWarning>
+        <GoogleTagManagerScript />
+        <GoogleTagManagerNoscript />
         <script
           dangerouslySetInnerHTML={{
             __html: `try{if(sessionStorage.getItem("kd-intro")==="1")document.documentElement.classList.add("intro-done")}catch(e){}`,

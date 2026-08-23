@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { readCookieConsent, writeCookieConsent, type CookieConsent } from "@/lib/cookie-consent";
 
 const FULL_COPY =
-  "האתר משתמש בעוגיות חיוניות להפעלתו, ובעוגיות מדידה ופרסום (Google Analytics, Google Ads ו־Meta Pixel) לשיפור האתר ולמדידת קמפיינים.";
+  "האתר משתמש בעוגיות חיוניות להפעלתו, ובעוגיות מדידה ופרסום (Google Tag Manager, Google Analytics, Google Ads ו־Meta Pixel) לשיפור האתר ולמדידת קמפיינים.";
 
 export function CookieBanner() {
   const [visible, setVisible] = useState(false);

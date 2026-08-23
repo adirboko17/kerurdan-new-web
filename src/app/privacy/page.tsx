@@ -119,8 +119,9 @@ export default function PrivacyPage() {
 
           <h3>עוגיות אנליטיקה ומדידה</h3>
           <p>
-            האתר משתמש ב־<strong>Google Analytics</strong>, שעשוי לאסוף נתונים אודות אופן השימוש באתר לצורכי
-            סטטיסטיקה, מדידה, ניתוח ושיפור האתר.
+            האתר משתמש ב־<strong>Google Tag Manager</strong> להטמעת כלי מדידה ופרסום, וב־
+            <strong>Google Analytics</strong>, שעשוי לאסוף נתונים אודות אופן השימוש באתר לצורכי סטטיסטיקה,
+            מדידה, ניתוח ושיפור האתר.
           </p>
 
           <h3>עוגיות פרסום ומדידת המרות</h3>
@@ -155,7 +156,7 @@ export default function PrivacyPage() {
             <li>ספק מערכת ה־CRM שבה מנוהלות פניות.</li>
             <li>ספקי אחסון ותשתיות טכנולוגיות.</li>
             <li>ספקי תחזוקה ופיתוח של האתר.</li>
-            <li>Google, במסגרת Google Analytics ו־Google Ads.</li>
+            <li>Google, במסגרת Google Tag Manager, Google Analytics ו־Google Ads.</li>
             <li>Meta, במסגרת Meta Pixel.</li>
             <li>ספקים מקצועיים נוספים, ככל שנדרש לצורך מתן השירות, אבטחת המידע או פעילותו התקינה של האתר.</li>
           </ul>
