@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { IBM_Plex_Mono, Noto_Sans_Hebrew } from "next/font/google";
 import { SiteLoader } from "@/components/layout/SiteLoader";
+import { SalesChat } from "@/components/layout/SalesChat";
 import { WhatsAppFloat } from "@/components/layout/WhatsAppFloat";
 import { CookieBanner } from "@/components/legal/CookieBanner";
 import { GoogleTagManagerNoscript, GoogleTagManagerScript } from "@/components/legal/GoogleTagManager";
@@ -9,6 +10,7 @@ import { SITE } from "@/lib/site";
 import "./globals.css";
 import "./home.css";
 import "./pages.css";
+import "./sales-chat.css";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -71,6 +73,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <SiteLoader />
         {children}
         <TrackingScripts />
+        <SalesChat />
         <WhatsAppFloat />
         <CookieBanner />
       </body>

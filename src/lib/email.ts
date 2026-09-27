@@ -66,7 +66,7 @@ export async function sendLeadEmail(lead: LeadEmail) {
     from,
     to,
     ...(lead.email ? { replyTo: lead.email } : {}),
-    subject: `ליד חדש מהאתר — ${lead.name}`,
+    subject: `ליד חדש מהאתר - ${lead.name}`,
     html,
     text,
   });

@@ -20,7 +20,7 @@ export default function ContactPage() {
               <p className="contact-kicker">קירור דן · באר שבע</p>
               <h1>קבלו הצעת מחיר</h1>
               <p className="contact-lede">
-                ספרו לנו על העסק ועל החלל. נחזור עם תצורה מומלצת והצעה. אם זה דחוף — עדיף להתקשר.
+                ספרו לנו על העסק ועל החלל. נחזור עם תצורה מומלצת והצעה. אם זה דחוף - עדיף להתקשר.
               </p>
               <div className="contact-cards">
                 <a href={SITE.phoneHref} className="contact-card is-phone">

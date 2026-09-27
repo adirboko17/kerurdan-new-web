@@ -99,10 +99,10 @@ function HeroProject({ project }: { project: Project }) {
           gap: "clamp(16px,2.4vw,40px)",
         }}
       >
-        <Meta label="לקוח" value={project.client || "—"} />
-        <Meta label="מיקום" value={project.location || "—"} />
+        <Meta label="לקוח" value={project.client || "-"} />
+        <Meta label="מיקום" value={project.location || "-"} />
         {project.type ? <Meta label="סוג התקנה" value={project.type} /> : null}
-        <Meta label="ציוד" value={project.equipment || "—"} />
+        <Meta label="ציוד" value={project.equipment || "-"} />
       </div>
     </section>
   );
@@ -135,8 +135,8 @@ function Meta({ label, value }: { label: string; value: string }) {
 function ProjectCopy({
   title,
   text,
-  client = "—",
-  location = "—",
+  client = "-",
+  location = "-",
   equipment,
 }: {
   title: string;
@@ -158,7 +158,7 @@ function ProjectCopy({
       <div style={{ marginTop: 22, display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(130px,1fr))", gap: 16 }}>
         <Meta label="לקוח" value={client} />
         <Meta label="מיקום" value={location} />
-        <Meta label="ציוד" value={equipment || "—"} />
+        <Meta label="ציוד" value={equipment || "-"} />
       </div>
     </div>
   );
