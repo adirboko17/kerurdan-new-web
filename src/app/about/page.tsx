@@ -3,8 +3,8 @@ import { PageShell } from "@/components/layout/PageShell";
 import { BrandWall } from "@/components/ui/BrandWall";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { SiteImage } from "@/components/ui/SiteImage";
+import { getCatalog } from "@/lib/catalog";
 import { getPartnerLogos } from "@/lib/site-content";
-import { MEDIA } from "@/lib/site";
 
 export const revalidate = 120;
 
@@ -23,7 +23,14 @@ const audiences = [
 ];
 
 export default async function AboutPage() {
-  const brands = await getPartnerLogos();
+  const [brands, catalog] = await Promise.all([getPartnerLogos(), getCatalog()]);
+  const fridge = catalog.products.find((product) => product.name.includes("Malta D3") && product.images[0]);
+  const dairyProducts = catalog.products.filter((product) => product.category === "dairy" && product.images[0]);
+  const dairy =
+    dairyProducts.find((product) => product.subcategoryName?.includes("מנוע פנימי") || product.name.includes("מנוע פנימי")) ??
+    dairyProducts[0];
+  const fridgeImage = fridge?.images[0];
+  const dairyImage = dairy?.images[0];
 
   return (
     <PageShell active="about">
@@ -67,14 +74,16 @@ export default async function AboutPage() {
             </p>
           </div>
           <div className="about-photo about-photo-tall is-product" data-slot="about-need">
-            <SiteImage
-              src="https://pinyrmmysvagystjfonv.supabase.co/storage/v1/object/public/product-images/photospro/6e386f8d-9032-4d02-b0a5-b6e816782fc6/1781022305825-__________3___________.png"
-              alt="מקרר עומד 3 דלתות"
-              fit="contain"
-              padding="8%"
-              blend={false}
-              sizes="(max-width: 860px) 100vw, 560px"
-            />
+            {fridgeImage ? (
+              <SiteImage
+                src={fridgeImage.src}
+                alt={fridgeImage.alt}
+                fit="contain"
+                padding="8%"
+                blend={false}
+                sizes="(max-width: 860px) 100vw, 560px"
+              />
+            ) : null}
           </div>
         </div>
       </section>
@@ -82,14 +91,16 @@ export default async function AboutPage() {
       <section className="about-block">
         <div className="about-split is-rev">
           <div className="about-photo about-photo-mid is-product" data-slot="about-dan">
-            <SiteImage
-              src={`${MEDIA}/2025/02/${encodeURIComponent("מנוע-פנימי-הזזה")}-1.png`}
-              alt="חלבייה מנוע פנימי דלתות הזזה"
-              fit="contain"
-              padding="10%"
-              blend={false}
-              sizes="(max-width: 860px) 100vw, 560px"
-            />
+            {dairyImage ? (
+              <SiteImage
+                src={dairyImage.src}
+                alt={dairyImage.alt}
+                fit="contain"
+                padding="10%"
+                blend
+                sizes="(max-width: 860px) 100vw, 560px"
+              />
+            ) : null}
           </div>
           <div className="about-person">
             <span className="about-kicker">החברה</span>

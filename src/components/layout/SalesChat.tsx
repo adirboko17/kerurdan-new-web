@@ -27,6 +27,17 @@ type Turn = {
 
 const SUGGESTIONS = ["פותח מכולת וצריך קירור לחלב", "מחפש ויטרינה לקצבייה", "איזה מקרר עומד מתאים לבית קפה?"];
 
+function AdvisorIcon() {
+  return (
+    <svg className="is-bubble" viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        fillRule="evenodd"
+        d="M12 3.15c-4.72 0-8.45 3.18-8.45 7.02 0 2.14 1.18 4.05 3.02 5.32l-.62 2.72a.72.72 0 0 0 1.05.8l3.05-1.55c.62.12 1.28.18 1.95.18 4.72 0 8.45-3.18 8.45-7.02S16.72 3.15 12 3.15zM8.15 9.35a1.12 1.12 0 1 1 0 2.24 1.12 1.12 0 0 1 0-2.24zm3.85 0a1.12 1.12 0 1 1 0 2.24 1.12 1.12 0 0 1 0-2.24zm3.85 0a1.12 1.12 0 1 1 0 2.24 1.12 1.12 0 0 1 0-2.24z"
+      />
+    </svg>
+  );
+}
+
 function wantsQuote(text: string) {
   if (/לא רוצה|לא מעוניין|לא מעוניינת|לא צריך/.test(text)) return false;
   return /רוצה|מתאים|אהבתי|מעוניין|מעוניינת|הצעת מחיר|תחזרו|תחזור|תתקשרו|תתקשר|אשמח|נשמח|להזמין/.test(text);
@@ -204,11 +215,19 @@ export function SalesChat() {
   return (
     <div className={`sales-chat${open ? " is-open" : ""}`}>
       {open ? (
-        <section className="sales-chat-panel" role="dialog" aria-label="יועץ ציוד של קירור דן">
+        <section className="sales-chat-panel" role="dialog" aria-label="יועץ קירור דן">
           <header className="sales-chat-head">
-            <div>
-              <strong>יועץ ציוד</strong>
-              <span>המלצה לפי הקטלוג, בלי מחירים</span>
+            <div className="sales-chat-brand">
+              <span className="sales-chat-mark" aria-hidden="true">
+                <AdvisorIcon />
+              </span>
+              <div>
+                <strong>יועץ קירור דן</strong>
+                <span className="sales-chat-status">
+                  <i aria-hidden="true" />
+                  זמין
+                </span>
+              </div>
             </div>
             <button type="button" className="sales-chat-close" onClick={() => setOpen(false)} aria-label="סגירת היועץ">
               <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -249,14 +268,26 @@ export function SalesChat() {
               );
             })}
 
-            {sending ? <p className="sales-chat-wait">בודק מה מתאים מהקטלוג…</p> : null}
+            {sending ? (
+              <p className="sales-chat-wait" role="status">
+                <span className="sales-chat-dots" aria-hidden="true">
+                  <i />
+                  <i />
+                  <i />
+                </span>
+                בודק מה מתאים מהקטלוג…
+              </p>
+            ) : null}
             {error ? <p className="sales-chat-error">{error}</p> : null}
 
             {!turns.length && !sending ? (
               <div className="sales-chat-suggestions">
                 {SUGGESTIONS.map((suggestion) => (
                   <button key={suggestion} type="button" onClick={() => void send(suggestion)}>
-                    {suggestion}
+                    <span>{suggestion}</span>
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M14 6 8 12l6 6" />
+                    </svg>
                   </button>
                 ))}
               </div>
@@ -295,32 +326,12 @@ export function SalesChat() {
         type="button"
         className="sales-chat-toggle"
         aria-expanded={open}
-        aria-label={open ? "סגירת היועץ" : "פתיחת יועץ הציוד"}
+        aria-label={open ? "סגירת היועץ" : "פתיחת יועץ קירור דן"}
         onClick={() => setOpen((value) => !value)}
       >
-        <span className="sales-chat-label">{open ? "סגירה" : "יועץ"}</span>
+        <span className="sales-chat-label">יועץ</span>
         <span className="sales-chat-icon">
-          {open ? (
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M6 6l12 12M18 6L6 18" />
-            </svg>
-          ) : (
-            <svg className="is-agent" viewBox="0 0 48 48" aria-hidden="true">
-              <path
-                fill="currentColor"
-                d="M12.6 21C12.6 14.2 17.6 8.4 24 8.4S35.4 14.2 35.4 21v1.4h-3.6V21c0-4.4-3.5-8-7.8-8s-7.8 3.6-7.8 8v1.4h-3.6V21z"
-              />
-              <path
-                fill="currentColor"
-                d="M7.4 19.2h5.2c.8 0 1.5.7 1.5 1.5v8.2c0 .8-.7 1.5-1.5 1.5H7.4c-.8 0-1.5-.7-1.5-1.5v-8.2c0-.8.7-1.5 1.5-1.5zm28 0h5.2c.8 0 1.5.7 1.5 1.5v8.2c0 .8-.7 1.5-1.5 1.5h-5.2c-.8 0-1.5-.7-1.5-1.5v-8.2c0-.8.7-1.5 1.5-1.5z"
-              />
-              <circle cx="24" cy="23.4" r="6.1" fill="currentColor" />
-              <path
-                fill="currentColor"
-                d="M17.2 30.6c2.1-1.5 4.2-2.1 6.8-2.1s4.7.6 6.8 2.1c2.5 1.8 4.4 6.4 4.8 10.8.2 1.4-.9 2.7-2.4 2.7H14.8c-1.5 0-2.6-1.3-2.4-2.7.4-4.4 2.3-9 4.8-10.8z"
-              />
-            </svg>
-          )}
+          <AdvisorIcon />
         </span>
       </button>
     </div>

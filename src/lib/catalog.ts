@@ -21,7 +21,7 @@ const PARENT_SLUGS: Record<string, CategorySlug> = {
 };
 
 const CATEGORY_PREVIEW_TITLES: Partial<Record<CategorySlug, string>> = {
-  refrigerators: "Brooklyn - מקרר עומד 2 דלתות",
+  refrigerators: "Malta D3 - מקרר עומד 3 דלתות",
   freezers: "Madrid - מקפיא שוכב",
 };
 
@@ -725,7 +725,7 @@ const FEATURED_TITLES = [
   "חלבייה דלתות הזזה - BFG",
   "חלבייה פתוחה דופן זכוכית - ELF",
   "מעדנייה זכוכית ישרה מנוע פנימי - ARAMA",
-  "מקרר עומד - 3 דלתות (שחור)",
+  "Malta D3 - מקרר עומד 3 דלתות",
   "מקרר עומד - 4 דלתות (לבן)",
   "מקפיא משולב (קומבי) - ARV",
   "מקפיא שוכב - ECH",

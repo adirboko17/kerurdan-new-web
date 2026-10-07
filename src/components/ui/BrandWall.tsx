@@ -18,7 +18,7 @@ export function BrandWall({ brands }: { brands: Brand[] }) {
         </div>
       ))}
       <div className="brand-cell brand-more">
-        <span>+120 עסקים</span>
+        <span>+1000 עסקים</span>
       </div>
     </div>
   );

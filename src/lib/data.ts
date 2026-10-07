@@ -65,8 +65,8 @@ export const categories: Category[] = [
       fit: "cover",
     },
     catalogImage: {
-      src: "https://wunisbfgiyyarlamvfhu.supabase.co/storage/v1/object/public/product-images/photospro/d2b89525-1a20-40d6-9b4f-df7dd88286da/1787476785597-__________2____________.png",
-      alt: "Brooklyn - מקרר עומד 2 דלתות",
+      src: "https://wunisbfgiyyarlamvfhu.supabase.co/storage/v1/object/public/product-images/photospro/8dd3548f-5c76-4917-9839-a467282bdd43/1787476549071-__________3____________.png",
+      alt: "Malta D3 - מקרר עומד 3 דלתות",
       fit: "contain",
     },
     heroFit: "cover",
