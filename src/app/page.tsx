@@ -23,7 +23,7 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: `${SITE.name} | הקור שמחזיק את העסק שלך`,
-  description: SITE.description,
+  description: "קירור דן – מעל 30 שנה בענף הקירור. פתרונות קירור מסחריים ותעשייתיים מהתכנון ועד ההתקנה.",
 };
 
 export default async function HomePage() {
