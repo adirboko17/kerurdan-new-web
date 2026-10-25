@@ -1,4 +1,3 @@
-import { DarkCta } from "@/components/ui/DarkCta";
 import { SITE } from "@/lib/site";
 
 type GuideContactCtaProps = {
@@ -11,10 +10,10 @@ export function GuideContactCta({
   lead = "התקשרו או שלחו וואטסאפ – נעזור להתאים ציוד לעסק שלכם.",
 }: GuideContactCtaProps) {
   return (
-    <DarkCta
-      title={title}
-      text={lead}
-      actions={
+    <section className="guide-contact-cta" aria-label="יצירת קשר">
+      <div className="guide-contact-cta-inner">
+        <h2>{title}</h2>
+        <p>{lead}</p>
         <div className="guide-cta-actions">
           <a href={SITE.phoneHref} className="btn btn-blue guide-cta-phone">
             <span className="guide-cta-icon" aria-hidden="true">
@@ -44,7 +43,7 @@ export function GuideContactCta({
             <span>וואטסאפ</span>
           </a>
         </div>
-      }
-    />
+      </div>
+    </section>
   );
 }
