@@ -9,7 +9,7 @@ type Block =
   | { type: "ul"; items: string[] }
   | { type: "table"; headers: string[]; rows: string[][] };
 
-const REVIEW_MARK_PATTERN = /\[לבדיק[^\]]*\]/g;
+const REVIEW_MARK_PATTERN = /\[לבד(?:יק|וק)[^\]]*\]/g;
 
 function stripReviewMarks(text: string): string {
   return text.replace(REVIEW_MARK_PATTERN, "").replace(/\s{2,}/g, " ").trim();
