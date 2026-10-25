@@ -2531,6 +2531,7 @@ html:has(.site-intro:not(.is-leaving)) .cookie-bar {
   display: flex;
   flex-direction: column;
   height: 100%;
+  min-width: 0;
   border-radius: 18px;
   background: #fff;
   border: 1px solid rgba(10, 11, 12, 0.08);
@@ -2550,9 +2551,19 @@ html:has(.site-intro:not(.is-leaving)) .cookie-bar {
 }
 
 .guides-card-media {
+  position: relative;
   aspect-ratio: 16 / 10;
+  width: 100%;
+  flex-shrink: 0;
   background: var(--paper);
   border-bottom: 1px solid rgba(10, 11, 12, 0.06);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.guides-card-media .slot {
+  position: absolute;
+  inset: 0;
 }
 
 .guides-card-text-only {
@@ -2871,12 +2882,19 @@ html:has(.site-intro:not(.is-leaving)) .cookie-bar {
 }
 
 .guide-category-media {
+  position: relative;
   width: 72px;
   height: 56px;
   flex-shrink: 0;
   border-radius: 10px;
   background: var(--paper);
   overflow: hidden;
+  isolation: isolate;
+}
+
+.guide-category-media .slot {
+  position: absolute;
+  inset: 0;
 }
 
 .guide-category-name {
@@ -2896,6 +2914,13 @@ html:has(.site-intro:not(.is-leaving)) .cookie-bar {
 
 .guide-product-carousel {
   margin-top: 8px;
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.guide-related-catalog {
+  overflow-x: clip;
 }
 
 .guide-more {

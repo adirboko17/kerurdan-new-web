@@ -18,7 +18,13 @@ export function GuideIndexCard({ guide }: { guide: GuideArticleMeta }) {
       <Link href={`/guides/${guide.slug}`} className="guides-card">
         <div className="guides-card-media">
           {image ? (
-            <SiteImage src={image.src} alt={image.alt} fit="contain" padding="12%" />
+            <SiteImage
+              src={image.src}
+              alt={image.alt}
+              fit="contain"
+              padding="12%"
+              sizes="(max-width: 640px) 100vw, (max-width: 1023px) 50vw, 360px"
+            />
           ) : (
             <ImageSlot placeholder={primaryCategory?.placeholder ?? guide.h1} />
           )}

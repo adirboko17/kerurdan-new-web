@@ -52,7 +52,7 @@ export async function GuideRelatedCatalog({ slug, bodyMarkdown }: GuideRelatedCa
 
   return (
     <section className="guide-related-catalog section-pad">
-      <div className="guide-related-catalog-inner">
+      <div className="guide-container guide-related-catalog-inner">
         <div className="guide-section-head">
           <h2>מהקטלוג</h2>
           <p>דגמים וקטגוריות שמוזכרים במדריך – לפרטים, מידות והצעת מחיר.</p>
