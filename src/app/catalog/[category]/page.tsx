@@ -22,13 +22,24 @@ export async function generateStaticParams() {
   return categories.map((category) => ({ category: category.slug }));
 }
 
+function categoryPageTitle(category: { seoTitle?: string; name: string }) {
+  if (category.seoTitle) {
+    const suffix = ` | ${SITE.name}`;
+    if (category.seoTitle.includes(suffix) || category.seoTitle.endsWith(SITE.name)) {
+      return { absolute: category.seoTitle };
+    }
+    return category.seoTitle;
+  }
+  return category.name;
+}
+
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { category: slug } = await params;
   const category = await getCatalogCategory(slug);
   if (!category) return { title: "קטגוריה" };
   return {
-    title: category.name,
-    description: category.description,
+    title: categoryPageTitle(category),
+    description: category.metaDescription ?? category.description,
   };
 }
 
@@ -41,6 +52,22 @@ export default async function CategoryPage({ params }: PageProps) {
   const items = await getProductsByCategory(category.slug);
   const related = catalog.categories.filter((item) => item.slug !== category.slug);
   const subcategories = catalog.subcategories[category.slug] ?? [];
+  const hasSeoContent = Boolean(category.seoBody?.length || category.faq?.length);
+  const faqJsonLd =
+    category.faq?.length ?
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: category.faq.map((item) => ({
+          "@type": "Question",
+          name: item.question,
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: item.answer,
+          },
+        })),
+      }
+    : null;
 
   return (
     <PageShell active="catalog">
@@ -54,9 +81,9 @@ export default async function CategoryPage({ params }: PageProps) {
         />
         <div className="cat-hero-row">
           <div className="cat-hero-copy">
-            <h1>{category.name}</h1>
+            <h1>{category.h1 ?? category.name}</h1>
             <p className="cat-hero-kicker">{category.short}</p>
-            <p className="cat-hero-lead">{category.description}</p>
+            <p className="cat-hero-lead">{category.intro ?? category.description}</p>
             <div className="cat-hero-actions">
               <QuoteButton />
               {items.length ? (
@@ -102,6 +129,34 @@ export default async function CategoryPage({ params }: PageProps) {
           </section>
         )
       )}
+
+      {hasSeoContent ? (
+        <section className="cat-seo section-pad" aria-label="מידע נוסף על הקטגוריה">
+          {faqJsonLd ? (
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+          ) : null}
+          {category.seoBody?.map((block) => (
+            <article key={block.heading} className="cat-seo-block">
+              <h2>{block.heading}</h2>
+              {block.paragraphs.map((paragraph, index) => (
+                <p key={index}>{paragraph}</p>
+              ))}
+            </article>
+          ))}
+          {category.faq?.length ? (
+            <div className="cat-seo-faq">
+              <dl className="cat-seo-faq-list">
+                {category.faq.map((item) => (
+                  <div key={item.question} className="cat-seo-faq-item">
+                    <dt>{item.question}</dt>
+                    <dd>{item.answer}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+          ) : null}
+        </section>
+      ) : null}
 
       <section className="context">
         <h2 className="section-head" style={{ border: "none", paddingBottom: 0, marginBottom: "clamp(22px,2.6vw,38px)", fontSize: "clamp(20px,2.2vw,30px)" }}>

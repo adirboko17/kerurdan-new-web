@@ -61,6 +61,16 @@ export type Product = {
   colors: ProductColor[];
 };
 
+export type CategorySeoBlock = {
+  heading: string;
+  paragraphs: string[];
+};
+
+export type CategoryFaqItem = {
+  question: string;
+  answer: string;
+};
+
 export type Category = {
   slug: CategorySlug;
   name: string;
@@ -79,6 +89,12 @@ export type Category = {
     title: string;
     text: string;
   };
+  seoTitle?: string;
+  metaDescription?: string;
+  h1?: string;
+  intro?: string;
+  seoBody?: CategorySeoBlock[];
+  faq?: CategoryFaqItem[];
 };
 
 export type BusinessSolution = {
