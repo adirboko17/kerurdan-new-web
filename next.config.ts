@@ -1,5 +1,6 @@
 import path from "path";
 import type { NextConfig } from "next";
+import { legacyWordPressRedirects } from "./src/lib/legacy-wordpress-redirects";
 
 const nextConfig: NextConfig = {
   outputFileTracingRoot: path.join(__dirname),
@@ -11,6 +12,7 @@ const nextConfig: NextConfig = {
         destination: "/catalog",
         permanent: true,
       },
+      ...legacyWordPressRedirects,
     ];
   },
   images: {
