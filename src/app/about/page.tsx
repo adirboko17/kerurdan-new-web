@@ -4,14 +4,16 @@ import { BrandWall } from "@/components/ui/BrandWall";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { SiteImage } from "@/components/ui/SiteImage";
 import { getCatalog } from "@/lib/catalog";
+import { withCanonical } from "@/lib/metadata";
 import { getPartnerLogos } from "@/lib/site-content";
 
 export const revalidate = 120;
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withCanonical("/about", {
   title: "אודות",
-  description: "קירור דן מתמחה בייבוא, שיווק ואספקת ציוד קירור מסחרי ותעשייתי לעסקים ברחבי הארץ.",
-};
+  description:
+    "קירור דן, מעל 30 שנה בענף הקירור – ייבוא, שיווק ואספקת ציוד קירור מסחרי ותעשייתי לעסקים ברחבי הארץ.",
+});
 
 const audiences = [
   "סופרמרקטים ומינימרקטים",
@@ -39,7 +41,8 @@ export default async function AboutPage() {
         <div className="about-open-copy">
           <h1>קירור שעובד בשביל העסק</h1>
           <p>
-            <strong>קירור דן</strong> מתמחה בייבוא, שיווק ואספקת ציוד קירור מסחרי ותעשייתי לעסקים ברחבי הארץ.
+            <strong>קירור דן</strong>, מעל 30 שנה בענף הקירור, מתמחה בייבוא, שיווק ואספקת ציוד קירור מסחרי
+            ותעשייתי לעסקים ברחבי הארץ.
           </p>
           <p>
             אנחנו מספקים חלביות, מעדניות, מקררים ומקפיאים תעשייתיים, ומתאימים את הציוד לצרכים של כל עסק
@@ -106,8 +109,8 @@ export default async function AboutPage() {
             <span className="about-kicker">החברה</span>
             <h2>ניסיון, מקצועיות ושירות ישיר</h2>
             <p>
-              החברה מנוהלת על ידי <strong>דן בוקובזה</strong>, שמביא ניסיון רב בתחום הקירור המסחרי ועובד באופן
-              ישיר מול לקוחות, ספקים ואנשי המקצוע שמלווים את פעילות החברה.
+              החברה מנוהלת על ידי <strong>דן בוקובזה</strong>, שמביא ניסיון של מעל 30 שנה בענף הקירור המסחרי ועובד
+              באופן ישיר מול לקוחות, ספקים ואנשי המקצוע שמלווים את פעילות החברה.
             </p>
             <p>
               אנחנו מאמינים ששירות טוב מתחיל בזמינות, תקשורת ברורה והיכרות אמיתית עם המוצרים שאנחנו מספקים.

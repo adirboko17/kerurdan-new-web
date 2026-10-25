@@ -2,12 +2,13 @@ import type { Metadata } from "next";
 import { PageShell } from "@/components/layout/PageShell";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { QuoteForm } from "@/components/ui/QuoteForm";
+import { withCanonical } from "@/lib/metadata";
 import { SITE } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withCanonical("/contact", {
   title: "צור קשר",
   description: "ספרו לנו על העסק ועל החלל. נחזור עם תצורה מומלצת והצעה.",
-};
+});
 
 export default function ContactPage() {
   return (

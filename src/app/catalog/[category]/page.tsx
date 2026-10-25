@@ -9,6 +9,8 @@ import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { QuoteButton } from "@/components/ui/DarkCta";
 import { getCatalog, getCatalogCategory, getProductsByCategory } from "@/lib/catalog";
 import { categories } from "@/lib/data";
+import { withCanonical } from "@/lib/metadata";
+import { breadcrumbJsonLd } from "@/lib/structured-data";
 import { SITE } from "@/lib/site";
 
 type PageProps = {
@@ -37,10 +39,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { category: slug } = await params;
   const category = await getCatalogCategory(slug);
   if (!category) return { title: "קטגוריה" };
-  return {
+  return withCanonical(`/catalog/${slug}`, {
     title: categoryPageTitle(category),
     description: category.metaDescription ?? category.description,
-  };
+  });
 }
 
 export default async function CategoryPage({ params }: PageProps) {
@@ -53,6 +55,12 @@ export default async function CategoryPage({ params }: PageProps) {
   const related = catalog.categories.filter((item) => item.slug !== category.slug);
   const subcategories = catalog.subcategories[category.slug] ?? [];
   const hasSeoContent = Boolean(category.seoBody?.length || category.faq?.length);
+  const breadcrumbItems = [
+    { href: "/", label: "דף הבית" },
+    { href: "/catalog", label: "קטלוג" },
+    { label: category.name },
+  ];
+
   const faqJsonLd =
     category.faq?.length ?
       {
@@ -71,14 +79,12 @@ export default async function CategoryPage({ params }: PageProps) {
 
   return (
     <PageShell active="catalog">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd(breadcrumbItems)) }}
+      />
       <section className="cat-hero">
-        <Breadcrumbs
-          items={[
-            { href: "/", label: "דף הבית" },
-            { href: "/catalog", label: "קטלוג" },
-            { label: category.name },
-          ]}
-        />
+        <Breadcrumbs items={breadcrumbItems} />
         <div className="cat-hero-row">
           <div className="cat-hero-copy">
             <h1>{category.h1 ?? category.name}</h1>

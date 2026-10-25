@@ -59,6 +59,7 @@ export type Product = {
   related: string[];
   features: string[];
   colors: ProductColor[];
+  updatedAt?: string | null;
 };
 
 export type CategorySeoBlock = {

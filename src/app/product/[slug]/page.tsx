@@ -16,6 +16,14 @@ import {
   getCatalogProduct,
   getComplementaryProducts,
 } from "@/lib/catalog";
+import { sitemapProductEntries } from "@/lib/data";
+import { withCanonical } from "@/lib/metadata";
+import {
+  productSeoDescription,
+  productSeoParagraph,
+  productSeoTitle,
+} from "@/lib/product-seo";
+import { breadcrumbJsonLd, productJsonLd } from "@/lib/structured-data";
 import { SITE } from "@/lib/site";
 
 type PageProps = {
@@ -27,17 +35,20 @@ export const dynamicParams = true;
 
 export async function generateStaticParams() {
   const { products } = await getCatalog();
-  return products.map((product) => ({ slug: product.slug }));
+  if (products.length) {
+    return products.map((product) => ({ slug: product.slug }));
+  }
+  return sitemapProductEntries.map((entry) => ({ slug: entry.slug }));
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
   const product = await getCatalogProduct(slug);
   if (!product) return { title: "מוצר" };
-  return {
-    title: product.name,
-    description: product.description,
-  };
+  return withCanonical(`/product/${slug}`, {
+    title: { absolute: productSeoTitle(product) },
+    description: productSeoDescription(product),
+  });
 }
 
 export default async function ProductPage({ params }: PageProps) {
@@ -48,18 +59,26 @@ export default async function ProductPage({ params }: PageProps) {
   const complementary = await getComplementaryProducts(product);
   const blueprint = getProductBlueprint(product);
   const eyebrowRest = product.subcategoryName;
+  const seoParagraph = productSeoParagraph(product);
+  const breadcrumbItems = [
+    { href: "/", label: "דף הבית" },
+    { href: "/catalog", label: "קטלוג" },
+    { href: `/catalog/${product.category}`, label: product.categoryName },
+    { label: product.name },
+  ];
 
   return (
     <PageShell active="catalog">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd(breadcrumbItems)) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd(product)) }}
+      />
       <section className="product-hero">
-        <Breadcrumbs
-          items={[
-            { href: "/", label: "דף הבית" },
-            { href: "/catalog", label: "קטלוג" },
-            { href: `/catalog/${product.category}`, label: product.categoryName },
-            { label: product.name },
-          ]}
-        />
+        <Breadcrumbs items={breadcrumbItems} />
         <ProductMediaProvider>
         <div className="product-hero-grid">
           <ProductGallery product={product} />
@@ -69,6 +88,9 @@ export default async function ProductPage({ params }: PageProps) {
               {eyebrowRest ? ` · ${eyebrowRest}` : null}
             </div>
             <h1 className="product-title">{product.name}</h1>
+            <p className="context-text" style={{ margin: "12px 0 0", maxWidth: "52ch", lineHeight: 1.65 }}>
+              {seoParagraph}
+            </p>
             <ProductColors colors={product.colors} />
             {product.highlights.length > 0 && (
               <div className="stat-grid">
