@@ -21,6 +21,7 @@ export function HomeHero() {
       </div>
 
       <div className="hero-meta">
+        <span>מעל 30 שנה בענף הקירור</span>
         <span>קירור מסחרי ותעשייתי · תכנון · אספקה · התקנה</span>
       </div>
     </section>
