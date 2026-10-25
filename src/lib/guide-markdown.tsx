@@ -37,6 +37,10 @@ function renderReviewMarks(text: string, keyPrefix: string): ReactNode[] {
   return parts.length ? parts : [text];
 }
 
+export function renderGuideInline(text: string, keyPrefix: string): ReactNode {
+  return <>{renderInline(text, keyPrefix)}</>;
+}
+
 function renderInline(text: string, keyPrefix: string): ReactNode[] {
   const withMarks = renderReviewMarks(text, keyPrefix);
   const nodes: ReactNode[] = [];

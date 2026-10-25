@@ -1,9 +1,16 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { GuideArticleHeader } from "@/components/guides/GuideArticleHeader";
 import { GuideContactCta } from "@/components/guides/GuideContactCta";
+import { GuideFaqAccordion } from "@/components/guides/GuideFaqAccordion";
+import { GuideMoreArticles } from "@/components/guides/GuideMoreArticles";
+import { GuideRelatedCatalog } from "@/components/guides/GuideRelatedCatalog";
 import { PageShell } from "@/components/layout/PageShell";
-import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
-import { GuideMarkdownBody } from "@/lib/guide-markdown";
+import {
+  extractShortAnswer,
+  markdownForArticleBody,
+} from "@/lib/guide-content";
+import { GuideMarkdownBody, renderGuideInline } from "@/lib/guide-markdown";
 import { getAllGuides, getGuideBySlug } from "@/lib/guides";
 import { withCanonical } from "@/lib/metadata";
 import { articleJsonLd, breadcrumbJsonLd, faqPageJsonLd } from "@/lib/structured-data";
@@ -40,6 +47,8 @@ export default async function GuideArticlePage({ params }: PageProps) {
   ];
 
   const faqJsonLd = faqPageJsonLd(guide.faq);
+  const shortAnswer = extractShortAnswer(guide.bodyMarkdown);
+  const bodyMarkdown = markdownForArticleBody(guide.bodyMarkdown);
 
   return (
     <PageShell>
@@ -64,20 +73,28 @@ export default async function GuideArticlePage({ params }: PageProps) {
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
       ) : null}
 
-      <section className="page-hero">
-        <Breadcrumbs items={breadcrumbItems} />
-        <div className="page-hero-grid">
-          <h1>{guide.h1}</h1>
-        </div>
-      </section>
+      <div className="guide-page">
+        <GuideArticleHeader guide={guide} breadcrumbItems={breadcrumbItems} />
 
-      <article className="legal guide-article">
-        <div className="legal-body guide-body">
-          <GuideMarkdownBody markdown={guide.bodyMarkdown} />
-        </div>
-      </article>
+        <div className="guide-container guide-article-layout">
+          {shortAnswer ? (
+            <aside className="guide-short-answer" aria-label="תשובה קצרה">
+              <div className="guide-short-kicker">תשובה קצרה</div>
+              <p>{renderGuideInline(shortAnswer, "short-answer")}</p>
+            </aside>
+          ) : null}
 
-      <GuideContactCta />
+          <article className="guide-prose">
+            <GuideMarkdownBody markdown={bodyMarkdown} />
+          </article>
+
+          <GuideFaqAccordion faq={guide.faq} />
+        </div>
+
+        <GuideRelatedCatalog slug={slug} bodyMarkdown={guide.bodyMarkdown} />
+        <GuideContactCta />
+        <GuideMoreArticles currentSlug={slug} />
+      </div>
     </PageShell>
   );
 }

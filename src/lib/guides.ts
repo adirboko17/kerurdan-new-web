@@ -99,8 +99,8 @@ export function getAllGuides(): GuideArticleMeta[] {
   if (cachedGuides) return cachedGuides;
   const files = fs.readdirSync(GUIDES_DIR).filter((name) => name.endsWith(".md"));
   cachedGuides = files
-    .map(parseGuideFile)
-    .sort((a, b) => a.h1.localeCompare(b.h1, "he"));
+    .sort((a, b) => a.localeCompare(b, "en"))
+    .map(parseGuideFile);
   return cachedGuides;
 }
 

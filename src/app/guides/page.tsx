@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { GuideIndexCard } from "@/components/guides/GuideIndexCard";
 import { PageShell } from "@/components/layout/PageShell";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { getAllGuides } from "@/lib/guides";
@@ -27,30 +27,28 @@ export default function GuidesIndexPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd(breadcrumbItems)) }}
       />
-      <section className="page-hero is-bordered">
-        <Breadcrumbs items={breadcrumbItems} />
-        <div className="page-hero-grid">
-          <h1>מאמרים ומדריכים</h1>
-          <p>
-            מדריכים קצרים לבחירת ציוד קירור לעסק – חלביות, מעדניות, מקררי תצוגה ומקפיאים. כתובים בשפה
-            פשוטה מניסיון של קירור דן בענף.
-          </p>
-        </div>
-      </section>
+      <div className="guides-page">
+        <section className="guides-hero">
+          <div className="guide-container guides-hero-inner">
+            <Breadcrumbs items={breadcrumbItems} />
+            <h1>מאמרים ומדריכים</h1>
+            <p>
+              מדריכים קצרים לבחירת ציוד קירור לעסק – חלביות, מעדניות, מקררי תצוגה ומקפיאים. כתובים
+              בשפה פשוטה מניסיון של קירור דן בענף.
+            </p>
+          </div>
+        </section>
 
-      <section className="guides-index section-pad">
-        <ul className="guides-list">
-          {guides.map((guide) => (
-            <li key={guide.slug} className="guides-list-item">
-              <Link href={`/guides/${guide.slug}`} className="guides-card">
-                <h2>{guide.h1}</h2>
-                <p>{guide.excerpt}</p>
-                <span className="guides-card-link">למדריך</span>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </section>
+        <section className="guides-index" aria-label="רשימת מאמרים">
+          <div className="guide-container">
+            <ul className="guides-grid">
+              {guides.map((guide) => (
+                <GuideIndexCard key={guide.slug} guide={guide} />
+              ))}
+            </ul>
+          </div>
+        </section>
+      </div>
     </PageShell>
   );
 }
