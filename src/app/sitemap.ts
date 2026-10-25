@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { getCatalog } from "@/lib/catalog";
 import { categories, sitemapProductEntries } from "@/lib/data";
+import { getAllGuides } from "@/lib/guides";
 import { SITE } from "@/lib/site";
 
 export const revalidate = 120;
@@ -16,6 +17,7 @@ const STATIC_ROUTES = [
   "/privacy",
   "/llms.txt",
   "/llms-full.txt",
+  "/guides",
 ] as const;
 
 function parseLastMod(value: string | null | undefined): Date {
@@ -60,5 +62,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     lastModified: parseLastMod(product.updatedAt),
   }));
 
-  return [...staticEntries, ...categoryEntries, ...productEntries];
+  const guideEntries: MetadataRoute.Sitemap = getAllGuides().map((guide) => ({
+    url: `${SITE.url}/guides/${guide.slug}`,
+    lastModified: new Date(guide.datePublished),
+  }));
+
+  return [...staticEntries, ...categoryEntries, ...productEntries, ...guideEntries];
 }

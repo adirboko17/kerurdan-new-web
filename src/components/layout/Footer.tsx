@@ -92,6 +92,7 @@ export function Footer({ showContact = true }: { showContact?: boolean }) {
             <div>
               <div className="footer-col-title">מידע</div>
               <div className="footer-links">
+                <Link href="/guides">מאמרים</Link>
                 <Link href="/contact">קבלת הצעת מחיר</Link>
                 <Link href="/accessibility">הצהרת נגישות</Link>
                 <Link href="/privacy">מדיניות פרטיות</Link>

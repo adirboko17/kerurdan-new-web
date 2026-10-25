@@ -1,4 +1,5 @@
 import type { Product } from "./types";
+import { guideCoverOgUrl } from "./guide-covers";
 import { canonicalUrl } from "./metadata";
 import { SITE } from "./site";
 
@@ -52,6 +53,54 @@ export function breadcrumbJsonLd(items: BreadcrumbItem[]) {
       position: index + 1,
       name: item.label,
       ...(item.href ? { item: canonicalUrl(item.href) } : {}),
+    })),
+  };
+}
+
+export function articleJsonLd(input: {
+  headline: string;
+  description: string;
+  slug: string;
+  datePublished: string;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: input.headline,
+    description: input.description,
+    datePublished: input.datePublished,
+    author: {
+      "@type": "Organization",
+      name: SITE.name,
+      url: SITE.url,
+    },
+    publisher: {
+      "@type": "Organization",
+      name: SITE.name,
+      url: SITE.url,
+      logo: {
+        "@type": "ImageObject",
+        url: `${SITE.url}/kerur-dan-logo.png`,
+      },
+    },
+    mainEntityOfPage: canonicalUrl(`/guides/${input.slug}`),
+    url: canonicalUrl(`/guides/${input.slug}`),
+    ...(guideCoverOgUrl(input.slug) ? { image: guideCoverOgUrl(input.slug) } : {}),
+  };
+}
+
+export function faqPageJsonLd(faq: { question: string; answer: string }[]) {
+  if (!faq.length) return null;
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faq.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.answer,
+      },
     })),
   };
 }

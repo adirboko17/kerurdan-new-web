@@ -7,8 +7,11 @@ import { CategoryModels } from "@/components/catalog/SubcategoryFilter";
 import { PageShell } from "@/components/layout/PageShell";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { QuoteButton } from "@/components/ui/DarkCta";
+import { RelatedGuides } from "@/components/guides/RelatedGuides";
 import { getCatalog, getCatalogCategory, getProductsByCategory } from "@/lib/catalog";
 import { categories } from "@/lib/data";
+import { getGuidesForCategory } from "@/lib/guides";
+import type { CategorySlug } from "@/lib/types";
 import { withCanonical } from "@/lib/metadata";
 import { breadcrumbJsonLd } from "@/lib/structured-data";
 import { SITE } from "@/lib/site";
@@ -55,6 +58,7 @@ export default async function CategoryPage({ params }: PageProps) {
   const related = catalog.categories.filter((item) => item.slug !== category.slug);
   const subcategories = catalog.subcategories[category.slug] ?? [];
   const hasSeoContent = Boolean(category.seoBody?.length || category.faq?.length);
+  const relatedGuides = getGuidesForCategory(category.slug as CategorySlug);
   const breadcrumbItems = [
     { href: "/", label: "דף הבית" },
     { href: "/catalog", label: "קטלוג" },
@@ -135,6 +139,12 @@ export default async function CategoryPage({ params }: PageProps) {
           </section>
         )
       )}
+
+      {relatedGuides.length ? (
+        <section className="section-pad" style={{ paddingTop: 0 }}>
+          <RelatedGuides guides={relatedGuides} />
+        </section>
+      ) : null}
 
       {hasSeoContent ? (
         <section className="cat-seo section-pad" aria-label="מידע נוסף על הקטגוריה">
