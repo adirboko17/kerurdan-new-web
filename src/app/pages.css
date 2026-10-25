@@ -504,6 +504,74 @@
   }
 }
 
+.cat-seo {
+  max-width: 720px;
+  margin-right: auto;
+  margin-left: auto;
+  padding-top: clamp(36px, 4vw, 56px);
+  border-top: 1px solid rgba(10, 11, 12, 0.1);
+}
+
+.cat-seo-block + .cat-seo-block,
+.cat-seo-block + .cat-seo-faq,
+.cat-seo-faq {
+  margin-top: clamp(28px, 3.5vw, 44px);
+}
+
+.cat-seo-block h2 {
+  margin: 0 0 14px;
+  font-size: clamp(20px, 2.2vw, 28px);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+}
+
+.cat-seo-block p {
+  margin: 0;
+  color: var(--mute);
+  font-size: 15.5px;
+  line-height: 1.75;
+  font-weight: 300;
+}
+
+.cat-seo-block p + p {
+  margin-top: 12px;
+}
+
+.cat-seo-faq-list {
+  margin: 0;
+  padding: 0;
+}
+
+.cat-seo-faq-item {
+  padding: 18px 0;
+  border-bottom: 1px solid rgba(10, 11, 12, 0.08);
+}
+
+.cat-seo-faq-item:first-child {
+  padding-top: 0;
+}
+
+.cat-seo-faq-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.cat-seo-faq-item dt {
+  margin: 0 0 8px;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.cat-seo-faq-item dd {
+  margin: 0;
+  color: var(--mute);
+  font-size: 15px;
+  line-height: 1.7;
+  font-weight: 300;
+}
+
 .catalog-models-grid {
   padding: clamp(26px, 3.4vw, 46px) 0 0;
   grid-auto-flow: dense;
