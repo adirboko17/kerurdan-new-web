@@ -3,14 +3,15 @@ import { PageShell } from "@/components/layout/PageShell";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { SiteImage } from "@/components/ui/SiteImage";
 import { getSiteProjects } from "@/lib/site-content";
+import { withCanonical } from "@/lib/metadata";
 import type { Project } from "@/lib/types";
 
 export const revalidate = 120;
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withCanonical("/projects", {
   title: "פרויקטים",
   description: "כל התקנה מתחילה בחלל אמיתי ובאילוצים אמיתיים - מעברים, חשמל, גובה תקרה וקצב עבודה.",
-};
+});
 
 const FIELD_FALLBACK = [
   { src: "/projects/field-1.jpg", alt: "מקרר שתייה משולב במדפי עץ" },

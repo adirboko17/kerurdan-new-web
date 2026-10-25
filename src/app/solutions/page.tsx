@@ -2,11 +2,12 @@ import type { Metadata } from "next";
 import { PageShell } from "@/components/layout/PageShell";
 import { SolutionsPicker } from "@/components/solutions/SolutionsPicker";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
+import { withCanonical } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withCanonical("/solutions", {
   title: "פתרונות לעסקים",
   description: "רוב הלקוחות שלנו לא יודעים איזה דגם הם צריכים - הם יודעים איזה עסק הם מנהלים.",
-};
+});
 
 const steps = [
   { title: "מספרים לנו מה צריך", text: "עסק חדש שנפתח, החלפה של ציוד קיים, או דגם מסוים שכבר יודעים שרוצים." },

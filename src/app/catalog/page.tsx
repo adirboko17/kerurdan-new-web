@@ -6,13 +6,14 @@ import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { ImageSlot } from "@/components/ui/ImageSlot";
 import { SiteImage } from "@/components/ui/SiteImage";
 import { getCatalog } from "@/lib/catalog";
+import { withCanonical } from "@/lib/metadata";
 
 export const revalidate = 120;
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withCanonical("/catalog", {
   title: "קטלוג",
   description: "ציוד קירור מסחרי ותעשייתי שנבחר להתאים לעבודה אמיתית. חלביות, מעדניות, מקררים ומקפיאים - בכמה תצורות, נפחים ומידות.",
-};
+});
 
 export default async function CatalogPage() {
   const { categories, products } = await getCatalog();

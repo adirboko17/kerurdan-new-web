@@ -10,6 +10,7 @@ import { HomeStatement } from "@/components/home/HomeStatement";
 import { PageShell } from "@/components/layout/PageShell";
 import { getFeaturedProducts, getCatalogCategories, getSelectedProducts } from "@/lib/catalog";
 import { getSiteProjects } from "@/lib/site-content";
+import { withCanonical } from "@/lib/metadata";
 import { SITE } from "@/lib/site";
 
 export const revalidate = 120;
@@ -21,10 +22,10 @@ export const viewport: Viewport = {
   themeColor: "#e4ecf0",
 };
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withCanonical("/", {
   title: `${SITE.name} | הקור שמחזיק את העסק שלך`,
   description: "קירור דן – מעל 30 שנה בענף הקירור. פתרונות קירור מסחריים ותעשייתיים מהתכנון ועד ההתקנה.",
-};
+});
 
 export default async function HomePage() {
   const [categories, featured, selected, projects] = await Promise.all([

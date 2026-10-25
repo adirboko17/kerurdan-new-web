@@ -2,12 +2,13 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { PageShell } from "@/components/layout/PageShell";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
+import { withCanonical } from "@/lib/metadata";
 import { SITE } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withCanonical("/privacy", {
   title: "מדיניות פרטיות ועוגיות",
   description: "כיצד דן מערכות קירור בע״מ אוספת, משתמשת ושומרת מידע באתר קירור דן, כולל עוגיות ופניות לקבלת הצעת מחיר.",
-};
+});
 
 export default function PrivacyPage() {
   return (

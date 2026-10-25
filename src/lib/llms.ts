@@ -11,11 +11,17 @@ export async function buildLlmsTxt() {
 
   return `# ${SITE.name}
 
-> ייבוא ושיווק ציוד קירור מסחרי ותעשייתי לעסקים בישראל. חלביות, מעדניות, מקררים ומקפיאים - מותאמים לסופרמרקטים, מעדניות, קצביות, מכולות ובתי קפה.
+> קירור דן – מעל 30 שנה בענף הקירור. ייבוא, שיווק, אספקה והתקנה של ציוד קירור מסחרי ותעשייתי לעסקים ברחבי הארץ: חלביות, מעדניות, מקררים ומקפיאים.
 
-${SITE.name} (Kerur Dan) is based in Beersheba and supplies commercial refrigeration equipment across Israel: dairy display cases, deli counters, upright refrigerators, and industrial freezers. Quotes are tailored to the store layout and daily use.
+## מה אנחנו מספקים
 
-## Pages
+${categories
+  .map((category) =>
+    link(`/catalog/${category.slug}`, category.name, category.short || category.description),
+  )
+  .join("\n")}
+
+## דפים מרכזיים
 
 ${link("/", "דף הבית", "סקירה, קטגוריות ודגמים נבחרים")}
 ${link("/catalog", "קטלוג", "כל הדגמים לפי משפחות ציוד")}
@@ -24,26 +30,18 @@ ${link("/contact", "צור קשר", "השארת פרטים להצעת מחיר")
 ${link("/projects", "פרויקטים", "עבודות והתקנות")}
 ${link("/solutions", "פתרונות לעסקים", "התאמת ציוד לפי סוג עסק")}
 
-## Catalog
+## יצירת קשר
 
-${categories
-  .map((category) =>
-    link(`/catalog/${category.slug}`, category.name, category.short || category.description),
-  )
-  .join("\n")}
+- טלפון: ${SITE.phoneUrgent} (${SITE.phoneDisplay})
+- וואטסאפ: ${SITE.whatsapp}
+- כתובת: ${SITE.address}
+- אתר: ${SITE.url}
+- שירות: אספקה, התקנה וליווי לעסקים בכל הארץ
 
-## Contact
+## קבצים נוספים
 
-- Phone: ${SITE.phoneUrgent}
-- WhatsApp: ${SITE.whatsapp}
-- Email: dani@kerurdan.co.il
-- Address: ${SITE.address}
-- Website: ${SITE.url}
-
-## Optional
-
-${link("/llms-full.txt", "llms-full.txt", "רשימה מלאה של דגמים וקישורים")}
-${link("/sitemap.xml", "sitemap.xml", "מפת אתר למנועי חיפוש")}
+${link("/llms-full.txt", "llms-full.txt", "רשימת דגמים וקישורים")}
+${link("/sitemap.xml", "sitemap.xml", "מפת אתר")}
 ${link("/privacy", "מדיניות פרטיות")}
 ${link("/accessibility", "הצהרת נגישות")}
 `;

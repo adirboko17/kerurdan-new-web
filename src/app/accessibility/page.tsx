@@ -2,12 +2,13 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { PageShell } from "@/components/layout/PageShell";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
+import { withCanonical } from "@/lib/metadata";
 import { SITE } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withCanonical("/accessibility", {
   title: "הצהרת נגישות",
   description: "הצהרת הנגישות של אתר קירור דן, בהתאם לתקן הישראלי 5568 ולתקנות שוויון זכויות לאנשים עם מוגבלות.",
-};
+});
 
 export default function AccessibilityPage() {
   return (

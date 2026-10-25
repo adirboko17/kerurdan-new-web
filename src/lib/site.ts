@@ -3,7 +3,7 @@ import type { NavKey } from "./types";
 export const SITE = {
   name: "קירור דן",
   description: "פתרונות קירור מסחריים ותעשייתיים - מהתכנון ועד ההתקנה.",
-  url: "https://kerurdan.co.il",
+  url: "https://www.kerurdan.co.il",
   phoneDisplay: "058 677 6545",
   phoneUrgent: "058-6776545",
   phoneHref: "tel:+972586776545",

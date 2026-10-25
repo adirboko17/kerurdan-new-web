@@ -6,6 +6,7 @@ import { WhatsAppFloat } from "@/components/layout/WhatsAppFloat";
 import { CookieBanner } from "@/components/legal/CookieBanner";
 import { GoogleTagManagerNoscript, GoogleTagManagerScript } from "@/components/legal/GoogleTagManager";
 import { TrackingScripts } from "@/components/legal/TrackingScripts";
+import { siteOrganizationJsonLd } from "@/lib/structured-data";
 import { SITE } from "@/lib/site";
 import "./globals.css";
 import "./home.css";
@@ -56,6 +57,7 @@ export const metadata: Metadata = {
     locale: "he_IL",
     type: "website",
     siteName: SITE.name,
+    url: SITE.url,
   },
 };
 
@@ -63,6 +65,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="he" dir="rtl" className={`${hebrew.variable} ${mono.variable}`} suppressHydrationWarning>
       <body className={hebrew.className} suppressHydrationWarning>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(siteOrganizationJsonLd()) }}
+        />
         <GoogleTagManagerScript />
         <GoogleTagManagerNoscript />
         <script

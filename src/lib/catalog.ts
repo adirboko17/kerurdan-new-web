@@ -1,5 +1,6 @@
 import { cache } from "react";
 import { categories, getCategory } from "./data";
+import { withProductImageAlts } from "./product-seo";
 import { createSupabaseServerClient } from "./supabase/server";
 import type {
   Category,
@@ -559,7 +560,8 @@ export const getCatalog = cache(async (): Promise<CatalogData> => {
         imageVersion,
       );
 
-      products.push({
+      products.push(
+        withProductImageAlts({
         id: row.id,
         slug: row.id,
         name: row.title,
@@ -581,7 +583,9 @@ export const getCatalog = cache(async (): Promise<CatalogData> => {
         related: [],
         features,
         colors,
-      });
+        updatedAt: laterTimestamp(row.updated_at, linked?.updated_at),
+      }),
+      );
     }
 
     for (const product of products) {

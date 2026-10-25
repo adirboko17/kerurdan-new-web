@@ -4,15 +4,16 @@ import { BrandWall } from "@/components/ui/BrandWall";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { SiteImage } from "@/components/ui/SiteImage";
 import { getCatalog } from "@/lib/catalog";
+import { withCanonical } from "@/lib/metadata";
 import { getPartnerLogos } from "@/lib/site-content";
 
 export const revalidate = 120;
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withCanonical("/about", {
   title: "אודות",
   description:
     "קירור דן, מעל 30 שנה בענף הקירור – ייבוא, שיווק ואספקת ציוד קירור מסחרי ותעשייתי לעסקים ברחבי הארץ.",
-};
+});
 
 const audiences = [
   "סופרמרקטים ומינימרקטים",

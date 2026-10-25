@@ -367,3 +367,165 @@ export function getCategory(slug: string) {
 export function getCategoryName(slug: CategorySlug) {
   return categories.find((category) => category.slug === slug)?.name ?? slug;
 }
+
+export type SitemapProductEntry = { slug: string; updatedAt: string };
+
+/** Fallback product URLs when Supabase is unavailable at build time (synced from live catalog). */
+export const sitemapProductEntries: SitemapProductEntry[] = [
+  {
+    "slug": "05647ca0-2a2c-4ad6-bbf7-915642c2e230",
+    "updatedAt": "2026-08-23T13:49:29.596Z"
+  },
+  {
+    "slug": "baa7ef7d-43cf-4dfb-9ae6-30b4222d221b",
+    "updatedAt": "2026-08-23T13:47:24.132Z"
+  },
+  {
+    "slug": "759fb973-5e53-49e5-b42d-0057c7d1da06",
+    "updatedAt": "2026-08-23T13:48:39.277Z"
+  },
+  {
+    "slug": "e6739800-bd9d-4b57-a83a-11edb95eb9eb",
+    "updatedAt": "2026-10-04T09:31:56.226Z"
+  },
+  {
+    "slug": "3fcb2186-ae2f-4f3a-8993-bfba0d16b658",
+    "updatedAt": "2026-08-23T13:47:45.891Z"
+  },
+  {
+    "slug": "3c6f6625-b1e8-4b63-9657-40d2a6f439cb",
+    "updatedAt": "2026-08-22T01:05:45.598Z"
+  },
+  {
+    "slug": "1c68b4c5-6415-4b40-85f0-7200f207d4e0",
+    "updatedAt": "2026-08-23T13:49:20.420Z"
+  },
+  {
+    "slug": "6696e5d0-97ef-4022-bfae-89a5430e7e4e",
+    "updatedAt": "2026-08-23T13:47:37.281Z"
+  },
+  {
+    "slug": "cd3ce721-dc77-4225-bf97-2da138c69550",
+    "updatedAt": "2026-08-22T01:15:39.521Z"
+  },
+  {
+    "slug": "871996df-18eb-4100-ac73-333fd9d77eee",
+    "updatedAt": "2026-08-23T13:48:53.059Z"
+  },
+  {
+    "slug": "d87c9b96-93e7-4015-b9d7-1fb3e565cd23",
+    "updatedAt": "2026-08-23T13:47:50.792Z"
+  },
+  {
+    "slug": "8d233367-431e-4c8a-b01c-791acc29d291",
+    "updatedAt": "2026-08-22T01:07:21.594Z"
+  },
+  {
+    "slug": "aadf2bd2-f731-4ff7-9eb7-2a739be452ef",
+    "updatedAt": "2026-08-23T13:49:58.678Z"
+  },
+  {
+    "slug": "ef8a2373-5f62-4be1-aa7e-db0a5b51371b",
+    "updatedAt": "2026-08-23T13:48:44.164Z"
+  },
+  {
+    "slug": "f79d2594-e01f-4913-a7b0-21a66d59cb75",
+    "updatedAt": "2026-08-23T13:49:46.404Z"
+  },
+  {
+    "slug": "c3886e39-9c29-489f-9299-c47975a2fdce",
+    "updatedAt": "2026-10-04T09:31:56.226Z"
+  },
+  {
+    "slug": "7d136886-8348-46f0-aca5-9ce21d3c15b9",
+    "updatedAt": "2026-08-22T00:54:00.667Z"
+  },
+  {
+    "slug": "8dedae0e-72e8-48d0-8b38-6c4708ae35fc",
+    "updatedAt": "2026-08-23T13:49:00.826Z"
+  },
+  {
+    "slug": "586eee6f-8d92-4836-bd66-4747c971f9aa",
+    "updatedAt": "2026-08-23T13:49:15.398Z"
+  },
+  {
+    "slug": "20c86ca8-acf0-440b-8cf7-e7080e157228",
+    "updatedAt": "2026-08-23T13:42:04.339Z"
+  },
+  {
+    "slug": "90e2dbb5-fe03-454b-ad87-3d2b7e0a8e8a",
+    "updatedAt": "2026-08-23T13:47:41.611Z"
+  },
+  {
+    "slug": "b51e8739-b5c5-4445-b934-0f710dbf6ec8",
+    "updatedAt": "2026-08-23T13:49:41.749Z"
+  },
+  {
+    "slug": "43d9ad8f-f228-4a9d-a78d-a1daf67673ca",
+    "updatedAt": "2026-08-22T01:15:12.942Z"
+  },
+  {
+    "slug": "0e4498ff-7578-4354-b57b-8c72d87e6d62",
+    "updatedAt": "2026-08-22T01:06:27.855Z"
+  },
+  {
+    "slug": "e60be18a-1641-419b-91e3-060f30719c18",
+    "updatedAt": "2026-10-04T09:31:56.226Z"
+  },
+  {
+    "slug": "0c3207cc-1d66-49ca-8f04-ec1cc304aeac",
+    "updatedAt": "2026-08-22T01:13:18.165Z"
+  },
+  {
+    "slug": "505c72d0-6445-4f5e-9a54-e2500924862e",
+    "updatedAt": "2026-09-02T10:47:00.336Z"
+  },
+  {
+    "slug": "f5332032-e891-4ae9-ab32-3a6a5e5a276f",
+    "updatedAt": "2026-08-22T01:06:51.939Z"
+  },
+  {
+    "slug": "b568a7fe-d8af-4407-8ef5-1216c2dccad7",
+    "updatedAt": "2026-08-22T01:10:46.075Z"
+  },
+  {
+    "slug": "bbcbf5b3-9ad7-4eef-813e-0a3deeeb7703",
+    "updatedAt": "2026-08-23T13:47:28.629Z"
+  },
+  {
+    "slug": "87631054-20c7-4778-88b2-e2504d317dff",
+    "updatedAt": "2026-08-23T13:48:25.916Z"
+  },
+  {
+    "slug": "ed1841f2-3bb4-485b-b2c2-522ac7b819b1",
+    "updatedAt": "2026-08-23T13:47:56.275Z"
+  },
+  {
+    "slug": "bc490c17-226f-4281-bcc3-d3b135bfdc76",
+    "updatedAt": "2026-10-04T09:31:56.226Z"
+  },
+  {
+    "slug": "7b707eef-78e1-430d-8905-bb589ef409d6",
+    "updatedAt": "2026-08-23T13:49:06.054Z"
+  },
+  {
+    "slug": "fb8c47f9-215b-406a-8fa0-152a526e9116",
+    "updatedAt": "2026-08-23T13:50:04.502Z"
+  },
+  {
+    "slug": "6599e49f-2442-47fe-b885-7a1ab13cbb02",
+    "updatedAt": "2026-08-23T13:50:08.999Z"
+  },
+  {
+    "slug": "6c4cc254-a44d-4a16-aedb-e1bfba47a0b6",
+    "updatedAt": "2026-08-23T13:50:15.967Z"
+  },
+  {
+    "slug": "8996f1ed-1a14-4abb-a98c-744e4efa06ba",
+    "updatedAt": "2026-08-23T13:48:01.287Z"
+  },
+  {
+    "slug": "a844b534-2069-4921-9eae-973216e907df",
+    "updatedAt": "2026-08-22T01:21:23.867Z"
+  }
+];
