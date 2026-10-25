@@ -56,6 +56,53 @@ export function breadcrumbJsonLd(items: BreadcrumbItem[]) {
   };
 }
 
+export function articleJsonLd(input: {
+  headline: string;
+  description: string;
+  slug: string;
+  datePublished: string;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: input.headline,
+    description: input.description,
+    datePublished: input.datePublished,
+    author: {
+      "@type": "Organization",
+      name: SITE.name,
+      url: SITE.url,
+    },
+    publisher: {
+      "@type": "Organization",
+      name: SITE.name,
+      url: SITE.url,
+      logo: {
+        "@type": "ImageObject",
+        url: `${SITE.url}/kerur-dan-logo.png`,
+      },
+    },
+    mainEntityOfPage: canonicalUrl(`/guides/${input.slug}`),
+    url: canonicalUrl(`/guides/${input.slug}`),
+  };
+}
+
+export function faqPageJsonLd(faq: { question: string; answer: string }[]) {
+  if (!faq.length) return null;
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faq.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.answer,
+      },
+    })),
+  };
+}
+
 export function productJsonLd(product: Product) {
   const image = product.images[0]?.src;
   const description = product.description?.replace(/\s+/g, " ").trim().slice(0, 500);

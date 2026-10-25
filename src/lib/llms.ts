@@ -1,4 +1,5 @@
 import { getCatalog } from "@/lib/catalog";
+import { getAllGuides } from "@/lib/guides";
 import { SITE } from "@/lib/site";
 
 function link(path: string, label: string, note?: string) {
@@ -8,6 +9,7 @@ function link(path: string, label: string, note?: string) {
 
 export async function buildLlmsTxt() {
   const { categories } = await getCatalog();
+  const guides = getAllGuides();
 
   return `# ${SITE.name}
 
@@ -29,6 +31,11 @@ ${link("/about", "אודות", "מי אנחנו ולמי אנחנו מספקים
 ${link("/contact", "צור קשר", "השארת פרטים להצעת מחיר")}
 ${link("/projects", "פרויקטים", "עבודות והתקנות")}
 ${link("/solutions", "פתרונות לעסקים", "התאמת ציוד לפי סוג עסק")}
+${link("/guides", "מאמרים ומדריכים", "מדריכים לבחירת ציוד קירור לעסק")}
+
+## מאמרים ומדריכים
+
+${guides.map((guide) => link(`/guides/${guide.slug}`, guide.h1, guide.excerpt)).join("\n")}
 
 ## יצירת קשר
 
