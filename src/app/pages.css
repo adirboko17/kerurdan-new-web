@@ -2566,6 +2566,40 @@ html:has(.site-intro:not(.is-leaving)) .cookie-bar {
   inset: 0;
 }
 
+.guides-card-media-cover {
+  background: #0a0b0c;
+}
+
+.guide-cover-picture {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+
+.guide-cover-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.guide-hero-cover {
+  position: relative;
+  margin-top: clamp(20px, 2.8vw, 32px);
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #0a0b0c;
+  isolation: isolate;
+}
+
+.guide-hero-cover .guide-cover-picture {
+  position: absolute;
+  inset: 0;
+}
+
 .guides-card-text-only {
   padding: clamp(16px, 2vw, 22px);
 }

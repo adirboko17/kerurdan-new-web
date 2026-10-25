@@ -12,7 +12,9 @@ import {
 } from "@/lib/guide-content";
 import { GuideMarkdownBody, renderGuideInline } from "@/lib/guide-markdown";
 import { getAllGuides, getGuideBySlug } from "@/lib/guides";
+import { guideCoverOgUrl } from "@/lib/guide-covers";
 import { withCanonical } from "@/lib/metadata";
+import { SITE } from "@/lib/site";
 import { articleJsonLd, breadcrumbJsonLd, faqPageJsonLd } from "@/lib/structured-data";
 
 type PageProps = {
@@ -29,9 +31,27 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { slug } = await params;
   const guide = getGuideBySlug(slug);
   if (!guide) return { title: "מדריך" };
+  const coverUrl = guideCoverOgUrl(slug);
   return withCanonical(`/guides/${slug}`, {
     title: { absolute: guide.seoTitle },
     description: guide.metaDescription,
+    openGraph: {
+      title: guide.seoTitle,
+      description: guide.metaDescription,
+      url: `${SITE.url}/guides/${slug}`,
+      siteName: SITE.name,
+      locale: "he_IL",
+      type: "article",
+      ...(coverUrl ? { images: [{ url: coverUrl, alt: guide.h1 }] } : {}),
+    },
+    twitter: coverUrl
+      ? {
+          card: "summary_large_image",
+          title: guide.seoTitle,
+          description: guide.metaDescription,
+          images: [coverUrl],
+        }
+      : undefined,
   });
 }
 

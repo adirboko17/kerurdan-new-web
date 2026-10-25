@@ -1,3 +1,4 @@
+import { GuideCoverImage } from "@/components/guides/GuideCoverImage";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { estimateReadingMinutes } from "@/lib/guide-content";
 import type { GuideArticleMeta } from "@/lib/guides";
@@ -23,6 +24,9 @@ export function GuideArticleHeader({ guide, breadcrumbItems }: GuideArticleHeade
           <span className="guide-hero-trust">מעל 30 שנה בענף</span>
         </div>
         <p className="guide-lead">{guide.excerpt}</p>
+        <div className="guide-hero-cover">
+          <GuideCoverImage slug={guide.slug} priority />
+        </div>
       </div>
     </header>
   );

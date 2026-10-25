@@ -1,4 +1,5 @@
 import type { Product } from "./types";
+import { guideCoverOgUrl } from "./guide-covers";
 import { canonicalUrl } from "./metadata";
 import { SITE } from "./site";
 
@@ -84,6 +85,7 @@ export function articleJsonLd(input: {
     },
     mainEntityOfPage: canonicalUrl(`/guides/${input.slug}`),
     url: canonicalUrl(`/guides/${input.slug}`),
+    ...(guideCoverOgUrl(input.slug) ? { image: guideCoverOgUrl(input.slug) } : {}),
   };
 }
 
