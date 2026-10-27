@@ -27,11 +27,12 @@ export const GUIDE_DATE_PUBLISHED = "2026-10-25";
 export const guidesByCategory: Record<CategorySlug, string[]> = {
   dairy: ["how-to-choose-dairy-fridge"],
   deli: ["deli-fridge-what-to-check"],
-  freezers: ["upright-vs-chest-freezer-business"],
+  freezers: ["upright-vs-chest-freezer-business", "stainless-steel-upright-fridge"],
   refrigerators: [
     "minimarket-fridges-guide",
     "upright-display-fridge-drinks",
     "commercial-vs-industrial-fridge",
+    "stainless-steel-upright-fridge",
   ],
 };
 

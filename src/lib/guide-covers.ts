@@ -31,6 +31,10 @@ export const GUIDE_COVERS: Record<string, GuideCover> = {
     file: "freezer",
     alt: "מקפיא עומד ומקפיא שוכב לעסק – קירור מסחרי",
   },
+  "stainless-steel-upright-fridge": {
+    file: "stainless-steel",
+    alt: "שני מקררי נירוסטה עומדים במטבח מקצועי של מסעדה",
+  },
 };
 
 export function getGuideCover(slug: string): GuideCover | undefined {
