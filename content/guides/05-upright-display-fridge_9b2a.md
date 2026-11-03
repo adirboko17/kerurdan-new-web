@@ -49,7 +49,7 @@ target_keyword: "מקרר תצוגה עומד"
 
 ## מקרר תצוגה לעוגות?
 
-אם צריך תצוגה לעוגות וקינוחים בבית קפה או מאפייה, יש [Fiji – מקרר תצוגה עוגות](https://www.kerurdan.co.il/product/a844b534-2069-4921-9eae-973216e907df).
+אם צריך תצוגה לעוגות וקינוחים בבית קפה או מאפייה, יש [Fiji – מקרר תצוגה עוגות](https://www.kerurdan.co.il/product/a844b534-2069-4921-9eae-973216e907df). על בחירת ויטרינה – [מדריך מקרר תצוגה לעוגות](https://www.kerurdan.co.il/guides/cake-display-fridge-cafe).
 
 ## טעויות נפוצות
 

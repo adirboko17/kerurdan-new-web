@@ -31,6 +31,7 @@ export const guidesByCategory: Record<CategorySlug, string[]> = {
   refrigerators: [
     "minimarket-fridges-guide",
     "upright-display-fridge-drinks",
+    "cake-display-fridge-cafe",
     "commercial-vs-industrial-fridge",
     "stainless-steel-upright-fridge",
   ],
