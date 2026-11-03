@@ -12,6 +12,7 @@ import { getCatalog, getCatalogCategory, getProductsByCategory } from "@/lib/cat
 import { categories } from "@/lib/data";
 import { getGuidesForCategory } from "@/lib/guides";
 import type { CategorySlug } from "@/lib/types";
+import { renderGuideInline } from "@/lib/guide-markdown";
 import { withCanonical } from "@/lib/metadata";
 import { breadcrumbJsonLd } from "@/lib/structured-data";
 import { SITE } from "@/lib/site";
@@ -155,7 +156,7 @@ export default async function CategoryPage({ params }: PageProps) {
             <article key={block.heading} className="cat-seo-block">
               <h2>{block.heading}</h2>
               {block.paragraphs.map((paragraph, index) => (
-                <p key={index}>{paragraph}</p>
+                <p key={index}>{renderGuideInline(paragraph, `${block.heading}-${index}`)}</p>
               ))}
             </article>
           ))}
@@ -165,7 +166,7 @@ export default async function CategoryPage({ params }: PageProps) {
                 {category.faq.map((item) => (
                   <div key={item.question} className="cat-seo-faq-item">
                     <dt>{item.question}</dt>
-                    <dd>{item.answer}</dd>
+                    <dd>{renderGuideInline(item.answer, item.question)}</dd>
                   </div>
                 ))}
               </dl>
