@@ -24,7 +24,7 @@ target_keyword: "מקררים למינימרקט"
 
 לקוחות רבים נכנסים רק כדי לקנות משהו לשתות. מקרר תצוגה עומד עם דלת זכוכית ליד הקופה או בכניסה עוזר להם למצוא מהר. בחנות קטנה מתחילים לרוב בדלת אחת או שתיים, ואפשר להגדיל לשלוש או ארבע דלתות.
 
-דוגמאות: [Malta D1 – דלת אחת](https://www.kerurdan.co.il/product/6696e5d0-97ef-4022-bfae-89a5430e7e4e), [Malta D2 – 2 דלתות](https://www.kerurdan.co.il/product/d87c9b96-93e7-4015-b9d7-1fb3e565cd23), [Malta D3 – 3 דלתות](https://www.kerurdan.co.il/product/3fcb2186-ae2f-4f3a-8993-bfba0d16b658). לפינה צרה: [Phuket – דלת אחת צר](https://www.kerurdan.co.il/product/8996f1ed-1a14-4abb-a98c-744e4efa06ba). כל המקררים ב[קטגוריית המקררים](https://www.kerurdan.co.il/catalog/refrigerators).
+דוגמאות: [Malta D1 – דלת אחת](https://www.kerurdan.co.il/product/6696e5d0-97ef-4022-bfae-89a5430e7e4e), [Malta D2 – 2 דלתות](https://www.kerurdan.co.il/product/d87c9b96-93e7-4015-b9d7-1fb3e565cd23), [Malta D3 – 3 דלתות](https://www.kerurdan.co.il/product/3fcb2186-ae2f-4f3a-8993-bfba0d16b658). לפינה צרה: [Phuket – דלת אחת צר](https://www.kerurdan.co.il/product/8996f1ed-1a14-4abb-a98c-744e4efa06ba). כל הדגמים ב[מקררים תעשייתיים](https://www.kerurdan.co.il/catalog/refrigerators).
 
 ## 3. מקפיא – לגלידות ולמוצרים קפואים
 
@@ -32,7 +32,7 @@ target_keyword: "מקררים למינימרקט"
 - **מקפיא שוכב** – פתוח מלמעלה, מתאים לגלידות, ירקות קפואים ומבצעים באמצע החנות. למשל [Torino](https://www.kerurdan.co.il/product/0e4498ff-7578-4354-b57b-8c72d87e6d62) או [Lima – דלת הזזה זכוכית](https://www.kerurdan.co.il/product/8d233367-431e-4c8a-b01c-791acc29d291).
 - **מקפיא עומד** – חוסך מקום על הרצפה, מתאים לאורך קיר. למשל [Alaska D2](https://www.kerurdan.co.il/product/ef8a2373-5f62-4be1-aa7e-db0a5b51371b).
 
-כל המקפיאים ב[קטגוריית המקפיאים](https://www.kerurdan.co.il/catalog/freezers).
+כל הדגמים ב[מקפיא תעשייתי](https://www.kerurdan.co.il/catalog/freezers) ומקפיאים תעשייתיים בקטלוג.
 
 ## 4. מעדנייה – אם מוכרים גבינות ונקניקים במשקל
 
