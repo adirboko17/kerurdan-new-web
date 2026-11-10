@@ -39,6 +39,10 @@ export const GUIDE_COVERS: Record<string, GuideCover> = {
     file: "cake-display",
     alt: "ויטרינת קירור לעוגות עם תאורת לד על דלפק של בית קפה",
   },
+  "restaurant-fridges-guide": {
+    file: "restaurant-fridges",
+    alt: "מטבח מסעדה עם מקררי ומקפיאי נירוסטה עומדים ומקרר תצוגה לשתייה",
+  },
 };
 
 export function getGuideCover(slug: string): GuideCover | undefined {

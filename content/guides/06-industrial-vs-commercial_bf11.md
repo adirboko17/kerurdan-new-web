@@ -19,7 +19,7 @@ target_keyword: "מקרר מסחרי או תעשייתי"
 
 ## מה זה מקרר תעשייתי?
 
-"תעשייתי" מדגיש בדרך כלל עבודה קשה ואחסון: מקרר נירוסטה במטבח של מסעדה, מקרר במחסן, או מקפיא גדול. כאן החשוב הוא נפח, עמידות וקלות ניקוי.
+"תעשייתי" מדגיש בדרך כלל עבודה קשה ואחסון: מקרר נירוסטה במטבח של מסעדה, מקרר במחסן, או מקפיא גדול. כאן החשוב הוא נפח, עמידות וקלות ניקוי. על חלוקת הקירור במסעדה – [מקררים למסעדות](https://www.kerurdan.co.il/guides/restaurant-fridges-guide).
 
 דוגמאות: [Boston – מקרר נירוסטה 2 דלתות](https://www.kerurdan.co.il/product/c3886e39-9c29-489f-9299-c47975a2fdce), [Naples – נירוסטה דלת אחת](https://www.kerurdan.co.il/product/bc490c17-226f-4281-bcc3-d3b135bfdc76), ו[מקפיאים תעשייתיים](https://www.kerurdan.co.il/catalog/freezers). על בחירת מקרר נירוסטה במטבח – [מדריך מקרר נירוסטה עומד](https://www.kerurdan.co.il/guides/stainless-steel-upright-fridge).
 
