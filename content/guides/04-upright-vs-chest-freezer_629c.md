@@ -35,7 +35,7 @@ target_keyword: "מקפיא עומד או שוכב"
 - תופס יותר מקום על הרצפה.
 - קשה יותר להגיע למוצרים בתחתית.
 
-**מהקטלוג:** [Torino](https://www.kerurdan.co.il/product/0e4498ff-7578-4354-b57b-8c72d87e6d62), [Paros](https://www.kerurdan.co.il/product/b568a7fe-d8af-4407-8ef5-1216c2dccad7), [Madrid](https://www.kerurdan.co.il/product/f5332032-e891-4ae9-ab32-3a6a5e5a276f), [Corfu](https://www.kerurdan.co.il/product/43d9ad8f-f228-4a9d-a78d-a1daf67673ca), [Parma](https://www.kerurdan.co.il/product/cd3ce721-dc77-4225-bf97-2da138c69550), בטווח של עד 24- מעלות ברוב הדגמים. עם דלת זכוכית הזזה לתצוגה: [Lima](https://www.kerurdan.co.il/product/8d233367-431e-4c8a-b01c-791acc29d291). עם דלת אטומה לאחסון: [Polar](https://www.kerurdan.co.il/product/3c6f6625-b1e8-4b63-9657-40d2a6f439cb).
+**מהקטלוג:** [Torino](https://www.kerurdan.co.il/product/0e4498ff-7578-4354-b57b-8c72d87e6d62), [Paros](https://www.kerurdan.co.il/product/b568a7fe-d8af-4407-8ef5-1216c2dccad7), [Madrid](https://www.kerurdan.co.il/product/f5332032-e891-4ae9-ab32-3a6a5e5a276f), [Corfu](https://www.kerurdan.co.il/product/43d9ad8f-f228-4a9d-a78d-a1daf67673ca), [Parma](https://www.kerurdan.co.il/product/cd3ce721-dc77-4225-bf97-2da138c69550), בטווח של עד 24- מעלות ברוב הדגמים. עם דלת זכוכית הזזה לתצוגה: [Lima](https://www.kerurdan.co.il/product/8d233367-431e-4c8a-b01c-791acc29d291). עם דלת אטומה לאחסון: [Polar](https://www.kerurdan.co.il/product/3c6f6625-b1e8-4b63-9657-40d2a6f439cb). על בחירת סוג זכוכית ומיקום בחנות – [מקפיא תצוגה לגלידה ולמוצרים קפואים](https://www.kerurdan.co.il/guides/display-freezer-ice-cream).
 
 ## ומה אם צריך גם מקרר וגם מקפיא?
 

@@ -32,7 +32,7 @@ target_keyword: "מקררים למינימרקט"
 - **מקפיא שוכב** – פתוח מלמעלה, מתאים לגלידות, ירקות קפואים ומבצעים באמצע החנות. למשל [Torino](https://www.kerurdan.co.il/product/0e4498ff-7578-4354-b57b-8c72d87e6d62) או [Lima – דלת הזזה זכוכית](https://www.kerurdan.co.il/product/8d233367-431e-4c8a-b01c-791acc29d291).
 - **מקפיא עומד** – חוסך מקום על הרצפה, מתאים לאורך קיר. למשל [Alaska D2](https://www.kerurdan.co.il/product/ef8a2373-5f62-4be1-aa7e-db0a5b51371b).
 
-כל הדגמים ב[מקפיא תעשייתי](https://www.kerurdan.co.il/catalog/freezers) ומקפיאים תעשייתיים בקטלוג.
+כל הדגמים ב[מקפיא תעשייתי](https://www.kerurdan.co.il/catalog/freezers) ומקפיאים תעשייתיים בקטלוג. על בחירת מקפיא תצוגה לגלידות – [מקפיא תצוגה לגלידה ולמוצרים קפואים](https://www.kerurdan.co.il/guides/display-freezer-ice-cream).
 
 ## 4. מעדנייה – אם מוכרים גבינות ונקניקים במשקל
 

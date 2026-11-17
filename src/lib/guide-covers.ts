@@ -43,6 +43,10 @@ export const GUIDE_COVERS: Record<string, GuideCover> = {
     file: "restaurant-fridges",
     alt: "מטבח מסעדה עם מקררי ומקפיאי נירוסטה עומדים ומקרר תצוגה לשתייה",
   },
+  "display-freezer-ice-cream": {
+    file: "display-freezer-ice-cream",
+    alt: "מקפיא תצוגה שוכב עם זכוכית מעוגלת מלא בגלידות ומוצרים קפואים במינימרקט",
+  },
 };
 
 export function getGuideCover(slug: string): GuideCover | undefined {
