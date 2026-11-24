@@ -43,7 +43,7 @@ Porto ו-Lisbon מגיעות כל אחת ב-6 תצורות, ולכן אפשר ל
 
 ## 6. מה עוד צריך לצד המעדנייה
 
-מעדנייה עובדת כמעט תמיד עם מקרר עבודה קרוב לאחסון הסחורה. לרוב זה מקרר עומד או מקרר נירוסטה. ראו [המקררים](https://www.kerurdan.co.il/catalog/refrigerators). בקצבייה מוסיפים בדרך כלל גם מקפיא לאחסון, ראו [המקפיאים](https://www.kerurdan.co.il/catalog/freezers).
+מעדנייה עובדת כמעט תמיד עם מקרר עבודה קרוב לאחסון הסחורה. לרוב זה מקרר עומד או מקרר נירוסטה. ראו [המקררים](https://www.kerurdan.co.il/catalog/refrigerators). בקצבייה מוסיפים בדרך כלל גם מקפיא לאחסון, ראו [המקפיאים](https://www.kerurdan.co.il/catalog/freezers). על בחירת ויטרינה, מקרר עבודה ומקפיא יחד בקצבייה – [ציוד קירור לקצבייה](https://www.kerurdan.co.il/guides/butcher-shop-refrigeration).
 
 ## טעויות נפוצות
 
